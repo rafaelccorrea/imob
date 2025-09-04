@@ -8,3 +8,4 @@ export { Tabs, TabsList, TabsTrigger, TabsContent } from './Tabs';
 export { ThemeToggle } from './ThemeToggle';
 export { Checkbox } from './Checkbox';
 export { GlobalSearch } from './GlobalSearch';
+export { ConditionalMenu } from './ConditionalMenu';

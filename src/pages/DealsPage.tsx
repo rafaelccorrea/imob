@@ -305,7 +305,6 @@ export const DealsPage: React.FC = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         title={`Negociação: ${selectedDeal ? getPropertyTitle(selectedDeal.propertyId) : ''}`}
-        className="max-w-4xl"
       >
         {selectedDeal && (
           <div className="space-y-6">

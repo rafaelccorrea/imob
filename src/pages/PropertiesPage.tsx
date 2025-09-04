@@ -304,7 +304,6 @@ export const PropertiesPage: React.FC = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         title={selectedProperty?.title}
-        className="max-w-4xl"
       >
         {selectedProperty && (
           <div className="space-y-6">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, 
@@ -13,10 +13,14 @@ import {
   LogOut,
   User,
   Bell,
-  Search
+  ChevronDown,
+  ChevronRight,
+  Shield
 } from 'lucide-react';
-import { useAuthStore, useUIStore } from '../../stores';
-import { Button, ThemeToggle } from '../ui';
+import { useAuthStore, useUIStore, useSearchStore } from '../../stores';
+import { Button, ThemeToggle, GlobalSearch } from '../ui';
+import { usePermissions } from '../../hooks/usePermissions';
+import type { UserRole } from '../../types/permissions';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../assets/uniao-imobiliaria-logo.png';
@@ -27,6 +31,14 @@ const cn = (...inputs: (string | undefined | null | false)[]) => {
 };
 
 interface SidebarItem {
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  href: string;
+  roles: string[];
+  subItems?: SidebarSubItem[];
+}
+
+interface SidebarSubItem {
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   href: string;
@@ -56,13 +68,13 @@ const sidebarItems: SidebarItem[] = [
     label: 'Vendas & Locações',
     icon: FileText,
     href: '/deals',
-    roles: ['owner', 'manager', 'agent'],
+    roles: ['owner', 'manager', 'agent', 'financial'],
   },
   {
     label: 'Financeiro',
     icon: DollarSign,
     href: '/financial',
-    roles: ['owner', 'manager', 'financial'],
+    roles: ['owner', 'financial'],
   },
   {
     label: 'RH',
@@ -72,26 +84,86 @@ const sidebarItems: SidebarItem[] = [
   },
   {
     label: 'Usuários',
-    icon: Settings,
+    icon: User,
     href: '/users',
-    roles: ['owner', 'manager'],
+    roles: ['owner', 'manager', 'hr'],
   },
   {
     label: 'Configurações',
     icon: Settings,
     href: '/settings',
-    roles: ['owner', 'manager', 'agent', 'financial', 'hr'],
+    roles: ['owner'],
   },
 ];
 
 export const Sidebar: React.FC = () => {
   const { user } = useAuthStore();
   const { sidebarOpen, toggleSidebar } = useUIStore();
+  const { permissions } = usePermissions();
   const location = useLocation();
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
-  const filteredItems = sidebarItems.filter(item => 
-    item.roles.includes(user?.role || '')
-  );
+  const toggleExpanded = (href: string) => {
+    setExpandedItems(prev => 
+      prev.includes(href) 
+        ? prev.filter(item => item !== href)
+        : [...prev, href]
+    );
+  };
+
+  const isExpanded = (href: string) => expandedItems.includes(href);
+
+  const filteredItems = sidebarItems.filter(item => {
+    // Verifica se o usuário tem permissão para acessar o módulo
+    const hasModulePermission = item.roles.some(role => {
+      switch (item.href) {
+        case '/dashboard': return permissions.dashboard;
+        case '/properties': return permissions.properties;
+        case '/leads': return permissions.leads;
+        case '/deals': return permissions.deals;
+        case '/financial': return permissions.financial;
+        case '/hr': return permissions.hr;
+        case '/users': return permissions.users;
+        case '/settings': return permissions.settings;
+        default: return true;
+      }
+    });
+    
+    // Se tem subitens, filtra os subitens também
+    if (item.subItems) {
+      const filteredSubItems = item.subItems.filter(subItem => {
+        const hasSubPermission = subItem.roles.some(role => {
+          switch (subItem.href) {
+            case '/permissions': return permissions.users;
+            default: return true;
+          }
+        });
+        return hasSubPermission;
+      });
+      
+      // Retorna true se o item principal tem permissão ou se algum subitem tem permissão
+      return hasModulePermission || filteredSubItems.length > 0;
+    }
+    
+    return hasModulePermission;
+  }).map(item => {
+    // Filtra os subitens se existirem
+    if (item.subItems) {
+      return {
+        ...item,
+        subItems: item.subItems.filter(subItem => {
+          const hasSubPermission = subItem.roles.some(role => {
+            switch (subItem.href) {
+              case '/permissions': return permissions.users;
+              default: return true;
+            }
+          });
+          return hasSubPermission;
+        })
+      };
+    }
+    return item;
+  });
 
   return (
     <>
@@ -132,27 +204,85 @@ export const Sidebar: React.FC = () => {
           <nav className="flex-1 space-y-1 px-4 py-4">
             {filteredItems.map((item) => {
               const Icon = item.icon;
-              const isActive = location.pathname === item.href;
+              const isActive = location.pathname === item.href || 
+                             (item.subItems && item.subItems.some(subItem => location.pathname === subItem.href));
+              const hasSubItems = item.subItems && item.subItems.length > 0;
+              const expanded = isExpanded(item.href);
               
               return (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  className={cn(
-                    'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                    isActive
-                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                      : 'text-secondary-700 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800 hover:text-secondary-900 dark:hover:text-secondary-100'
+                <div key={item.href}>
+                  {hasSubItems ? (
+                    <div>
+                      <button
+                        onClick={() => toggleExpanded(item.href)}
+                        className={cn(
+                          'flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                          isActive
+                            ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
+                            : 'text-secondary-700 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800 hover:text-secondary-900 dark:hover:text-secondary-100'
+                        )}
+                      >
+                        <div className="flex items-center">
+                          <Icon className="mr-3 h-5 w-5" />
+                          {item.label}
+                        </div>
+                        {expanded ? (
+                          <ChevronDown className="h-4 w-4" />
+                        ) : (
+                          <ChevronRight className="h-4 w-4" />
+                        )}
+                      </button>
+                      
+                      {expanded && (
+                        <div className="ml-6 mt-1 space-y-1">
+                          {item.subItems?.map((subItem) => {
+                            const SubIcon = subItem.icon;
+                            const isSubActive = location.pathname === subItem.href;
+                            
+                            return (
+                              <Link
+                                key={subItem.href}
+                                to={subItem.href}
+                                className={cn(
+                                  'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                                  isSubActive
+                                    ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
+                                    : 'text-secondary-700 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800 hover:text-secondary-900 dark:hover:text-secondary-100'
+                                )}
+                                onClick={() => {
+                                  if (window.innerWidth < 1024) {
+                                    toggleSidebar();
+                                  }
+                                }}
+                              >
+                                <SubIcon className="mr-3 h-5 w-5" />
+                                {subItem.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      className={cn(
+                        'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                        isActive
+                          ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
+                          : 'text-secondary-700 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800 hover:text-secondary-900 dark:hover:text-secondary-100'
+                      )}
+                      onClick={() => {
+                        if (window.innerWidth < 1024) {
+                          toggleSidebar();
+                        }
+                      }}
+                    >
+                      <Icon className="mr-3 h-5 w-5" />
+                      {item.label}
+                    </Link>
                   )}
-                  onClick={() => {
-                    if (window.innerWidth < 1024) {
-                      toggleSidebar();
-                    }
-                  }}
-                >
-                  <Icon className="mr-3 h-5 w-5" />
-                  {item.label}
-                </Link>
+                </div>
               );
             })}
           </nav>
@@ -190,6 +320,21 @@ export const Sidebar: React.FC = () => {
 export const Header: React.FC = () => {
   const { toggleSidebar } = useUIStore();
   const { user } = useAuthStore();
+  const { setIsSearchOpen } = useSearchStore();
+  const { getRoleName } = usePermissions();
+
+  // Atalho de teclado para abrir busca (Ctrl+K)
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchOpen(true);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [setIsSearchOpen]);
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-secondary-200 dark:border-secondary-700 bg-white dark:bg-secondary-900 px-4 shadow-sm lg:px-6">
@@ -207,14 +352,7 @@ export const Header: React.FC = () => {
       <div className="flex items-center space-x-4">
         {/* Search */}
         <div className="hidden md:flex items-center space-x-2">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary-400 dark:text-gray-300" />
-            <input
-              type="text"
-              placeholder="Buscar..."
-              className="h-10 w-80 rounded-md border border-secondary-200 dark:border-secondary-700 bg-white dark:bg-secondary-800 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:text-white"
-            />
-          </div>
+          <GlobalSearch />
         </div>
 
         <ThemeToggle />
@@ -234,11 +372,7 @@ export const Header: React.FC = () => {
               {user?.name}
             </p>
             <p className="text-xs text-secondary-500 dark:text-secondary-400">
-              {user?.role === 'owner' && 'Proprietário'}
-              {user?.role === 'manager' && 'Gestor'}
-              {user?.role === 'agent' && 'Corretor'}
-              {user?.role === 'financial' && 'Financeiro'}
-              {user?.role === 'hr' && 'RH'}
+              {user?.role && getRoleName(user.role as any)}
             </p>
           </div>
           <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center">

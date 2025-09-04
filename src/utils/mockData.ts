@@ -1,6 +1,16 @@
 // Dados mockados para demonstração do sistema
 export const mockUsers = [
   {
+    id: '0',
+    name: 'Administrador',
+    email: 'admin@imob.com',
+    role: 'owner',
+    phone: '(11) 99999-9999',
+    isActive: true,
+    createdAt: new Date('2023-01-01'),
+    updatedAt: new Date('2024-01-01'),
+  },
+  {
     id: '1',
     name: 'João Silva',
     email: 'owner@imob.com',

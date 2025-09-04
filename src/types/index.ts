@@ -1,152 +1,168 @@
-// Tipos de usuário e perfis
-export type UserRole = 'owner' | 'manager' | 'agent' | 'financial' | 'hr';
+// Re-exportações de permissões
+export type { UserRole, ModulePermissions } from './permissions';
+export { ROLE_PERMISSIONS } from './permissions';
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  avatar?: string;
-  phone?: string;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
+// Tipos para as entidades do sistema
 
-// Tipos de imóveis
-export type PropertyType = 'house' | 'apartment' | 'commercial' | 'land' | 'rural';
-export type PropertyStatus = 'available' | 'sold' | 'rented' | 'reserved' | 'inactive';
-
+// Tipos para as entidades do sistema
 export interface Property {
   id: string;
   title: string;
   description: string;
-  type: PropertyType;
-  status: PropertyStatus;
-  price: number;
-  rentPrice?: number;
   address: {
     street: string;
-    number: string;
-    complement?: string;
     neighborhood: string;
     city: string;
     state: string;
     zipCode: string;
   };
-  features: {
-    bedrooms: number;
-    bathrooms: number;
-    parkingSpaces: number;
-    area: number; // em m²
-    builtArea?: number;
-  };
-  images: string[];
+  price: number;
+  rentPrice: number;
+  status: 'available' | 'sold' | 'rented' | 'reserved' | 'inactive';
+  type: 'house' | 'apartment' | 'commercial' | 'land';
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
   responsibleAgentId: string;
-  owner: {
-    name: string;
-    phone: string;
-    email?: string;
-  };
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
-
-// Tipos de leads/CRM
-export type LeadStatus = 'new' | 'contacted' | 'visit_scheduled' | 'proposal' | 'closed' | 'lost';
-export type LeadSource = 'website' | 'social_media' | 'referral' | 'walk_in' | 'phone' | 'other';
 
 export interface Lead {
   id: string;
   name: string;
   email: string;
   phone: string;
-  status: LeadStatus;
-  source: LeadSource;
-  assignedAgentId?: string;
-  interests: {
-    propertyTypes: PropertyType[];
-    neighborhoods: string[];
-    maxPrice?: number;
-    minBedrooms?: number;
-  };
-  notes: string[];
-  lastContact?: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  status: 'new' | 'contacted' | 'visit_scheduled' | 'qualified' | 'closed';
+  source: 'website' | 'referral' | 'social_media' | 'other';
+  maxPrice: number;
+  neighborhoods: string[];
+  lastContact: string;
+  assignedAgentId: string;
+  createdAt: string;
+  updatedAt: string;
 }
-
-// Tipos de vendas e locações
-export type DealStatus = 'negotiating' | 'approved' | 'signed' | 'cancelled';
-export type DealType = 'sale' | 'rent';
 
 export interface Deal {
   id: string;
-  type: DealType;
-  status: DealStatus;
   propertyId: string;
   clientId: string;
   agentId: string;
+  type: 'sale' | 'rent';
+  status: 'negotiating' | 'approved' | 'signed' | 'cancelled';
   value: number;
   commission: number;
+  createdAt: string;
+  updatedAt: string;
+  signedAt?: string;
   documents: string[];
   notes: string[];
-  createdAt: Date;
-  updatedAt: Date;
-  signedAt?: Date;
 }
-
-// Tipos financeiros
-export type TransactionType = 'income' | 'expense';
-export type TransactionCategory = 'commission' | 'rent' | 'sale' | 'maintenance' | 'marketing' | 'salary' | 'other';
 
 export interface Transaction {
   id: string;
-  type: TransactionType;
-  category: TransactionCategory;
   description: string;
+  type: 'income' | 'expense';
+  category: 'commission' | 'rent' | 'sale' | 'maintenance' | 'marketing' | 'salary' | 'other';
   amount: number;
-  date: Date;
+  date: string;
   relatedDealId?: string;
   relatedPropertyId?: string;
   createdBy: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
-// Tipos de comissões
-export type CommissionStatus = 'pending' | 'paid' | 'cancelled';
-
-export interface Commission {
-  id: string;
-  agentId: string;
-  dealId: string;
-  amount: number;
-  status: CommissionStatus;
-  dueDate: Date;
-  paidAt?: Date;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-// Tipos de colaboradores/RH
-export interface Employee {
+export interface User {
   id: string;
   name: string;
   email: string;
   phone: string;
-  position: string;
-  department: string;
-  salary: number;
-  hireDate: Date;
+  role: import('./permissions').UserRole;
   isActive: boolean;
-  documents: {
-    contract: string;
-    idCard: string;
-    medicalExam?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Commission {
+  id: string;
+  dealId: string;
+  agentId: string;
+  amount: number;
+  status: 'pending' | 'paid';
+  dueDate: string;
+  paidAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Tipos específicos por perfil
+export interface AgentDashboard {
+  myProperties: Property[];
+  myLeads: Lead[];
+  myDeals: Deal[];
+  myCommissions: Commission[];
+  performance: {
+    totalSales: number;
+    totalCommissions: number;
+    conversionRate: number;
+    ranking: number;
   };
-  createdAt: Date;
-  updatedAt: Date;
+}
+
+export interface ManagerDashboard {
+  teamPerformance: {
+    totalSales: number;
+    totalLeads: number;
+    conversionRate: number;
+    topAgents: User[];
+  };
+  properties: Property[];
+  leads: Lead[];
+  deals: Deal[];
+}
+
+export interface OwnerDashboard {
+  businessMetrics: {
+    totalRevenue: number;
+    totalExpenses: number;
+    netProfit: number;
+    growthRate: number;
+  };
+  teamOverview: {
+    totalEmployees: number;
+    activeAgents: number;
+    performance: number;
+  };
+  marketAnalysis: {
+    topRegions: string[];
+    marketTrends: Array<{ month: string; value: number }>;
+  };
+}
+
+export interface FinancialDashboard {
+  cashFlow: {
+    income: number;
+    expenses: number;
+    netCash: number;
+  };
+  pendingCommissions: Commission[];
+  transactions: Transaction[];
+  reports: Array<{ id: string; title: string; type: string; date: string }>;
+}
+
+export interface HRDashboard {
+  employees: User[];
+  recruitment: {
+    openPositions: number;
+    candidates: number;
+    interviews: number;
+  };
+  training: {
+    activeCourses: number;
+    completedCourses: number;
+    certifications: number;
+  };
 }
 
 // Tipos de dashboard
@@ -170,8 +186,8 @@ export interface ChartData {
 
 // Tipos de filtros
 export interface PropertyFilters {
-  type?: PropertyType;
-  status?: PropertyStatus;
+  type?: Property['type'];
+  status?: Property['status'];
   minPrice?: number;
   maxPrice?: number;
   neighborhood?: string;
@@ -180,8 +196,8 @@ export interface PropertyFilters {
 }
 
 export interface LeadFilters {
-  status?: LeadStatus;
-  source?: LeadSource;
+  status?: Lead['status'];
+  source?: Lead['source'];
   agentId?: string;
   dateRange?: {
     start: Date;

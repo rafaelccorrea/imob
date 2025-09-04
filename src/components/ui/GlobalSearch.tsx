@@ -55,7 +55,7 @@ export const GlobalSearch: React.FC = () => {
         <input
           ref={inputRef}
           type="text"
-          placeholder="Buscar..."
+          placeholder="Buscar... (Ctrl+K)"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={() => setIsSearchOpen(true)}

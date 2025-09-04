@@ -25,14 +25,28 @@ import {
 } from 'recharts';
 import { mockTransactions, mockCommissions } from '../utils/mockData';
 import { formatCurrency, formatDate } from '../utils';
-import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
+import { Button, Card, CardContent, CardHeader, CardTitle, Badge, Input, Modal } from '../components/ui';
+
+// Definindo o tipo Transaction localmente para evitar problemas de importação
+interface Transaction {
+  id: string;
+  description: string;
+  type: 'income' | 'expense';
+  category: 'commission' | 'rent' | 'sale' | 'maintenance' | 'marketing' | 'salary' | 'other';
+  amount: number;
+  date: string;
+  relatedDealId?: string;
+  relatedPropertyId?: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export const FinancialPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showModal, setShowModal] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
 
   // Função para detectar se está no modo dark
@@ -111,7 +125,6 @@ export const FinancialPage: React.FC = () => {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openTransactionModal = (transaction: any) => {
     setSelectedTransaction(transaction);
     setShowModal(true);
@@ -284,7 +297,7 @@ export const FinancialPage: React.FC = () => {
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
                 >
                   {categoryData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
@@ -376,8 +389,7 @@ export const FinancialPage: React.FC = () => {
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                                         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                     <Badge variant={getTypeColor(transaction.type) as any}>
+                                         <Badge variant={getTypeColor(transaction.type) as any}>
                        {getTypeText(transaction.type)}
                      </Badge>
                     
@@ -408,7 +420,6 @@ export const FinancialPage: React.FC = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         title={`Transação: ${selectedTransaction?.description}`}
-        className="max-w-2xl"
       >
         {selectedTransaction && (
           <div className="space-y-6">

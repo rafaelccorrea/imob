@@ -63,7 +63,7 @@ export const HRPage: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-secondary-900">
+          <h1 className="text-2xl font-bold text-secondary-900 dark:text-white">
             Recursos Humanos
           </h1>
                      <p className="text-secondary-600 dark:text-secondary-400">
@@ -129,7 +129,7 @@ export const HRPage: React.FC = () => {
                                  <p className="text-sm font-medium text-secondary-600 dark:text-white">Total de Colaboradores</p>
                  <p className="text-2xl font-bold text-primary-600 dark:text-white">{mockEmployees.length}</p>
                </div>
-               <div className="h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center">
+               <div className="h-12 w-12 rounded-lg flex items-center justify-center">
                  <UserCheck className="h-6 w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
@@ -140,13 +140,13 @@ export const HRPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Ativos</p>
-                <p className="text-2xl font-bold text-success-600">
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Ativos</p>
+                <p className="text-2xl font-bold text-success-600 dark:text-white">
                   {mockEmployees.filter(e => e.isActive).length}
                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-success-100 flex items-center justify-center">
-                <CheckCircle className="h-6 w-6 text-success-600" />
+              <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                <CheckCircle className="h-6 w-6 text-success-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -156,13 +156,13 @@ export const HRPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Folha Salarial</p>
-                <p className="text-2xl font-bold text-warning-600">
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Folha Salarial</p>
+                <p className="text-2xl font-bold text-warning-600 dark:text-white">
                   {formatCurrency(mockEmployees.reduce((sum, e) => sum + e.salary, 0))}
                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-warning-100 flex items-center justify-center">
-                <DollarSign className="h-6 w-6 text-warning-600" />
+              <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                <DollarSign className="h-6 w-6 text-warning-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -172,13 +172,13 @@ export const HRPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Tempo Médio</p>
-                <p className="text-2xl font-bold text-primary-600">
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Tempo Médio</p>
+                <p className="text-2xl font-bold text-primary-600 dark:text-white">
                   {Math.round(mockEmployees.reduce((sum, e) => sum + calculateYearsOfService(e.hireDate), 0) / mockEmployees.length)} anos
                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                <Clock className="h-6 w-6 text-primary-600" />
+              <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                <Clock className="h-6 w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -192,12 +192,12 @@ export const HRPage: React.FC = () => {
             <CardContent className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center">
-                    <User className="h-6 w-6 text-primary-600" />
+                  <div className="h-12 w-12 rounded-full flex items-center justify-center">
+                    <User className="h-6 w-6 text-primary-600 dark:text-white" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">{employee.name}</h3>
-                    <p className="text-sm text-secondary-600">{employee.position}</p>
+                    <h3 className="font-semibold text-lg dark:text-white">{employee.name}</h3>
+                    <p className="text-sm text-secondary-600 dark:text-secondary-400">{employee.position}</p>
                   </div>
                 </div>
                 <div className="flex space-x-2">
@@ -218,13 +218,13 @@ export const HRPage: React.FC = () => {
               </div>
               
               <div className="space-y-3">
-                <div className="flex items-center text-sm text-secondary-600">
-                  <Mail className="h-4 w-4 mr-2" />
+                <div className="flex items-center text-sm text-secondary-600 dark:text-secondary-400">
+                  <Mail className="h-4 w-4 mr-2 dark:text-white" />
                   <span>{employee.email}</span>
                 </div>
                 
-                <div className="flex items-center text-sm text-secondary-600">
-                  <Phone className="h-4 w-4 mr-2" />
+                <div className="flex items-center text-sm text-secondary-600 dark:text-secondary-400">
+                  <Phone className="h-4 w-4 mr-2 dark:text-white" />
                   <span>{employee.phone}</span>
                 </div>
                 
@@ -237,24 +237,24 @@ export const HRPage: React.FC = () => {
                   </Badge>
                 </div>
                 
-                <div className="flex items-center text-sm text-secondary-600">
-                  <DollarSign className="h-4 w-4 mr-2" />
+                <div className="flex items-center text-sm text-secondary-600 dark:text-secondary-400">
+                  <DollarSign className="h-4 w-4 mr-2 dark:text-white" />
                   <span>{formatCurrency(employee.salary)}</span>
                 </div>
                 
-                <div className="flex items-center text-sm text-secondary-600">
-                  <Calendar className="h-4 w-4 mr-2" />
+                <div className="flex items-center text-sm text-secondary-600 dark:text-secondary-400">
+                  <Calendar className="h-4 w-4 mr-2 dark:text-white" />
                   <span>Contratado em {formatDate(employee.hireDate)}</span>
                 </div>
               </div>
               
-              <div className="flex space-x-2 mt-4 pt-4 border-t">
+              <div className="flex space-x-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <Button variant="outline" size="sm" className="flex-1">
-                  <FileText className="h-4 w-4 mr-2" />
+                  <FileText className="h-4 w-4 mr-2 dark:text-white" />
                   Documentos
                 </Button>
                 <Button variant="outline" size="sm" className="flex-1">
-                  <Download className="h-4 w-4 mr-2" />
+                  <Download className="h-4 w-4 mr-2 dark:text-white" />
                   Contrato
                 </Button>
               </div>
@@ -268,15 +268,14 @@ export const HRPage: React.FC = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         title={`Colaborador: ${selectedEmployee?.name}`}
-        className="max-w-2xl"
       >
         {selectedEmployee && (
           <div className="space-y-6">
             {/* Informações Básicas */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-semibold mb-3">Informações Pessoais</h4>
-                <div className="space-y-2 text-sm">
+                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Informações Pessoais</h4>
+                <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                   <p><strong>Nome:</strong> {selectedEmployee.name}</p>
                   <p><strong>Email:</strong> {selectedEmployee.email}</p>
                   <p><strong>Telefone:</strong> {selectedEmployee.phone}</p>
@@ -286,8 +285,8 @@ export const HRPage: React.FC = () => {
               </div>
               
               <div>
-                <h4 className="font-semibold mb-3">Informações Profissionais</h4>
-                <div className="space-y-2 text-sm">
+                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Informações Profissionais</h4>
+                <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                   <p><strong>Salário:</strong> {formatCurrency(selectedEmployee.salary)}</p>
                   <p><strong>Data de Contratação:</strong> {formatDate(selectedEmployee.hireDate)}</p>
                   <p><strong>Tempo de Empresa:</strong> {calculateYearsOfService(selectedEmployee.hireDate)} anos</p>
@@ -298,22 +297,22 @@ export const HRPage: React.FC = () => {
             
             {/* Documentos */}
             <div>
-              <h4 className="font-semibold mb-3">Documentos</h4>
+              <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Documentos</h4>
               <div className="space-y-2">
-                <div className="flex items-center justify-between p-3 bg-secondary-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-secondary-50 dark:bg-secondary-900/20 rounded-lg">
                   <div className="flex items-center">
-                    <FileText className="h-4 w-4 mr-2 text-secondary-600" />
-                    <span className="text-sm">Contrato de Trabalho</span>
+                    <FileText className="h-4 w-4 mr-2 text-secondary-600 dark:text-secondary-300" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Contrato de Trabalho</span>
                   </div>
                   <Button variant="outline" size="sm">
                     Download
                   </Button>
                 </div>
                 
-                <div className="flex items-center justify-between p-3 bg-secondary-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-secondary-50 dark:bg-secondary-900/20 rounded-lg">
                   <div className="flex items-center">
-                    <FileText className="h-4 w-4 mr-2 text-secondary-600" />
-                    <span className="text-sm">Carteira de Identidade</span>
+                    <FileText className="h-4 w-4 mr-2 text-secondary-600 dark:text-secondary-300" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Carteira de Identidade</span>
                   </div>
                   <Button variant="outline" size="sm">
                     Download
@@ -321,10 +320,10 @@ export const HRPage: React.FC = () => {
                 </div>
                 
                 {selectedEmployee.documents.medicalExam && (
-                  <div className="flex items-center justify-between p-3 bg-secondary-50 rounded-lg">
+                  <div className="flex items-center justify-between p-3 bg-secondary-50 dark:bg-secondary-900/20 rounded-lg">
                     <div className="flex items-center">
-                      <FileText className="h-4 w-4 mr-2 text-secondary-600" />
-                      <span className="text-sm">Exame Médico</span>
+                      <FileText className="h-4 w-4 mr-2 text-secondary-600 dark:text-secondary-300" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Exame Médico</span>
                     </div>
                     <Button variant="outline" size="sm">
                       Download
@@ -334,15 +333,15 @@ export const HRPage: React.FC = () => {
               </div>
             </div>
             
-            {/* Ações */}
-            <div className="flex justify-end space-x-3 pt-4 border-t">
+                        {/* Ações */}
+            <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
               <Button variant="outline" onClick={() => setShowModal(false)}>
                 Fechar
               </Button>
                              <Button>
-                 <Edit className="h-4 w-4 mr-2 dark:text-white" />
-                 Editar Colaborador
-               </Button>
+                <Edit className="h-4 w-4 mr-2 dark:text-white" />
+                Editar Colaborador
+              </Button>
             </div>
           </div>
         )}

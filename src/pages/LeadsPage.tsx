@@ -311,7 +311,6 @@ export const LeadsPage: React.FC = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         title={`Lead: ${selectedLead?.name}`}
-        className="max-w-2xl"
       >
         {selectedLead && (
           <div className="space-y-6">

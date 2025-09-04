@@ -2,13 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LoginPage } from './pages/LoginPage';
-import { DashboardPage } from './pages/DashboardPage';
+import { DashboardFactory } from './components/dashboard/DashboardFactory';
 import { PropertiesPage } from './pages/PropertiesPage';
 import { LeadsPage } from './pages/LeadsPage';
 import { DealsPage } from './pages/DealsPage';
 import { FinancialPage } from './pages/FinancialPage';
 import { HRPage } from './pages/HRPage';
 import { UsersPage } from './pages/UsersPage';
+import { UserPermissionsPage } from './pages/UserPermissionsPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { Layout } from './components/layout';
 import { useAuthStore } from './stores';
@@ -23,7 +24,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const AuthProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
@@ -46,75 +47,83 @@ function App() {
             } />
             
             <Route path="/" element={
-              <ProtectedRoute>
+              <AuthProtectedRoute>
                 <Layout>
-                  <DashboardPage />
+                  <DashboardFactory />
                 </Layout>
-              </ProtectedRoute>
+              </AuthProtectedRoute>
             } />
             
             <Route path="/dashboard" element={
-              <ProtectedRoute>
+              <AuthProtectedRoute>
                 <Layout>
-                  <DashboardPage />
+                  <DashboardFactory />
                 </Layout>
-              </ProtectedRoute>
+              </AuthProtectedRoute>
             } />
             
             <Route path="/properties" element={
-              <ProtectedRoute>
+              <AuthProtectedRoute>
                 <Layout>
                   <PropertiesPage />
                 </Layout>
-              </ProtectedRoute>
+              </AuthProtectedRoute>
             } />
             
             <Route path="/leads" element={
-              <ProtectedRoute>
+              <AuthProtectedRoute>
                 <Layout>
                   <LeadsPage />
                 </Layout>
-              </ProtectedRoute>
+              </AuthProtectedRoute>
             } />
             
             <Route path="/deals" element={
-              <ProtectedRoute>
+              <AuthProtectedRoute>
                 <Layout>
                   <DealsPage />
                 </Layout>
-              </ProtectedRoute>
+              </AuthProtectedRoute>
             } />
             
             <Route path="/financial" element={
-              <ProtectedRoute>
+              <AuthProtectedRoute>
                 <Layout>
                   <FinancialPage />
                 </Layout>
-              </ProtectedRoute>
+              </AuthProtectedRoute>
             } />
             
             <Route path="/hr" element={
-              <ProtectedRoute>
+              <AuthProtectedRoute>
                 <Layout>
                   <HRPage />
                 </Layout>
-              </ProtectedRoute>
+              </AuthProtectedRoute>
             } />
             
             <Route path="/users" element={
-              <ProtectedRoute>
+              <AuthProtectedRoute>
                 <Layout>
                   <UsersPage />
                 </Layout>
-              </ProtectedRoute>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/users/:userId/permissions" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <UserPermissionsPage />
+                </Layout>
+              </AuthProtectedRoute>
             } />
             
             <Route path="/settings" element={
-              <ProtectedRoute>
+              <AuthProtectedRoute>
                 <Layout>
                   <SettingsPage />
                 </Layout>
-              </ProtectedRoute>
+              </AuthProtectedRoute>
             } />
           </Routes>
         </Router>
