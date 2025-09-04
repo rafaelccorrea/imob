@@ -78,17 +78,17 @@ export const UsersPage: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-secondary-900">
+          <h1 className="text-2xl font-bold text-secondary-900 dark:text-white">
             Usuários & Perfis
           </h1>
-          <p className="text-secondary-600">
+          <p className="text-secondary-600 dark:text-secondary-400">
             Gestão de usuários e permissões
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Novo Usuário
-        </Button>
+                 <Button>
+           <Plus className="h-4 w-4 mr-2 dark:text-white" />
+           Novo Usuário
+         </Button>
       </div>
 
       {/* Filtros */}
@@ -108,7 +108,7 @@ export const UsersPage: React.FC = () => {
             <select
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value)}
-              className="input"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
               <option value="">Todos os perfis</option>
               <option value="owner">Proprietário</option>
@@ -121,17 +121,17 @@ export const UsersPage: React.FC = () => {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="input"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
               <option value="">Todos os status</option>
               <option value="active">Ativo</option>
               <option value="inactive">Inativo</option>
             </select>
             
-            <Button variant="outline" className="flex items-center">
-              <Filter className="h-4 w-4 mr-2" />
-              Mais Filtros
-            </Button>
+                         <Button variant="outline" className="flex items-center">
+               <Filter className="h-4 w-4 mr-2 dark:text-white" />
+               Mais Filtros
+             </Button>
           </div>
         </CardContent>
       </Card>
@@ -142,11 +142,11 @@ export const UsersPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Total de Usuários</p>
-                <p className="text-2xl font-bold text-primary-600">{mockUsers.length}</p>
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Total de Usuários</p>
+                <p className="text-2xl font-bold text-primary-600 dark:text-white">{mockUsers.length}</p>
               </div>
               <div className="h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                <User className="h-6 w-6 text-primary-600" />
+                <User className="h-6 w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -156,13 +156,13 @@ export const UsersPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Ativos</p>
-                <p className="text-2xl font-bold text-success-600">
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Ativos</p>
+                <p className="text-2xl font-bold text-success-600 dark:text-white">
                   {mockUsers.filter(u => u.isActive).length}
                 </p>
               </div>
               <div className="h-12 w-12 rounded-lg bg-success-100 flex items-center justify-center">
-                <CheckCircle className="h-6 w-6 text-success-600" />
+                <CheckCircle className="h-6 w-6 text-success-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -172,13 +172,13 @@ export const UsersPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Gestores</p>
-                <p className="text-2xl font-bold text-warning-600">
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Gestores</p>
+                <p className="text-2xl font-bold text-warning-600 dark:text-white">
                   {mockUsers.filter(u => u.role === 'manager').length}
                 </p>
               </div>
               <div className="h-12 w-12 rounded-lg bg-warning-100 flex items-center justify-center">
-                <Shield className="h-6 w-6 text-warning-600" />
+                <Shield className="h-6 w-6 text-warning-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -188,13 +188,13 @@ export const UsersPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Corretores</p>
-                <p className="text-2xl font-bold text-primary-600">
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Corretores</p>
+                <p className="text-2xl font-bold text-primary-600 dark:text-white">
                   {mockUsers.filter(u => u.role === 'agent').length}
                 </p>
               </div>
               <div className="h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                <User className="h-6 w-6 text-primary-600" />
+                <User className="h-6 w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -209,32 +209,32 @@ export const UsersPage: React.FC = () => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center">
-                    <User className="h-6 w-6 text-primary-600" />
+                    <User className="h-6 w-6 text-primary-600 dark:text-white" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">{user.name}</h3>
-                    <p className="text-sm text-secondary-600">{user.email}</p>
+                                         <h3 className="font-semibold text-lg dark:text-white">{user.name}</h3>
+                                         <p className="text-sm text-secondary-600 dark:text-secondary-400">{user.email}</p>
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => openUserModal(user)}
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
+                                     <Button
+                     variant="ghost"
+                     size="sm"
+                     onClick={() => openUserModal(user)}
+                   >
+                     <Eye className="h-4 w-4 dark:text-white" />
+                   </Button>
+                   <Button
+                     variant="ghost"
+                     size="sm"
+                   >
+                     <Edit className="h-4 w-4 dark:text-white" />
+                   </Button>
                 </div>
               </div>
               
               <div className="space-y-3">
-                <div className="flex items-center text-sm text-secondary-600">
+                <div className="flex items-center text-sm text-secondary-600 dark:text-secondary-400">
                   <Phone className="h-4 w-4 mr-2" />
                   <span>{user.phone}</span>
                 </div>
@@ -248,7 +248,7 @@ export const UsersPage: React.FC = () => {
                   </Badge>
                 </div>
                 
-                <div className="flex items-center text-sm text-secondary-600">
+                <div className="flex items-center text-sm text-secondary-600 dark:text-secondary-400">
                   <Calendar className="h-4 w-4 mr-2" />
                   <span>Criado em {formatDate(user.createdAt)}</span>
                 </div>
@@ -347,10 +347,10 @@ export const UsersPage: React.FC = () => {
               <Button variant="outline" onClick={() => setShowModal(false)}>
                 Fechar
               </Button>
-              <Button>
-                <Edit className="h-4 w-4 mr-2" />
-                Editar Usuário
-              </Button>
+                             <Button>
+                 <Edit className="h-4 w-4 mr-2 dark:text-white" />
+                 Editar Usuário
+               </Button>
             </div>
           </div>
         )}

@@ -9,19 +9,14 @@ import {
   DollarSign,
   Calendar,
   User,
-  Building2,
-  TrendingUp,
   CheckCircle,
-  Clock,
-  AlertCircle
+  Clock
 } from 'lucide-react';
-import { useAuthStore } from '../stores';
 import { mockDeals, mockProperties } from '../utils/mockData';
 import { formatCurrency, formatDate } from '../utils';
-import { Button, Card, CardHeader, CardTitle, CardContent, Badge, Input, Modal } from '../components/ui';
+import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
 
 export const DealsPage: React.FC = () => {
-  const { user } = useAuthStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
@@ -43,7 +38,7 @@ export const DealsPage: React.FC = () => {
       case 'negotiating': return 'warning';
       case 'approved': return 'primary';
       case 'signed': return 'success';
-      case 'cancelled': return 'danger';
+      case 'cancelled': return 'destructive';
       default: return 'default';
     }
   };
@@ -76,22 +71,43 @@ export const DealsPage: React.FC = () => {
     return property?.title || 'Imóvel não encontrado';
   };
 
+  // Função para detectar se está no modo dark
+  const isDarkMode = () => {
+    return document.documentElement.classList.contains('dark');
+  };
+
+  // Função para obter a cor do valor baseada no tipo
+  const getValueColor = (type: string) => {
+    const dark = isDarkMode();
+    if (type === 'sale') {
+      return dark ? '#4ade80' : '#16a34a'; // Verde para vendas
+    } else {
+      return dark ? '#4ade80' : '#16a34a'; // Verde para locações também
+    }
+  };
+
+  // Função para obter a cor da comissão (sempre vermelho)
+  const getCommissionColor = () => {
+    const dark = isDarkMode();
+    return dark ? '#f87171' : '#dc2626'; // Vermelho para comissões
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-secondary-900">
-            Vendas & Locações
-          </h1>
-          <p className="text-secondary-600">
+                     <h1 className="text-2xl font-bold text-secondary-900 dark:text-white">
+             Vendas & Locações
+           </h1>
+          <p className="text-secondary-600 dark:text-secondary-400">
             Gerencie suas negociações e contratos
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Nova Negociação
-        </Button>
+                 <Button>
+           <Plus className="h-4 w-4 mr-2 dark:text-white" />
+           Nova Negociação
+         </Button>
       </div>
 
       {/* Filtros */}
@@ -99,7 +115,7 @@ export const DealsPage: React.FC = () => {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary-400" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary-400 dark:text-gray-300" />
               <Input
                 placeholder="Buscar negociações..."
                 value={searchTerm}
@@ -111,29 +127,29 @@ export const DealsPage: React.FC = () => {
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="input"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
               <option value="">Todos os tipos</option>
-              <option value="sale">Venda</option>
-              <option value="rent">Locação</option>
+              <option value="sale" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Venda</option>
+              <option value="rent" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Locação</option>
             </select>
             
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="input"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
               <option value="">Todos os status</option>
-              <option value="negotiating">Em Negociação</option>
-              <option value="approved">Aprovado</option>
-              <option value="signed">Assinado</option>
-              <option value="cancelled">Cancelado</option>
+              <option value="negotiating" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Em Negociação</option>
+              <option value="approved" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Aprovado</option>
+              <option value="signed" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Assinado</option>
+              <option value="cancelled" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Cancelado</option>
             </select>
             
-            <Button variant="outline" className="flex items-center">
-              <Filter className="h-4 w-4 mr-2" />
-              Mais Filtros
-            </Button>
+                         <Button variant="outline" className="flex items-center">
+               <Filter className="h-4 w-4 mr-2 dark:text-white" />
+               Mais Filtros
+             </Button>
           </div>
         </CardContent>
       </Card>
@@ -144,27 +160,11 @@ export const DealsPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Total de Negociações</p>
-                <p className="text-2xl font-bold text-primary-600">{mockDeals.length}</p>
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Total de Negociações</p>
+                 <p className="text-2xl font-bold text-primary-600 dark:text-white">{mockDeals.length}</p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                <FileText className="h-6 w-6 text-primary-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-secondary-600">Em Negociação</p>
-                <p className="text-2xl font-bold text-warning-600">
-                  {mockDeals.filter(d => d.status === 'negotiating').length}
-                </p>
-              </div>
-              <div className="h-12 w-12 rounded-lg bg-warning-100 flex items-center justify-center">
-                <Clock className="h-6 w-6 text-warning-600" />
+              <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                <FileText className="h-6 w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -174,13 +174,13 @@ export const DealsPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Assinados</p>
-                <p className="text-2xl font-bold text-success-600">
-                  {mockDeals.filter(d => d.status === 'signed').length}
-                </p>
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Em Negociação</p>
+                 <p className="text-2xl font-bold text-warning-600 dark:text-white">
+                   {mockDeals.filter(d => d.status === 'negotiating').length}
+                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-success-100 flex items-center justify-center">
-                <CheckCircle className="h-6 w-6 text-success-600" />
+              <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                <Clock className="h-6 w-6 text-warning-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -190,13 +190,29 @@ export const DealsPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Valor Total</p>
-                <p className="text-2xl font-bold text-success-600">
-                  {formatCurrency(mockDeals.reduce((sum, deal) => sum + deal.value, 0))}
-                </p>
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Assinados</p>
+                 <p className="text-2xl font-bold text-success-600 dark:text-white">
+                   {mockDeals.filter(d => d.status === 'signed').length}
+                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-success-100 flex items-center justify-center">
-                <DollarSign className="h-6 w-6 text-success-600" />
+              <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                <CheckCircle className="h-6 w-6 text-success-600 dark:text-white" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Valor Total</p>
+                                 <p className="text-2xl font-bold text-success-600 dark:text-success-400" style={{ color: getValueColor('sale') }}>
+                   {formatCurrency(mockDeals.reduce((sum, deal) => sum + deal.value, 0))}
+                 </p>
+              </div>
+              <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                <DollarSign className="h-6 w-6 text-success-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -210,19 +226,17 @@ export const DealsPage: React.FC = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className={`h-12 w-12 rounded-lg flex items-center justify-center ${
-                    deal.type === 'sale' ? 'bg-success-100' : 'bg-primary-100'
-                  }`}>
-                    <DollarSign className={`h-6 w-6 ${
-                      deal.type === 'sale' ? 'text-success-600' : 'text-primary-600'
-                    }`} />
+                  <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                                         <DollarSign className={`h-6 w-6 ${
+                       deal.type === 'sale' ? 'text-success-600 dark:text-white' : 'text-primary-600 dark:text-white'
+                     }`} />
                   </div>
                   
                   <div>
-                    <h3 className="font-semibold text-lg">
-                      {getPropertyTitle(deal.propertyId)}
-                    </h3>
-                    <p className="text-sm text-secondary-600">
+                                         <h3 className="font-semibold text-lg dark:text-white">
+                       {getPropertyTitle(deal.propertyId)}
+                     </h3>
+                     <p className="text-sm text-secondary-600 dark:text-secondary-400">
                       {getTypeText(deal.type)} • {formatCurrency(deal.value)}
                     </p>
                   </div>
@@ -230,12 +244,12 @@ export const DealsPage: React.FC = () => {
                 
                 <div className="flex items-center space-x-4">
                   <div className="text-right">
-                    <p className="text-sm font-medium text-secondary-900">
-                      {formatCurrency(deal.value)}
-                    </p>
-                    <p className="text-xs text-secondary-600">
-                      Comissão: {formatCurrency(deal.commission)}
-                    </p>
+                                         <p className="text-sm font-medium text-success-600 dark:text-success-400" style={{ color: getValueColor(deal.type) }}>
+                       {formatCurrency(deal.value)}
+                     </p>
+                                          <p className="text-xs text-secondary-600 dark:text-secondary-400" style={{ color: getCommissionColor() }}>
+                       Comissão: {formatCurrency(deal.commission)}
+                     </p>
                   </div>
                   
                   <div className="flex items-center space-x-2">
@@ -243,42 +257,42 @@ export const DealsPage: React.FC = () => {
                       {getStatusText(deal.status)}
                     </Badge>
                     
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => openDealModal(deal)}
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
+                                         <Button
+                       variant="ghost"
+                       size="sm"
+                       onClick={() => openDealModal(deal)}
+                     >
+                       <Eye className="h-4 w-4 dark:text-white" />
+                     </Button>
+                     
+                     <Button
+                       variant="ghost"
+                       size="sm"
+                     >
+                       <Edit className="h-4 w-4 dark:text-white" />
+                     </Button>
                   </div>
                 </div>
               </div>
               
               <div className="mt-4 pt-4 border-t">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                  <div className="flex items-center text-secondary-600">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    <span>Criado em {formatDate(deal.createdAt)}</span>
-                  </div>
-                  
-                  {deal.signedAt && (
-                    <div className="flex items-center text-secondary-600">
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      <span>Assinado em {formatDate(deal.signedAt)}</span>
-                    </div>
-                  )}
-                  
-                  <div className="flex items-center text-secondary-600">
-                    <User className="h-4 w-4 mr-2" />
-                    <span>Corretor ID: {deal.agentId}</span>
-                  </div>
+                                                                      <div className="flex items-center text-secondary-600 dark:text-secondary-400">
+                   <Calendar className="h-4 w-4 mr-2 dark:text-white" />
+                   <span>Criado em {formatDate(deal.createdAt)}</span>
+                 </div>
+                 
+                 {deal.signedAt && (
+                   <div className="flex items-center text-secondary-600 dark:text-secondary-400">
+                     <CheckCircle className="h-4 w-4 mr-2 dark:text-white" />
+                     <span>Assinado em {formatDate(deal.signedAt)}</span>
+                   </div>
+                 )}
+                 
+                 <div className="flex items-center text-secondary-600 dark:text-secondary-400">
+                   <User className="h-4 w-4 mr-2 dark:text-white" />
+                   <span>Corretor ID: {deal.agentId}</span>
+                 </div>
                 </div>
               </div>
             </CardContent>
@@ -298,8 +312,8 @@ export const DealsPage: React.FC = () => {
             {/* Informações Básicas */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-semibold mb-3">Informações da Negociação</h4>
-                <div className="space-y-2 text-sm">
+                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Informações da Negociação</h4>
+                <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                   <p><strong>Tipo:</strong> {getTypeText(selectedDeal.type)}</p>
                   <p><strong>Status:</strong> {getStatusText(selectedDeal.status)}</p>
                   <p><strong>Valor:</strong> {formatCurrency(selectedDeal.value)}</p>
@@ -310,8 +324,8 @@ export const DealsPage: React.FC = () => {
               </div>
               
               <div>
-                <h4 className="font-semibold mb-3">Datas</h4>
-                <div className="space-y-2 text-sm">
+                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Datas</h4>
+                <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                   <p><strong>Criado em:</strong> {formatDate(selectedDeal.createdAt)}</p>
                   <p><strong>Atualizado em:</strong> {formatDate(selectedDeal.updatedAt)}</p>
                   {selectedDeal.signedAt && (
@@ -323,21 +337,21 @@ export const DealsPage: React.FC = () => {
             
             {/* Imóvel */}
             <div>
-              <h4 className="font-semibold mb-3">Imóvel</h4>
-              <div className="p-4 bg-secondary-50 rounded-lg">
-                <p className="font-medium">{getPropertyTitle(selectedDeal.propertyId)}</p>
-                <p className="text-sm text-secondary-600">ID: {selectedDeal.propertyId}</p>
+              <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Imóvel</h4>
+              <div className="p-4 bg-secondary-50 dark:bg-gray-800 rounded-lg">
+                <p className="font-medium text-gray-900 dark:text-gray-100">{getPropertyTitle(selectedDeal.propertyId)}</p>
+                <p className="text-sm text-secondary-600 dark:text-gray-300">ID: {selectedDeal.propertyId}</p>
               </div>
             </div>
             
             {/* Documentos */}
             {selectedDeal.documents.length > 0 && (
               <div>
-                <h4 className="font-semibold mb-3">Documentos</h4>
+                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Documentos</h4>
                 <div className="space-y-2">
                   {selectedDeal.documents.map((doc: string, index: number) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-secondary-50 rounded-lg">
-                      <span className="text-sm">{doc}</span>
+                    <div key={index} className="flex items-center justify-between p-3 bg-secondary-50 dark:bg-gray-800 rounded-lg">
+                      <span className="text-sm text-gray-900 dark:text-gray-100">{doc}</span>
                       <Button variant="outline" size="sm">
                         Download
                       </Button>
@@ -350,10 +364,10 @@ export const DealsPage: React.FC = () => {
             {/* Notas */}
             {selectedDeal.notes.length > 0 && (
               <div>
-                <h4 className="font-semibold mb-3">Notas</h4>
+                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Notas</h4>
                 <div className="space-y-2">
                   {selectedDeal.notes.map((note: string, index: number) => (
-                    <div key={index} className="p-3 bg-secondary-50 rounded-lg text-sm">
+                    <div key={index} className="p-3 bg-secondary-50 dark:bg-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100">
                       {note}
                     </div>
                   ))}
@@ -362,20 +376,20 @@ export const DealsPage: React.FC = () => {
             )}
             
             {/* Ações */}
-            <div className="flex justify-end space-x-3 pt-4 border-t">
+            <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
               <Button variant="outline" onClick={() => setShowModal(false)}>
                 Fechar
               </Button>
-              <Button>
-                <Edit className="h-4 w-4 mr-2" />
-                Editar Negociação
-              </Button>
-              {selectedDeal.status === 'approved' && (
-                <Button variant="success">
-                  <CheckCircle className="h-4 w-4 mr-2" />
-                  Gerar Contrato
-                </Button>
-              )}
+                             <Button>
+                 <Edit className="h-4 w-4 mr-2 dark:text-white" />
+                 Editar Negociação
+               </Button>
+                               {selectedDeal.status === 'approved' && (
+                  <Button variant="primary">
+                    <CheckCircle className="h-4 w-4 mr-2 dark:text-white" />
+                    Gerar Contrato
+                  </Button>
+                )}
             </div>
           </div>
         )}

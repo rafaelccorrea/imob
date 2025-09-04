@@ -66,14 +66,14 @@ export const HRPage: React.FC = () => {
           <h1 className="text-2xl font-bold text-secondary-900">
             Recursos Humanos
           </h1>
-          <p className="text-secondary-600">
-            Gestão de colaboradores e equipe
-          </p>
+                     <p className="text-secondary-600 dark:text-secondary-400">
+             Gestão de colaboradores e equipe
+           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Novo Colaborador
-        </Button>
+                 <Button>
+           <Plus className="h-4 w-4 mr-2 dark:text-white" />
+           Novo Colaborador
+         </Button>
       </div>
 
       {/* Filtros */}
@@ -93,7 +93,7 @@ export const HRPage: React.FC = () => {
             <select
               value={selectedDepartment}
               onChange={(e) => setSelectedDepartment(e.target.value)}
-              className="input"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
               <option value="">Todos os departamentos</option>
               <option value="Vendas">Vendas</option>
@@ -105,17 +105,17 @@ export const HRPage: React.FC = () => {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="input"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
               <option value="">Todos os status</option>
               <option value="active">Ativo</option>
               <option value="inactive">Inativo</option>
             </select>
             
-            <Button variant="outline" className="flex items-center">
-              <Filter className="h-4 w-4 mr-2" />
-              Mais Filtros
-            </Button>
+                         <Button variant="outline" className="flex items-center">
+               <Filter className="h-4 w-4 mr-2 dark:text-white" />
+               Mais Filtros
+             </Button>
           </div>
         </CardContent>
       </Card>
@@ -126,11 +126,11 @@ export const HRPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Total de Colaboradores</p>
-                <p className="text-2xl font-bold text-primary-600">{mockEmployees.length}</p>
-              </div>
-              <div className="h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                <UserCheck className="h-6 w-6 text-primary-600" />
+                                 <p className="text-sm font-medium text-secondary-600 dark:text-white">Total de Colaboradores</p>
+                 <p className="text-2xl font-bold text-primary-600 dark:text-white">{mockEmployees.length}</p>
+               </div>
+               <div className="h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center">
+                 <UserCheck className="h-6 w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -201,19 +201,19 @@ export const HRPage: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => openEmployeeModal(employee)}
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
+                                     <Button
+                     variant="ghost"
+                     size="sm"
+                     onClick={() => openEmployeeModal(employee)}
+                   >
+                     <Eye className="h-4 w-4 dark:text-white" />
+                   </Button>
+                   <Button
+                     variant="ghost"
+                     size="sm"
+                   >
+                     <Edit className="h-4 w-4 dark:text-white" />
+                   </Button>
                 </div>
               </div>
               
@@ -339,10 +339,10 @@ export const HRPage: React.FC = () => {
               <Button variant="outline" onClick={() => setShowModal(false)}>
                 Fechar
               </Button>
-              <Button>
-                <Edit className="h-4 w-4 mr-2" />
-                Editar Colaborador
-              </Button>
+                             <Button>
+                 <Edit className="h-4 w-4 mr-2 dark:text-white" />
+                 Editar Colaborador
+               </Button>
             </div>
           </div>
         )}

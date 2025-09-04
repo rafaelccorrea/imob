@@ -7,7 +7,7 @@ type CardProps = React.HTMLAttributes<HTMLDivElement>;
 export const Card: React.FC<CardProps> = ({ className, ...props }) => (
   <div
     className={cn(
-      'rounded-lg border border-gray-200 bg-white shadow-sm',
+      'rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm',
       className
     )}
     {...props}
@@ -25,7 +25,7 @@ type CardTitleProps = React.HTMLAttributes<HTMLHeadingElement>;
 export const CardTitle: React.FC<CardTitleProps> = ({ className, ...props }) => (
   <h3
     className={cn(
-      'text-2xl font-semibold leading-none tracking-tight',
+      'text-2xl font-semibold leading-none tracking-tight text-gray-900 dark:text-gray-100',
       className
     )}
     {...props}
@@ -35,7 +35,7 @@ export const CardTitle: React.FC<CardTitleProps> = ({ className, ...props }) => 
 type CardDescriptionProps = React.HTMLAttributes<HTMLParagraphElement>;
 
 export const CardDescription: React.FC<CardDescriptionProps> = ({ className, ...props }) => (
-  <p className={cn('text-sm text-gray-600', className)} {...props} />
+  <p className={cn('text-sm text-gray-600 dark:text-gray-400', className)} {...props} />
 );
 
 type CardContentProps = React.HTMLAttributes<HTMLDivElement>;

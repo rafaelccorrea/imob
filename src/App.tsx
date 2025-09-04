@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useAuthStore } from './stores';
-import { Layout } from './components/layout';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { PropertiesPage } from './pages/PropertiesPage';
@@ -12,8 +10,10 @@ import { FinancialPage } from './pages/FinancialPage';
 import { HRPage } from './pages/HRPage';
 import { UsersPage } from './pages/UsersPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { Layout } from './components/layout';
+import { useAuthStore } from './stores';
+import { ThemeProvider } from './components/providers/ThemeProvider';
 
-// Configuração do React Query
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -23,121 +23,104 @@ const queryClient = new QueryClient({
   },
 });
 
-// Componente de rota protegida
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  
-  return <Layout>{children}</Layout>;
+  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
-// Componente de rota pública (apenas para não autenticados)
 const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
-  
-  if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
-  }
-  
-  return <>{children}</>;
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <>{children}</>;
 };
 
-export const App: React.FC = () => {
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <Routes>
-          {/* Rotas públicas */}
-          <Route
-            path="/login"
-            element={
+      <ThemeProvider>
+        <Router>
+          <Routes>
+            <Route path="/login" element={
               <PublicRoute>
                 <LoginPage />
               </PublicRoute>
-            }
-          />
-          
-          {/* Rotas protegidas */}
-          <Route
-            path="/dashboard"
-            element={
+            } />
+            
+            <Route path="/" element={
               <ProtectedRoute>
-                <DashboardPage />
+                <Layout>
+                  <DashboardPage />
+                </Layout>
               </ProtectedRoute>
-            }
-          />
-          
-          <Route
-            path="/properties"
-            element={
+            } />
+            
+            <Route path="/dashboard" element={
               <ProtectedRoute>
-                <PropertiesPage />
+                <Layout>
+                  <DashboardPage />
+                </Layout>
               </ProtectedRoute>
-            }
-          />
-          
-          <Route
-            path="/leads"
-            element={
+            } />
+            
+            <Route path="/properties" element={
               <ProtectedRoute>
-                <LeadsPage />
+                <Layout>
+                  <PropertiesPage />
+                </Layout>
               </ProtectedRoute>
-            }
-          />
-          
-          <Route
-            path="/deals"
-            element={
+            } />
+            
+            <Route path="/leads" element={
               <ProtectedRoute>
-                <DealsPage />
+                <Layout>
+                  <LeadsPage />
+                </Layout>
               </ProtectedRoute>
-            }
-          />
-          
-          <Route
-            path="/financial"
-            element={
+            } />
+            
+            <Route path="/deals" element={
               <ProtectedRoute>
-                <FinancialPage />
+                <Layout>
+                  <DealsPage />
+                </Layout>
               </ProtectedRoute>
-            }
-          />
-          
-          <Route
-            path="/hr"
-            element={
+            } />
+            
+            <Route path="/financial" element={
               <ProtectedRoute>
-                <HRPage />
+                <Layout>
+                  <FinancialPage />
+                </Layout>
               </ProtectedRoute>
-            }
-          />
-          
-          <Route
-            path="/users"
-            element={
+            } />
+            
+            <Route path="/hr" element={
               <ProtectedRoute>
-                <UsersPage />
+                <Layout>
+                  <HRPage />
+                </Layout>
               </ProtectedRoute>
-            }
-          />
-          
-          <Route
-            path="/settings"
-            element={
+            } />
+            
+            <Route path="/users" element={
               <ProtectedRoute>
-                <SettingsPage />
+                <Layout>
+                  <UsersPage />
+                </Layout>
               </ProtectedRoute>
-            }
-          />
-          
-          {/* Redirecionamentos */}
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
-      </Router>
+            } />
+            
+            <Route path="/settings" element={
+              <ProtectedRoute>
+                <Layout>
+                  <SettingsPage />
+                </Layout>
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </Router>
+      </ThemeProvider>
     </QueryClientProvider>
   );
-};
+}
+
+export default App;

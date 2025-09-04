@@ -16,7 +16,7 @@ import {
   Search
 } from 'lucide-react';
 import { useAuthStore, useUIStore } from '../../stores';
-import { Button } from '../ui';
+import { Button, ThemeToggle } from '../ui';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../assets/uniao-imobiliaria-logo.png';
@@ -105,12 +105,12 @@ export const Sidebar: React.FC = () => {
       
       {/* Sidebar */}
       <div className={cn(
-        'fixed left-0 top-0 z-50 h-full w-64 transform bg-white shadow-lg transition-transform duration-300 ease-in-out lg:translate-x-0',
+        'fixed left-0 top-0 z-50 h-full w-64 transform bg-white dark:bg-secondary-900 shadow-lg transition-transform duration-300 ease-in-out lg:translate-x-0',
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       )}>
         <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="flex h-16 items-center justify-between border-b px-6">
+          <div className="flex h-16 items-center justify-between border-b border-secondary-200 dark:border-secondary-700 px-6">
             <div className="flex items-center space-x-3">
               <img 
                 src={logo} 
@@ -141,8 +141,8 @@ export const Sidebar: React.FC = () => {
                   className={cn(
                     'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                     isActive
-                      ? 'bg-primary-100 text-primary-700'
-                      : 'text-secondary-700 hover:bg-secondary-100 hover:text-secondary-900'
+                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
+                      : 'text-secondary-700 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800 hover:text-secondary-900 dark:hover:text-secondary-100'
                   )}
                   onClick={() => {
                     if (window.innerWidth < 1024) {
@@ -158,16 +158,16 @@ export const Sidebar: React.FC = () => {
           </nav>
 
           {/* User info */}
-          <div className="border-t p-4">
+          <div className="border-t border-secondary-200 dark:border-secondary-700 p-4">
             <div className="flex items-center space-x-3">
               <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center">
                 <User className="h-4 w-4 text-primary-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-secondary-900 truncate">
+                <p className="text-sm font-medium text-secondary-900 dark:text-secondary-100 truncate">
                   {user?.name}
                 </p>
-                <p className="text-xs text-secondary-500 truncate">
+                <p className="text-xs text-secondary-500 dark:text-secondary-400 truncate">
                   {user?.email}
                 </p>
               </div>
@@ -192,7 +192,7 @@ export const Header: React.FC = () => {
   const { user } = useAuthStore();
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-white px-4 shadow-sm lg:px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-secondary-200 dark:border-secondary-700 bg-white dark:bg-secondary-900 px-4 shadow-sm lg:px-6">
       <div className="flex items-center space-x-4">
         <Button
           variant="ghost"
@@ -202,30 +202,22 @@ export const Header: React.FC = () => {
         >
           <Menu className="h-5 w-5" />
         </Button>
-        
-                  <div className="hidden lg:block">
-            <div className="flex items-center space-x-3">
-              <img 
-                src={logo} 
-                alt="União Imobiliária" 
-                className="h-8 w-auto"
-              />
-            </div>
-          </div>
       </div>
 
       <div className="flex items-center space-x-4">
         {/* Search */}
         <div className="hidden md:flex items-center space-x-2">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary-400" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary-400 dark:text-gray-300" />
             <input
               type="text"
               placeholder="Buscar..."
-              className="h-9 w-64 rounded-md border border-secondary-200 bg-white pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+              className="h-10 w-80 rounded-md border border-secondary-200 dark:border-secondary-700 bg-white dark:bg-secondary-800 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:text-white"
             />
           </div>
         </div>
+
+        <ThemeToggle />
 
         {/* Notifications */}
         <Button variant="ghost" size="sm" className="relative">
@@ -238,10 +230,10 @@ export const Header: React.FC = () => {
         {/* User menu */}
         <div className="flex items-center space-x-2">
           <div className="hidden md:block text-right">
-            <p className="text-sm font-medium text-secondary-900">
+            <p className="text-sm font-medium text-secondary-900 dark:text-secondary-100">
               {user?.name}
             </p>
-            <p className="text-xs text-secondary-500">
+            <p className="text-xs text-secondary-500 dark:text-secondary-400">
               {user?.role === 'owner' && 'Proprietário'}
               {user?.role === 'manager' && 'Gestor'}
               {user?.role === 'agent' && 'Corretor'}
@@ -264,11 +256,11 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen bg-secondary-50">
+    <div className="min-h-screen bg-secondary-50 dark:bg-secondary-900">
       <Sidebar />
       <div className="lg:pl-64">
         <Header />
-        <main className="p-4 lg:p-6">
+        <main className="p-4 lg:p-6 bg-secondary-50 dark:bg-secondary-900">
           {children}
         </main>
       </div>

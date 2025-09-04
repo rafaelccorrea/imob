@@ -12,13 +12,13 @@ export const Select: React.FC<SelectProps> = ({ className, label, error, options
   return (
     <div className="space-y-2">
       {label && (
-        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900 dark:text-gray-100">
           {label}
         </label>
       )}
       <select
         className={cn(
-          'flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+          'flex h-10 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-gray-900 dark:text-gray-100',
           error && 'border-red-500',
           className
         )}
@@ -30,7 +30,7 @@ export const Select: React.FC<SelectProps> = ({ className, label, error, options
           </option>
         ))}
       </select>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 };
@@ -48,15 +48,15 @@ export const Checkbox: React.FC<CheckboxProps> = ({ className, label, error, ...
         <input
           type="checkbox"
           className={cn(
-            'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500',
+            'h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 bg-white dark:bg-gray-800',
             error && 'border-red-500',
             className
           )}
           {...props}
         />
-        {label && <span className="text-sm font-medium">{label}</span>}
+        {label && <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{label}</span>}
       </label>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 };

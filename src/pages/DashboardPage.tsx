@@ -94,43 +94,94 @@ const metrics = {
 export const DashboardPage: React.FC = () => {
   const { user } = useAuthStore();
 
+  // Função para detectar se está no modo dark
+  const isDarkMode = () => {
+    return document.documentElement.classList.contains('dark');
+  };
+
+  // Função para obter a cor baseada no valor e tipo
+  const getValueColor = (value: number, type: string = 'income') => {
+    const dark = isDarkMode();
+    if (value < 0) {
+      return dark ? '#f87171' : '#dc2626'; // Vermelho para valores negativos
+    } else if (type === 'expense' || type === 'despesa') {
+      return dark ? '#f87171' : '#dc2626'; // Vermelho para despesas
+    } else {
+      return dark ? '#4ade80' : '#16a34a'; // Verde para valores positivos
+    }
+  };
+
+  // Função para obter a cor do ícone baseada no tipo
+  const getIconColor = (type: string) => {
+    const dark = isDarkMode();
+    if (type === 'profit' || type === 'income') {
+      return dark ? '#4ade80' : '#16a34a'; // Verde para lucro/receita
+    } else if (type === 'expense') {
+      return dark ? '#f87171' : '#dc2626'; // Vermelho para despesa
+    } else {
+      return dark ? '#4ade80' : '#16a34a'; // Verde por padrão
+    }
+  };
+
+  // Função para determinar a cor baseada no valor (mantida para compatibilidade)
+  const getValueColorClass = (value: string | number) => {
+    const numValue = typeof value === 'string' ? parseFloat(value.replace(/[^\d.-]/g, '')) : value;
+    if (numValue > 0) return 'success';
+    if (numValue < 0) return 'danger';
+    return 'primary';
+  };
+
   const MetricCard: React.FC<{
     title: string;
     value: string | number;
     icon: React.ComponentType<{ className?: string }>;
     trend?: string;
     color?: string;
-  }> = ({ title, value, icon: Icon, trend, color = 'primary' }) => (
-    <Card>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-secondary-600">{title}</p>
-            <p className={`text-2xl font-bold text-${color}-600`}>{value}</p>
-            {trend && (
-              <p className="text-xs text-success-600 flex items-center mt-1">
-                <TrendingUp className="h-3 w-3 mr-1" />
-                {trend}
-              </p>
-            )}
+  }> = ({ title, value, icon: Icon, trend, color }) => {
+    // Se não foi especificada uma cor, usar a cor baseada no valor
+    const finalColor = color || getValueColorClass(value);
+    
+    // Verificar se é um valor monetário
+    const isMonetary = typeof value === 'string' && value.includes('R$');
+    
+    return (
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-secondary-600 dark:text-white">{title}</p>
+              <p className={`text-2xl font-bold ${
+                isMonetary 
+                  ? `text-${finalColor}-600` 
+                  : `text-${finalColor}-600 dark:text-white`
+              }`}>{value}</p>
+              {trend && (
+                <p className={`text-xs flex items-center mt-1 ${
+                  trend.includes('+') ? 'text-success-600 dark:text-white' : 'text-danger-600 dark:text-white'
+                }`}>
+                  <TrendingUp className="h-3 w-3 mr-1" />
+                  {trend}
+                </p>
+              )}
+            </div>
+                         <div className={`h-12 w-12 rounded-lg bg-${finalColor}-100 dark:bg-${finalColor}-900 flex items-center justify-center`}>
+               <Icon className={`h-6 w-6 text-${finalColor}-600 dark:text-white`} />
+             </div>
           </div>
-          <div className={`h-12 w-12 rounded-lg bg-${color}-100 flex items-center justify-center`}>
-            <Icon className={`h-6 w-6 text-${color}-600`} />
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-secondary-900">
+          <h1 className="text-2xl font-bold text-secondary-900 dark:text-secondary-100">
             Dashboard
           </h1>
-          <p className="text-secondary-600">
+          <p className="text-secondary-600 dark:text-secondary-400">
             Bem-vindo de volta, {user?.name}! Aqui está um resumo do seu negócio.
           </p>
         </div>
@@ -142,13 +193,26 @@ export const DashboardPage: React.FC = () => {
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <MetricCard
-          title="Receita Total"
-          value={formatCurrency(metrics.totalRevenue)}
-          icon={DollarSign}
-          trend="+12% este mês"
-          color="success"
-        />
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Receita Total</p>
+                <p className="text-2xl font-bold" style={{ color: getValueColor(metrics.totalRevenue, 'income') }}>
+                  {formatCurrency(metrics.totalRevenue)}
+                </p>
+                <p className="text-xs text-success-600 dark:text-white flex items-center mt-1">
+                  <TrendingUp className="h-3 w-3 mr-1" />
+                  +12% este mês
+                </p>
+              </div>
+                             <div className="h-12 w-12 rounded-lg bg-success-100 dark:bg-success-900 flex items-center justify-center">
+                 <DollarSign className="h-6 w-6" style={{ color: getIconColor('income') }} />
+               </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <MetricCard
           title="Imóveis Ativos"
           value={metrics.activeProperties}
@@ -159,14 +223,23 @@ export const DashboardPage: React.FC = () => {
           title="Leads Ativos"
           value={metrics.activeLeads}
           icon={Users}
-          color="warning"
+          color="primary"
         />
-        <MetricCard
-          title="Comissões Pendentes"
-          value={formatCurrency(metrics.pendingCommissions)}
-          icon={DollarSign}
-          color="danger"
-        />
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Comissões Pendentes</p>
+                <p className="text-2xl font-bold" style={{ color: getValueColor(metrics.pendingCommissions, 'expense') }}>
+                  {formatCurrency(metrics.pendingCommissions)}
+                </p>
+              </div>
+                             <div className="h-12 w-12 rounded-lg bg-danger-100 dark:bg-danger-900 flex items-center justify-center">
+                 <DollarSign className="h-6 w-6" style={{ color: getIconColor('expense') }} />
+               </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Charts Row */}
@@ -174,7 +247,7 @@ export const DashboardPage: React.FC = () => {
         {/* Revenue Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Receita Mensal</CardTitle>
+            <CardTitle className="dark:text-white">Receita Mensal</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -200,7 +273,7 @@ export const DashboardPage: React.FC = () => {
         {/* Property Types Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Tipos de Imóveis</CardTitle>
+            <CardTitle className="dark:text-white">Tipos de Imóveis</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -230,27 +303,25 @@ export const DashboardPage: React.FC = () => {
         {/* Recent Deals */}
         <Card>
           <CardHeader>
-            <CardTitle>Negociações Recentes</CardTitle>
+            <CardTitle className="dark:text-white">Negociações Recentes</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {recentDeals.map((deal) => (
-                <div key={deal.id} className="flex items-center justify-between p-3 border rounded-lg">
+                <div key={deal.id} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700">
                   <div className="flex items-center space-x-3">
                     <div className={`h-8 w-8 rounded-full flex items-center justify-center ${
-                      deal.type === 'Venda' ? 'bg-success-100' : 'bg-primary-100'
+                      deal.type === 'Venda' ? 'bg-success-100 dark:bg-success-900' : 'bg-primary-100 dark:bg-primary-900'
                     }`}>
-                      <DollarSign className={`h-4 w-4 ${
-                        deal.type === 'Venda' ? 'text-success-600' : 'text-primary-600'
-                      }`} />
+                                             <DollarSign className="h-4 w-4" style={{ color: deal.type === 'Venda' ? getIconColor('income') : getIconColor('income') }} />
                     </div>
                     <div>
-                      <p className="font-medium text-secondary-900">{deal.property}</p>
-                      <p className="text-sm text-secondary-600">{deal.client}</p>
+                      <p className="font-medium text-secondary-900 dark:text-secondary-100">{deal.property}</p>
+                      <p className="text-sm text-secondary-600 dark:text-secondary-400">{deal.client}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium text-secondary-900">
+                    <p className="font-medium" style={{ color: getValueColor(deal.value, 'income') }}>
                       {formatCurrency(deal.value)}
                     </p>
                     <Badge variant={deal.status === 'Fechado' ? 'default' : 'destructive'}>
@@ -266,27 +337,27 @@ export const DashboardPage: React.FC = () => {
         {/* Expiring Contracts */}
         <Card>
           <CardHeader>
-            <CardTitle>Contratos Vencendo</CardTitle>
+            <CardTitle className="dark:text-white">Contratos Vencendo</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {expiringContracts.map((contract) => (
-                <div key={contract.id} className="flex items-center justify-between p-3 border rounded-lg">
+                <div key={contract.id} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700">
                   <div className="flex items-center space-x-3">
-                    <div className="h-8 w-8 rounded-full bg-warning-100 flex items-center justify-center">
-                      <Calendar className="h-4 w-4 text-warning-600" />
+                    <div className="h-8 w-8 rounded-full bg-warning-100 dark:bg-warning-900 flex items-center justify-center">
+                      <Calendar className="h-4 w-4 text-warning-600 dark:text-white" />
                     </div>
                     <div>
-                      <p className="font-medium text-secondary-900">{contract.property}</p>
-                      <p className="text-sm text-secondary-600">{contract.tenant}</p>
+                      <p className="font-medium text-secondary-900 dark:text-secondary-100">{contract.property}</p>
+                      <p className="text-sm text-secondary-600 dark:text-secondary-400">{contract.tenant}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium text-secondary-900">
+                    <p className="font-medium" style={{ color: getValueColor(contract.value, 'income') }}>
                       {formatCurrency(contract.value)}
                     </p>
-                    <p className="text-sm text-warning-600">
-                      Vence em {formatDate(contract.endDate)}
+                    <p className="text-sm text-warning-600 dark:opacity-0">
+                      {!isDarkMode() && `Vence em ${formatDate(contract.endDate)}`}
                     </p>
                   </div>
                 </div>
@@ -299,7 +370,7 @@ export const DashboardPage: React.FC = () => {
       {/* Quick Actions */}
       <Card>
         <CardHeader>
-          <CardTitle>Ações Rápidas</CardTitle>
+                     <CardTitle className="dark:text-white">Ações Rápidas</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -9,12 +9,7 @@ import {
   TrendingUp,
   TrendingDown,
   Calendar,
-  User,
-  Building2,
-  CreditCard,
-  Wallet,
-  PieChart,
-  BarChart3
+  CreditCard
 } from 'lucide-react';
 import { 
   LineChart, 
@@ -24,24 +19,50 @@ import {
   CartesianGrid, 
   Tooltip, 
   ResponsiveContainer,
-  BarChart,
-  Bar,
   PieChart as RechartsPieChart,
   Pie,
   Cell
 } from 'recharts';
-import { useAuthStore } from '../stores';
 import { mockTransactions, mockCommissions } from '../utils/mockData';
 import { formatCurrency, formatDate } from '../utils';
-import { Button, Card, CardHeader, CardTitle, CardContent, Badge, Input, Modal } from '../components/ui';
+import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
 
 export const FinancialPage: React.FC = () => {
-  const { user } = useAuthStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+
+  // Função para detectar se está no modo dark
+  const isDarkMode = () => {
+    return document.documentElement.classList.contains('dark');
+  };
+
+  // Função para obter a cor baseada no valor e tipo
+  const getValueColor = (value: number, type: string = 'income') => {
+    const dark = isDarkMode();
+    if (value < 0) {
+      return dark ? '#f87171' : '#dc2626'; // Vermelho para valores negativos
+    } else if (type === 'expense' || type === 'despesa') {
+      return dark ? '#f87171' : '#dc2626'; // Vermelho para despesas
+    } else {
+      return dark ? '#4ade80' : '#16a34a'; // Verde para valores positivos
+    }
+  };
+
+  // Função para obter a cor do ícone baseada no tipo
+  const getIconColor = (type: string) => {
+    const dark = isDarkMode();
+    if (type === 'profit' || type === 'income') {
+      return dark ? '#4ade80' : '#16a34a'; // Verde para lucro/receita
+    } else if (type === 'expense') {
+      return dark ? '#f87171' : '#dc2626'; // Vermelho para despesa
+    } else {
+      return dark ? '#4ade80' : '#16a34a'; // Verde por padrão
+    }
+  };
 
   // Dados para gráficos
   const monthlyData = [
@@ -70,7 +91,7 @@ export const FinancialPage: React.FC = () => {
   });
 
   const getTypeColor = (type: string) => {
-    return type === 'income' ? 'success' : 'danger';
+    return type === 'income' ? 'success' : 'destructive';
   };
 
   const getTypeText = (type: string) => {
@@ -90,6 +111,7 @@ export const FinancialPage: React.FC = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openTransactionModal = (transaction: any) => {
     setSelectedTransaction(transaction);
     setShowModal(true);
@@ -115,17 +137,17 @@ export const FinancialPage: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-secondary-900">
-            Financeiro
-          </h1>
-          <p className="text-secondary-600">
-            Controle financeiro e relatórios
-          </p>
+                     <h1 className="text-2xl font-bold text-secondary-900 dark:text-white">
+             Financeiro
+           </h1>
+                     <p className="text-secondary-600 dark:text-secondary-400">
+             Controle financeiro e relatórios
+           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Nova Transação
-        </Button>
+                 <Button>
+           <Plus className="h-4 w-4 mr-2 dark:text-white" />
+           Nova Transação
+         </Button>
       </div>
 
       {/* Métricas Principais */}
@@ -134,18 +156,18 @@ export const FinancialPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Receitas Totais</p>
-                <p className="text-2xl font-bold text-success-600">
+                                 <p className="text-sm font-medium text-secondary-600 dark:text-white">Receitas Totais</p>
+                <p className="text-2xl font-bold" style={{ color: getValueColor(totalIncome, 'income') }}>
                   {formatCurrency(totalIncome)}
                 </p>
-                <p className="text-xs text-success-600 flex items-center mt-1">
-                  <TrendingUp className="h-3 w-3 mr-1" />
-                  +12% este mês
-                </p>
+                                 <p className="text-xs text-success-600 dark:text-white flex items-center mt-1">
+                   <TrendingUp className="h-3 w-3 mr-1" />
+                   +12% este mês
+                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-success-100 flex items-center justify-center">
-                <TrendingUp className="h-6 w-6 text-success-600" />
-              </div>
+                             <div className="h-12 w-12 rounded-lg bg-success-100 flex items-center justify-center">
+                 <TrendingUp className="h-6 w-6" style={{ color: getIconColor('income') }} />
+               </div>
             </div>
           </CardContent>
         </Card>
@@ -154,18 +176,18 @@ export const FinancialPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Despesas Totais</p>
-                <p className="text-2xl font-bold text-danger-600">
+                                 <p className="text-sm font-medium text-secondary-600 dark:text-white">Despesas Totais</p>
+                <p className="text-2xl font-bold" style={{ color: getValueColor(totalExpenses, 'expense') }}>
                   {formatCurrency(totalExpenses)}
                 </p>
-                <p className="text-xs text-danger-600 flex items-center mt-1">
-                  <TrendingDown className="h-3 w-3 mr-1" />
-                  +8% este mês
-                </p>
+                                 <p className="text-xs text-danger-600 dark:text-white flex items-center mt-1">
+                   <TrendingDown className="h-3 w-3 mr-1" />
+                   +8% este mês
+                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-danger-100 flex items-center justify-center">
-                <TrendingDown className="h-6 w-6 text-danger-600" />
-              </div>
+                             <div className="h-12 w-12 rounded-lg bg-danger-100 flex items-center justify-center">
+                 <TrendingDown className="h-6 w-6" style={{ color: getIconColor('expense') }} />
+               </div>
             </div>
           </CardContent>
         </Card>
@@ -174,17 +196,17 @@ export const FinancialPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Lucro Líquido</p>
-                <p className="text-2xl font-bold text-primary-600">
+                                 <p className="text-sm font-medium text-secondary-600 dark:text-white">Lucro Líquido</p>
+                <p className="text-2xl font-bold" style={{ color: getValueColor(netProfit, 'profit') }}>
                   {formatCurrency(netProfit)}
                 </p>
-                <p className="text-xs text-primary-600 flex items-center mt-1">
-                  <TrendingUp className="h-3 w-3 mr-1" />
-                  +15% este mês
-                </p>
+                                 <p className="text-xs text-primary-600 dark:text-white flex items-center mt-1">
+                   <TrendingUp className="h-3 w-3 mr-1" />
+                   +15% este mês
+                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                <DollarSign className="h-6 w-6 text-primary-600" />
+              <div className="h-12 w-12 rounded-lg bg-success-100 dark:bg-success-900 flex items-center justify-center">
+                <DollarSign className="h-6 w-6" style={{ color: getIconColor('profit') }} />
               </div>
             </div>
           </CardContent>
@@ -194,17 +216,17 @@ export const FinancialPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Comissões Pendentes</p>
-                <p className="text-2xl font-bold text-warning-600">
-                  {formatCurrency(pendingCommissions)}
-                </p>
-                <p className="text-xs text-warning-600 flex items-center mt-1">
-                  <Calendar className="h-3 w-3 mr-1" />
-                  A pagar
-                </p>
+                                 <p className="text-sm font-medium text-secondary-600 dark:text-white">Comissões Pendentes</p>
+                                 <p className="text-2xl font-bold" style={{ color: getValueColor(pendingCommissions, 'expense') }}>
+                   {formatCurrency(pendingCommissions)}
+                 </p>
+                                 <p className="text-xs text-warning-600 dark:text-white flex items-center mt-1">
+                   <Calendar className="h-3 w-3 mr-1" />
+                   A pagar
+                 </p>
               </div>
               <div className="h-12 w-12 rounded-lg bg-warning-100 flex items-center justify-center">
-                <CreditCard className="h-6 w-6 text-warning-600" />
+                                 <CreditCard className="h-6 w-6 text-warning-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -292,17 +314,17 @@ export const FinancialPage: React.FC = () => {
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="input"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
-              <option value="">Todos os tipos</option>
-              <option value="income">Receitas</option>
-              <option value="expense">Despesas</option>
+                             <option value="">Todos os tipos</option>
+               <option value="income" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Receita</option>
+               <option value="expense" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Despesa</option>
             </select>
             
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="input"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
               <option value="">Todas as categorias</option>
               <option value="commission">Comissão</option>
@@ -314,10 +336,10 @@ export const FinancialPage: React.FC = () => {
               <option value="other">Outro</option>
             </select>
             
-            <Button variant="outline" className="flex items-center">
-              <Filter className="h-4 w-4 mr-2" />
-              Mais Filtros
-            </Button>
+                         <Button variant="outline" className="flex items-center">
+               <Filter className="h-4 w-4 mr-2 dark:text-white" />
+               Mais Filtros
+             </Button>
           </div>
         </CardContent>
       </Card>
@@ -332,50 +354,47 @@ export const FinancialPage: React.FC = () => {
                   <div className={`h-12 w-12 rounded-lg flex items-center justify-center ${
                     transaction.type === 'income' ? 'bg-success-100' : 'bg-danger-100'
                   }`}>
-                    <DollarSign className={`h-6 w-6 ${
-                      transaction.type === 'income' ? 'text-success-600' : 'text-danger-600'
-                    }`} />
+                                         <DollarSign className="h-6 w-6" style={{ color: getIconColor(transaction.type) }} />
                   </div>
                   
                   <div>
-                    <h3 className="font-semibold text-lg">{transaction.description}</h3>
-                    <p className="text-sm text-secondary-600">
+                    <h3 className="font-semibold text-lg dark:text-white">{transaction.description}</h3>
+                    <p className="text-sm text-secondary-600 dark:text-secondary-400">
                       {getCategoryText(transaction.category)} • {formatDate(transaction.date)}
                     </p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-4">
-                  <div className="text-right">
-                    <p className={`text-lg font-bold ${
-                      transaction.type === 'income' ? 'text-success-600' : 'text-danger-600'
-                    }`}>
-                      {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
-                    </p>
-                    <p className="text-xs text-secondary-600">
+                                     <div className="text-right">
+                     <p className="text-lg font-bold" style={{ color: getValueColor(transaction.amount, transaction.type) }}>
+                       {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
+                     </p>
+                    <p className="text-xs text-secondary-600 dark:text-secondary-400">
                       ID: {transaction.id}
                     </p>
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    <Badge variant={getTypeColor(transaction.type) as any}>
-                      {getTypeText(transaction.type)}
-                    </Badge>
+                                         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                     <Badge variant={getTypeColor(transaction.type) as any}>
+                       {getTypeText(transaction.type)}
+                     </Badge>
                     
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => openTransactionModal(transaction)}
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
+                                         <Button
+                       variant="ghost"
+                       size="sm"
+                       onClick={() => openTransactionModal(transaction)}
+                     >
+                       <Eye className="h-4 w-4 dark:text-white" />
+                     </Button>
+                     
+                     <Button
+                       variant="ghost"
+                       size="sm"
+                     >
+                       <Edit className="h-4 w-4 dark:text-white" />
+                     </Button>
                   </div>
                 </div>
               </div>
@@ -401,7 +420,7 @@ export const FinancialPage: React.FC = () => {
                   <p><strong>Descrição:</strong> {selectedTransaction.description}</p>
                   <p><strong>Tipo:</strong> {getTypeText(selectedTransaction.type)}</p>
                   <p><strong>Categoria:</strong> {getCategoryText(selectedTransaction.category)}</p>
-                  <p><strong>Valor:</strong> {formatCurrency(selectedTransaction.amount)}</p>
+                                     <p><strong>Valor:</strong> <span style={{ color: getValueColor(selectedTransaction.amount, selectedTransaction.type) }}>{formatCurrency(selectedTransaction.amount)}</span></p>
                   <p><strong>Data:</strong> {formatDate(selectedTransaction.date)}</p>
                 </div>
               </div>
@@ -427,10 +446,10 @@ export const FinancialPage: React.FC = () => {
               <Button variant="outline" onClick={() => setShowModal(false)}>
                 Fechar
               </Button>
-              <Button>
-                <Edit className="h-4 w-4 mr-2" />
-                Editar Transação
-              </Button>
+                             <Button>
+                 <Edit className="h-4 w-4 mr-2 dark:text-white" />
+                 Editar Transação
+               </Button>
             </div>
           </div>
         )}

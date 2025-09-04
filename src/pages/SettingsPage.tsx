@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { 
-  Settings, 
   User, 
   Shield, 
   Bell, 
   Palette, 
   Database, 
+  Save,
   Download,
   Upload,
-  Save,
   RefreshCw
 } from 'lucide-react';
 import { 
@@ -18,21 +17,22 @@ import {
   CardContent,
   Button,
   Input,
-  Select,
-  Checkbox,
   Tabs,
   TabsList,
   TabsTrigger,
   TabsContent,
   Alert,
   AlertTitle,
-  AlertDescription
+  AlertDescription,
+  Checkbox
 } from '../components/ui';
+import { useThemeStore } from '../stores';
 
 export const SettingsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const { theme, setTheme } = useThemeStore();
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -67,13 +67,17 @@ export const SettingsPage: React.FC = () => {
     setIsLoading(false);
   };
 
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme as 'light' | 'dark');
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Configurações</h1>
-          <p className="text-gray-600">Gerencie suas configurações pessoais e do sistema</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Configurações</h1>
+          <p className="text-gray-600 dark:text-gray-400">Gerencie suas configurações pessoais e do sistema</p>
         </div>
         <Button onClick={handleSave} loading={isLoading} disabled={isLoading}>
           <Save className="w-4 h-4 mr-2" />
@@ -93,23 +97,23 @@ export const SettingsPage: React.FC = () => {
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="profile" className="flex items-center gap-2">
-            <User className="w-4 h-4" />
+            <User className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             Perfil
           </TabsTrigger>
           <TabsTrigger value="security" className="flex items-center gap-2">
-            <Shield className="w-4 h-4" />
+            <Shield className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             Segurança
           </TabsTrigger>
           <TabsTrigger value="notifications" className="flex items-center gap-2">
-            <Bell className="w-4 h-4" />
+            <Bell className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             Notificações
           </TabsTrigger>
           <TabsTrigger value="appearance" className="flex items-center gap-2">
-            <Palette className="w-4 h-4" />
+            <Palette className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             Aparência
           </TabsTrigger>
           <TabsTrigger value="data" className="flex items-center gap-2">
-            <Database className="w-4 h-4" />
+            <Database className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             Dados
           </TabsTrigger>
         </TabsList>
@@ -171,10 +175,10 @@ export const SettingsPage: React.FC = () => {
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Autenticação de Dois Fatores</p>
-                  <p className="text-sm text-gray-600">Adicione uma camada extra de segurança à sua conta</p>
+                  <p className="font-medium text-gray-900 dark:text-gray-100">Autenticação de Dois Fatores</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Adicione uma camada extra de segurança à sua conta</p>
                 </div>
-                <Checkbox label="Ativar 2FA" />
+                <Checkbox label="" />
               </div>
             </CardContent>
           </Card>
@@ -185,17 +189,17 @@ export const SettingsPage: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700">
                   <div>
-                    <p className="font-medium">Chrome - Windows</p>
-                    <p className="text-sm text-gray-600">Último acesso: há 2 horas</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Chrome - Windows</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Último acesso: há 2 horas</p>
                   </div>
                   <Button variant="outline" size="sm">Encerrar</Button>
                 </div>
-                <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700">
                   <div>
-                    <p className="font-medium">Safari - iPhone</p>
-                    <p className="text-sm text-gray-600">Último acesso: há 1 dia</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Safari - iPhone</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Último acesso: há 1 dia</p>
                   </div>
                   <Button variant="outline" size="sm">Encerrar</Button>
                 </div>
@@ -214,29 +218,29 @@ export const SettingsPage: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">Novos Leads</p>
-                    <p className="text-sm text-gray-600">Receber notificações quando novos leads forem criados</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Novos Leads</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Receber notificações quando novos leads forem criados</p>
                   </div>
                   <Checkbox label="" defaultChecked />
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">Atualizações de Propriedades</p>
-                    <p className="text-sm text-gray-600">Receber notificações sobre mudanças nas propriedades</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Atualizações de Propriedades</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Receber notificações sobre mudanças nas propriedades</p>
                   </div>
                   <Checkbox label="" defaultChecked />
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">Comissões</p>
-                    <p className="text-sm text-gray-600">Receber notificações sobre comissões disponíveis</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Comissões</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Receber notificações sobre comissões disponíveis</p>
                   </div>
                   <Checkbox label="" />
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">Relatórios</p>
-                    <p className="text-sm text-gray-600">Receber notificações sobre relatórios disponíveis</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Relatórios</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Receber notificações sobre relatórios disponíveis</p>
                   </div>
                   <Checkbox label="" />
                 </div>
@@ -252,22 +256,22 @@ export const SettingsPage: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">Email</p>
-                    <p className="text-sm text-gray-600">Receber notificações por email</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Email</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Receber notificações por email</p>
                   </div>
                   <Checkbox label="" defaultChecked />
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">Push Notifications</p>
-                    <p className="text-sm text-gray-600">Receber notificações push no navegador</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Push Notifications</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Receber notificações push no navegador</p>
                   </div>
                   <Checkbox label="" />
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">SMS</p>
-                    <p className="text-sm text-gray-600">Receber notificações por SMS</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">SMS</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Receber notificações por SMS</p>
                   </div>
                   <Checkbox label="" />
                 </div>
@@ -283,24 +287,25 @@ export const SettingsPage: React.FC = () => {
               <CardTitle>Tema</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Select
-                label="Tema do Sistema"
-                options={[
-                  { value: 'light', label: 'Claro' },
-                  { value: 'dark', label: 'Escuro' },
-                  { value: 'auto', label: 'Automático' }
-                ]}
-                defaultValue="light"
-              />
-              <Select
-                label="Tamanho da Fonte"
-                options={[
-                  { value: 'small', label: 'Pequeno' },
-                  { value: 'medium', label: 'Médio' },
-                  { value: 'large', label: 'Grande' }
-                ]}
-                defaultValue="medium"
-              />
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-900 dark:text-gray-100">Tema do Sistema</label>
+                <select 
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  value={theme}
+                  onChange={(e) => handleThemeChange(e.target.value)}
+                >
+                  <option value="light">Claro</option>
+                  <option value="dark">Escuro</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-900 dark:text-gray-100">Tamanho da Fonte</label>
+                <select className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+                  <option value="small">Pequeno</option>
+                  <option value="medium">Médio</option>
+                  <option value="large">Grande</option>
+                </select>
+              </div>
             </CardContent>
           </Card>
 
@@ -312,22 +317,22 @@ export const SettingsPage: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">Mostrar Gráficos</p>
-                    <p className="text-sm text-gray-600">Exibir gráficos no dashboard</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Mostrar Gráficos</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Exibir gráficos no dashboard</p>
                   </div>
                   <Checkbox label="" defaultChecked />
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">Mostrar Atividades Recentes</p>
-                    <p className="text-sm text-gray-600">Exibir atividades recentes no dashboard</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Mostrar Atividades Recentes</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Exibir atividades recentes no dashboard</p>
                   </div>
                   <Checkbox label="" defaultChecked />
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">Mostrar Alertas</p>
-                    <p className="text-sm text-gray-600">Exibir alertas no dashboard</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">Mostrar Alertas</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Exibir alertas no dashboard</p>
                   </div>
                   <Checkbox label="" defaultChecked />
                 </div>
@@ -343,7 +348,7 @@ export const SettingsPage: React.FC = () => {
               <CardTitle>Exportar Dados</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Exporte seus dados pessoais e do sistema em diferentes formatos.
               </p>
               <div className="flex gap-2">
@@ -364,7 +369,7 @@ export const SettingsPage: React.FC = () => {
               <CardTitle>Importar Dados</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Importe dados de outros sistemas ou arquivos.
               </p>
               <div className="flex gap-2">
@@ -385,7 +390,7 @@ export const SettingsPage: React.FC = () => {
               <CardTitle>Limpar Dados</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Limpe dados desnecessários ou obsoletos do sistema.
               </p>
               <div className="flex gap-2">

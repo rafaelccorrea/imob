@@ -6,6 +6,13 @@ export const formatCurrency = (value: number, currency = 'BRL'): string => {
   }).format(value);
 };
 
+// Currency formatting with color classes
+export const formatCurrencyWithColor = (value: number, currency = 'BRL'): { text: string; className: string } => {
+  const formattedValue = formatCurrency(value, currency);
+  const className = value > 0 ? 'text-success-600 dark:text-success-400' : value < 0 ? 'text-danger-600 dark:text-danger-400' : 'text-gray-600 dark:text-gray-400';
+  return { text: formattedValue, className };
+};
+
 // Date formatting
 export const formatDate = (date: Date | string, options?: Intl.DateTimeFormatOptions): string => {
   const dateObj = typeof date === 'string' ? new Date(date) : date;

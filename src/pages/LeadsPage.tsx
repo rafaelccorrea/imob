@@ -41,8 +41,8 @@ export const LeadsPage: React.FC = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'new': return 'default';
-      case 'contacted': return 'primary';
-      case 'visit_scheduled': return 'warning';
+      case 'contacted': return 'secondary';
+      case 'visit_scheduled': return 'secondary';
       case 'proposal': return 'warning';
       case 'closed': return 'success';
       case 'lost': return 'danger';
@@ -90,17 +90,17 @@ export const LeadsPage: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-secondary-900">
+          <h1 className="text-2xl font-bold text-secondary-900 dark:text-white">
             Gestão de Leads
           </h1>
-          <p className="text-secondary-600">
+          <p className="text-secondary-600 dark:text-secondary-400">
             Gerencie seus leads e clientes potenciais
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Novo Lead
-        </Button>
+                 <Button>
+           <Plus className="h-4 w-4 mr-2 dark:text-white" />
+           Novo Lead
+         </Button>
       </div>
 
       {/* Filtros */}
@@ -120,7 +120,7 @@ export const LeadsPage: React.FC = () => {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="input"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
               <option value="">Todos os status</option>
               <option value="new">Novo</option>
@@ -134,7 +134,7 @@ export const LeadsPage: React.FC = () => {
             <select
               value={selectedSource}
               onChange={(e) => setSelectedSource(e.target.value)}
-              className="input"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
               <option value="">Todas as origens</option>
               <option value="website">Website</option>
@@ -145,10 +145,10 @@ export const LeadsPage: React.FC = () => {
               <option value="other">Outro</option>
             </select>
             
-            <Button variant="outline" className="flex items-center">
-              <Filter className="h-4 w-4 mr-2" />
-              Mais Filtros
-            </Button>
+                         <Button variant="outline" className="flex items-center">
+               <Filter className="h-4 w-4 mr-2 dark:text-white" />
+               Mais Filtros
+             </Button>
           </div>
         </CardContent>
       </Card>
@@ -159,12 +159,12 @@ export const LeadsPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Total de Leads</p>
-                <p className="text-2xl font-bold text-primary-600">{mockLeads.length}</p>
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Total de Leads</p>
+                <p className="text-2xl font-bold text-primary-600 dark:text-white">{mockLeads.length}</p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                <Users className="h-6 w-6 text-primary-600" />
-              </div>
+                                            <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                 <Users className="h-6 w-6 text-primary-600 dark:text-white" />
+               </div>
             </div>
           </CardContent>
         </Card>
@@ -173,14 +173,14 @@ export const LeadsPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Novos</p>
-                <p className="text-2xl font-bold text-default-600">
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Novos</p>
+                <p className="text-2xl font-bold text-default-600 dark:text-white">
                   {mockLeads.filter(l => l.status === 'new').length}
                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-secondary-100 flex items-center justify-center">
-                <Users className="h-6 w-6 text-secondary-600" />
-              </div>
+                                            <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                 <Users className="h-6 w-6 text-secondary-600 dark:text-white" />
+               </div>
             </div>
           </CardContent>
         </Card>
@@ -189,14 +189,14 @@ export const LeadsPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Em Contato</p>
-                <p className="text-2xl font-bold text-primary-600">
+                <p className="text-sm font-medium text-secondary-600 dark:text-white">Em Contato</p>
+                <p className="text-2xl font-bold text-primary-600 dark:text-white">
                   {mockLeads.filter(l => l.status === 'contacted').length}
                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                <MessageSquare className="h-6 w-6 text-primary-600" />
-              </div>
+                                            <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                 <MessageSquare className="h-6 w-6 text-primary-600 dark:text-white" />
+               </div>
             </div>
           </CardContent>
         </Card>
@@ -205,14 +205,14 @@ export const LeadsPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Fechados</p>
-                <p className="text-2xl font-bold text-success-600">
-                  {mockLeads.filter(l => l.status === 'closed').length}
-                </p>
+                                 <p className="text-sm font-medium text-secondary-600 dark:text-white">Fechados</p>
+                 <p className="text-2xl font-bold text-success-600 dark:text-white">
+                   {mockLeads.filter(l => l.status === 'closed').length}
+                 </p>
               </div>
-              <div className="h-12 w-12 rounded-lg bg-success-100 flex items-center justify-center">
-                <DollarSign className="h-6 w-6 text-success-600" />
-              </div>
+                                            <div className="h-12 w-12 rounded-lg flex items-center justify-center">
+                 <DollarSign className="h-6 w-6 text-success-600 dark:text-white" />
+               </div>
             </div>
           </CardContent>
         </Card>
@@ -225,36 +225,36 @@ export const LeadsPage: React.FC = () => {
             <CardContent className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
-                    <User className="h-5 w-5 text-primary-600" />
-                  </div>
+                                                        <div className="h-10 w-10 rounded-full flex items-center justify-center">
+                     <User className="h-5 w-5 text-primary-600 dark:text-white" />
+                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">{lead.name}</h3>
-                    <p className="text-sm text-secondary-600">{lead.email}</p>
+                                         <h3 className="font-semibold text-lg dark:text-white">{lead.name}</h3>
+                     <p className="text-sm text-secondary-600 dark:text-secondary-400">{lead.email}</p>
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => openLeadModal(lead)}
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
+                                     <Button
+                     variant="ghost"
+                     size="sm"
+                     onClick={() => openLeadModal(lead)}
+                   >
+                     <Eye className="h-4 w-4 dark:text-white" />
+                   </Button>
+                   <Button
+                     variant="ghost"
+                     size="sm"
+                   >
+                     <Edit className="h-4 w-4 dark:text-white" />
+                   </Button>
                 </div>
               </div>
               
               <div className="space-y-3">
-                <div className="flex items-center text-sm text-secondary-600">
-                  <Phone className="h-4 w-4 mr-2" />
-                  <span>{lead.phone}</span>
-                </div>
+                 <div className="flex items-center text-sm text-secondary-600 dark:text-secondary-400">
+                   <Phone className="h-4 w-4 mr-2 dark:text-white" />
+                   <span>{lead.phone}</span>
+                 </div>
                 
                 <div className="flex items-center justify-between">
                   <Badge variant={getStatusColor(lead.status) as any}>
@@ -265,39 +265,39 @@ export const LeadsPage: React.FC = () => {
                   </Badge>
                 </div>
                 
-                {lead.lastContact && (
-                  <div className="flex items-center text-sm text-secondary-600">
-                    <Clock className="h-4 w-4 mr-2" />
-                    <span>Último contato há {getDaysSinceContact(lead.lastContact)} dias</span>
-                  </div>
-                )}
-                
-                {lead.interests.maxPrice && (
-                  <div className="flex items-center text-sm text-secondary-600">
-                    <DollarSign className="h-4 w-4 mr-2" />
-                    <span>Até {formatCurrency(lead.interests.maxPrice)}</span>
-                  </div>
-                )}
-                
-                {lead.interests.neighborhoods.length > 0 && (
-                  <div className="flex items-center text-sm text-secondary-600">
-                    <MapPin className="h-4 w-4 mr-2" />
-                    <span>{lead.interests.neighborhoods.join(', ')}</span>
-                  </div>
-                )}
+                 {lead.lastContact && (
+                   <div className="flex items-center text-sm text-secondary-600 dark:text-secondary-400">
+                     <Clock className="h-4 w-4 mr-2 dark:text-white" />
+                     <span>Último contato há {getDaysSinceContact(lead.lastContact)} dias</span>
+                   </div>
+                 )}
+                 
+                 {lead.interests.maxPrice && (
+                   <div className="flex items-center text-sm text-secondary-600 dark:text-secondary-400">
+                     <DollarSign className="h-4 w-4 mr-2 dark:text-white" />
+                     <span>Até {formatCurrency(lead.interests.maxPrice)}</span>
+                   </div>
+                 )}
+                 
+                 {lead.interests.neighborhoods.length > 0 && (
+                   <div className="flex items-center text-sm text-secondary-600 dark:text-secondary-400">
+                     <MapPin className="h-4 w-4 mr-2 dark:text-white" />
+                     <span>{lead.interests.neighborhoods.join(', ')}</span>
+                   </div>
+                 )}
               </div>
               
               <div className="flex space-x-2 mt-4 pt-4 border-t">
                 <Button variant="outline" size="sm" className="flex-1">
-                  <Phone className="h-4 w-4 mr-2" />
+                  <Phone className="h-4 w-4 mr-2 dark:text-white" />
                   Ligar
                 </Button>
                 <Button variant="outline" size="sm" className="flex-1">
-                  <MessageSquare className="h-4 w-4 mr-2" />
+                  <MessageSquare className="h-4 w-4 mr-2 dark:text-white" />
                   WhatsApp
                 </Button>
                 <Button variant="outline" size="sm" className="flex-1">
-                  <Calendar className="h-4 w-4 mr-2" />
+                  <Calendar className="h-4 w-4 mr-2 dark:text-white" />
                   Agendar
                 </Button>
               </div>
@@ -385,10 +385,10 @@ export const LeadsPage: React.FC = () => {
               <Button variant="outline" onClick={() => setShowModal(false)}>
                 Fechar
               </Button>
-              <Button>
-                <Edit className="h-4 w-4 mr-2" />
-                Editar Lead
-              </Button>
+                             <Button>
+                 <Edit className="h-4 w-4 mr-2 dark:text-white" />
+                 Editar Lead
+               </Button>
             </div>
           </div>
         )}
