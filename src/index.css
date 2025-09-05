@@ -14,6 +14,46 @@
 }
 
 @layer components {
+  /* Custom Scrollbar */
+  .sidebar-scroll::-webkit-scrollbar,
+  .custom-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .sidebar-scroll::-webkit-scrollbar-track,
+  .custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .sidebar-scroll::-webkit-scrollbar-thumb,
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background-color: #6366f1; /* primary-600 */
+    border-radius: 6px;
+  }
+  
+  .sidebar-scroll::-webkit-scrollbar-thumb:hover,
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #4f46e5; /* primary-700 */
+  }
+  
+  /* Global scrollbar for body */
+  body::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background-color: #6366f1; /* primary-600 */
+    border-radius: 8px;
+  }
+  
+  body::-webkit-scrollbar-thumb:hover {
+    background-color: #4f46e5; /* primary-700 */
+  }
+
   .btn {
     @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-white;
   }

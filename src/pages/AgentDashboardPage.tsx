@@ -155,23 +155,23 @@ const AgentDashboardPage: React.FC = () => {
   ];
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className={`text-3xl font-bold ${colors.text.title}`}>
+          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
             Meu Dashboard
           </h1>
-          <p className={`text-sm ${colors.text.subtitle}`}>
+          <p className={`text-sm md:text-base ${colors.text.subtitle}`}>
             Bem-vindo, {user?.name}! Acompanhe sua performance e gerencie seus leads
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
             <MessageSquare className="h-4 w-4" />
             WhatsApp
           </Button>
-          <Button className="flex items-center gap-2">
+          <Button className="flex items-center gap-2 w-full sm:w-auto">
             <Plus className="h-4 w-4" />
             Novo Lead
           </Button>
@@ -179,7 +179,7 @@ const AgentDashboardPage: React.FC = () => {
       </div>
 
       {/* Métricas Principais */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">

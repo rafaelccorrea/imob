@@ -145,30 +145,30 @@ export const CommissionCalculatorPage: React.FC = () => {
   const nextGoal = getNextGoal();
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className={`text-3xl font-bold ${colors.text.title}`}>
+          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
             Calculadora de Comissões
           </h1>
-          <p className={`text-sm ${colors.text.subtitle}`}>
+          <p className={`text-sm md:text-base ${colors.text.subtitle}`}>
             Simule suas comissões e veja seu potencial de ganhos
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
             <Target className="h-4 w-4" />
             Minhas Metas
           </Button>
-          <Button className="flex items-center gap-2" onClick={saveCalculation}>
+          <Button className="flex items-center gap-2 w-full sm:w-auto" onClick={saveCalculation}>
             <Star className="h-4 w-4" />
             Salvar Cálculo
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         {/* Calculadora */}
         <div className="lg:col-span-2 space-y-6">
           <Card>
@@ -345,7 +345,7 @@ export const CommissionCalculatorPage: React.FC = () => {
                     {formatCurrency(calculation.finalCommission)}
                   </p>
                   {calculation.bonusMultiplier > 1 && (
-                    <p className={`text-sm text-green-600 dark:text-green-400 mt-2`}>
+                    <p className={`text-sm text-green-600 dark:text-white mt-2`}>
                       +{((calculation.bonusMultiplier - 1) * 100).toFixed(0)}% de bônus por nível!
                     </p>
                   )}
@@ -376,7 +376,7 @@ export const CommissionCalculatorPage: React.FC = () => {
                 
                 {currentTier.bonus > 0 && (
                   <div className="text-center">
-                    <div className={`text-2xl font-bold ${colors.text.success}`}>
+                    <div className={`text-2xl font-bold text-green-600 dark:text-white`}>
                       +{(currentTier.bonus * 100).toFixed(0)}%
                     </div>
                     <p className={`text-sm ${colors.text.subtitle}`}>Bônus por Nível</p>
@@ -430,7 +430,7 @@ export const CommissionCalculatorPage: React.FC = () => {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className={colors.text.subtitle}>Bônus:</span>
-                      <span className={`font-bold ${colors.text.success}`}>
+                      <span className={`font-bold text-green-600 dark:text-white`}>
                         +{(nextGoal.bonus * 100).toFixed(0)}%
                       </span>
                     </div>

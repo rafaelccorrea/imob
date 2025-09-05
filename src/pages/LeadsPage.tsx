@@ -16,8 +16,9 @@ import {
 } from 'lucide-react';
 import { mockLeads } from '../utils/mockData';
 import { formatCurrency, formatDate } from '../utils';
-import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
+import { Button, Card, CardContent, Badge, Input, Modal, ConditionalMenu } from '../components/ui';
 import type { Lead } from '../types';
+import { usePermissions } from '../hooks/usePermissions';
 
 export const LeadsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -25,6 +26,7 @@ export const LeadsPage: React.FC = () => {
   const [selectedSource, setSelectedSource] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const { hasPermission } = usePermissions();
 
   // Filtros
   const filteredLeads = mockLeads.filter(lead => {
@@ -84,27 +86,29 @@ export const LeadsPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-secondary-900 dark:text-white">
+          <h1 className="text-xl md:text-2xl font-bold text-secondary-900 dark:text-white">
             Gestão de Leads
           </h1>
-          <p className="text-secondary-600 dark:text-secondary-400">
+          <p className="text-sm md:text-base text-secondary-600 dark:text-secondary-400">
             Gerencie seus leads e clientes potenciais
           </p>
         </div>
-                 <Button>
-           <Plus className="h-4 w-4 mr-2 dark:text-white" />
-           Novo Lead
-         </Button>
+        <ConditionalMenu requiredPermission="leads">
+          <Button className="w-full sm:w-auto">
+            <Plus className="h-4 w-4 mr-2 dark:text-white" />
+            Novo Lead
+          </Button>
+        </ConditionalMenu>
       </div>
 
       {/* Filtros */}
       <Card>
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary-400" />
               <Input
@@ -152,7 +156,7 @@ export const LeadsPage: React.FC = () => {
       </Card>
 
       {/* Estatísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -217,34 +221,34 @@ export const LeadsPage: React.FC = () => {
       </div>
 
       {/* Lista de Leads */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {filteredLeads.map((lead) => (
           <Card key={lead.id} className="hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-start justify-between mb-4">
+            <CardContent className="p-4 md:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                 <div className="flex items-center space-x-3">
-                                                        <div className="h-10 w-10 rounded-full flex items-center justify-center">
-                     <User className="h-5 w-5 text-primary-600 dark:text-white" />
-                   </div>
-                  <div>
-                                         <h3 className="font-semibold text-lg dark:text-white">{lead.name}</h3>
-                     <p className="text-sm text-secondary-600 dark:text-secondary-400">{lead.email}</p>
+                  <div className="h-10 w-10 rounded-full flex items-center justify-center">
+                    <User className="h-5 w-5 text-primary-600 dark:text-white" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-base md:text-lg dark:text-white truncate">{lead.name}</h3>
+                    <p className="text-sm text-secondary-600 dark:text-secondary-400 truncate">{lead.email}</p>
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                                     <Button
-                     variant="ghost"
-                     size="sm"
-                     onClick={() => openLeadModal(lead)}
-                   >
-                     <Eye className="h-4 w-4 dark:text-white" />
-                   </Button>
-                   <Button
-                     variant="ghost"
-                     size="sm"
-                   >
-                     <Edit className="h-4 w-4 dark:text-white" />
-                   </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => openLeadModal(lead)}
+                  >
+                    <Eye className="h-4 w-4 dark:text-white" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                  >
+                    <Edit className="h-4 w-4 dark:text-white" />
+                  </Button>
                 </div>
               </div>
               
@@ -254,7 +258,7 @@ export const LeadsPage: React.FC = () => {
                    <span>{lead.phone}</span>
                  </div>
                 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <Badge variant={getStatusColor(lead.status) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                     {getStatusText(lead.status)}
                   </Badge>
@@ -285,7 +289,7 @@ export const LeadsPage: React.FC = () => {
                  )}
               </div>
               
-              <div className="flex space-x-2 mt-4 pt-4 border-t">
+              <div className="flex flex-col sm:flex-row gap-2 mt-4 pt-4 border-t">
                 <Button variant="outline" size="sm" className="flex-1">
                   <Phone className="h-4 w-4 mr-2 dark:text-white" />
                   Ligar
@@ -313,7 +317,7 @@ export const LeadsPage: React.FC = () => {
         {selectedLead && (
           <div className="space-y-6">
             {/* Informações Básicas */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               <div>
                 <h4 className="font-semibold mb-3">Informações de Contato</h4>
                 <div className="space-y-2 text-sm">

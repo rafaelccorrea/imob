@@ -10,6 +10,7 @@ import {
   Users,
   Target
 } from 'lucide-react';
+import { usePermissions } from '../hooks/usePermissions';
 import { 
   LineChart, 
   Line, 
@@ -33,7 +34,7 @@ import {
 } from '../utils/mockData';
 import { formatCurrency, formatDate } from '../utils';
 import { colors } from '../utils/colors';
-import { Button, Card, CardContent, CardHeader, CardTitle, Badge, Input, Modal } from '../components/ui';
+import { Button, Card, CardContent, CardHeader, CardTitle, Badge, Input, Modal, ConditionalMenu } from '../components/ui';
 import type { FinancialEntry, Commission as FinancialCommission } from '../types/financial';
 
 export const FinancialPage: React.FC = () => {
@@ -43,6 +44,7 @@ export const FinancialPage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<FinancialEntry | FinancialCommission | null>(null);
+  const { hasPermission } = usePermissions();
 
 
   // Função para obter a cor baseada no valor e tipo
@@ -122,31 +124,35 @@ export const FinancialPage: React.FC = () => {
   ];
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className={`text-3xl font-bold ${colors.text.title}`}>
-             Financeiro
-           </h1>
+          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+            Financeiro
+          </h1>
           <p className={`text-sm text-gray-600 dark:text-gray-300`}>
             Controle financeiro completo da imobiliária
            </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="flex items-center gap-2">
-            <Download className="h-4 w-4" />
-            Exportar
-          </Button>
-          <Button className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Nova Entrada
-         </Button>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <ConditionalMenu requiredPermission="financial">
+            <Button variant="outline" className="flex items-center gap-2">
+              <Download className="h-4 w-4" />
+              Exportar
+            </Button>
+          </ConditionalMenu>
+          <ConditionalMenu requiredPermission="financial">
+            <Button className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              Nova Entrada
+            </Button>
+          </ConditionalMenu>
         </div>
       </div>
 
       {/* Métricas Principais */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">

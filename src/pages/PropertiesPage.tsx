@@ -13,8 +13,9 @@ import {
 } from 'lucide-react';
 import { mockProperties } from '../utils/mockData';
 import { formatCurrency } from '../utils';
-import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
+import { Button, Card, CardContent, Badge, Input, Modal, ConditionalMenu } from '../components/ui';
 import type { Property } from '../types';
+import { usePermissions } from '../hooks/usePermissions';
 
 export const PropertiesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,6 +23,7 @@ export const PropertiesPage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const { hasPermission } = usePermissions();
 
   // Função para detectar se está no modo dark
   const isDarkMode = () => {
@@ -89,27 +91,29 @@ export const PropertiesPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-secondary-900 dark:text-white">
+          <h1 className="text-xl md:text-2xl font-bold text-secondary-900 dark:text-white">
             Gestão de Imóveis
           </h1>
-          <p className="text-secondary-600 dark:text-gray-300">
+          <p className="text-sm md:text-base text-secondary-600 dark:text-gray-300">
             Gerencie seu portfólio de imóveis
           </p>
         </div>
-                 <Button>
-           <Plus className="h-4 w-4 mr-2 dark:text-white" />
-           Novo Imóvel
-         </Button>
+        <ConditionalMenu requiredPermission="properties">
+          <Button className="w-full sm:w-auto">
+            <Plus className="h-4 w-4 mr-2 dark:text-white" />
+            Novo Imóvel
+          </Button>
+        </ConditionalMenu>
       </div>
 
       {/* Filtros */}
       <Card>
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary-400 dark:text-gray-300" />
               <Input
@@ -155,7 +159,7 @@ export const PropertiesPage: React.FC = () => {
       </Card>
 
       {/* Estatísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <Card>
           <CardContent className="p-6">
                          <div className="flex items-center justify-between">
@@ -220,7 +224,7 @@ export const PropertiesPage: React.FC = () => {
       </div>
 
       {/* Lista de Imóveis */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {filteredProperties.map((property) => (
           <Card key={property.id} className="overflow-hidden">
             <div className="relative">

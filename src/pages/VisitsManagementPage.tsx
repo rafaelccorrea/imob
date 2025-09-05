@@ -139,7 +139,7 @@ export const VisitsManagementPage: React.FC = () => {
                 </p>
               </div>
               <div className={`p-3 rounded-full ${colors.iconBg.primary}`}>
-                <Calendar className={`h-6 w-6 ${colors.icons.primary}`} />
+                <Calendar className={`h-6 w-6 text-primary-600 dark:text-white`} />
               </div>
             </div>
           </CardContent>
@@ -152,7 +152,7 @@ export const VisitsManagementPage: React.FC = () => {
                 <p className={`text-sm font-medium ${colors.text.subtitle}`}>
                   Agendadas
                 </p>
-                <p className={`text-2xl font-bold ${colors.text.warning}`}>
+                <p className={`text-2xl font-bold ${colors.icons.warning}`}>
                   {scheduledVisits}
                 </p>
               </div>
@@ -170,7 +170,7 @@ export const VisitsManagementPage: React.FC = () => {
                 <p className={`text-sm font-medium ${colors.text.subtitle}`}>
                   Realizadas
                 </p>
-                <p className={`text-2xl font-bold ${colors.text.success}`}>
+                <p className={`text-2xl font-bold ${colors.icons.success}`}>
                   {completedVisits}
                 </p>
               </div>
@@ -188,7 +188,7 @@ export const VisitsManagementPage: React.FC = () => {
                 <p className={`text-sm font-medium ${colors.text.subtitle}`}>
                   Canceladas
                 </p>
-                <p className={`text-2xl font-bold ${colors.text.error}`}>
+                <p className={`text-2xl font-bold ${colors.icons.error}`}>
                   {cancelledVisits}
                 </p>
               </div>
@@ -206,7 +206,7 @@ export const VisitsManagementPage: React.FC = () => {
                 <p className={`text-sm font-medium ${colors.text.subtitle}`}>
                   Taxa de Conversão
                 </p>
-                <p className={`text-2xl font-bold ${colors.text.success}`}>
+                <p className={`text-2xl font-bold ${colors.icons.success}`}>
                   {conversionRate.toFixed(1)}%
                 </p>
               </div>
@@ -223,7 +223,7 @@ export const VisitsManagementPage: React.FC = () => {
         <Card>
           <CardHeader>
             <CardTitle className={`${colors.text.title} flex items-center gap-2`}>
-              <Calendar className="h-5 w-5" />
+              <Calendar className="h-5 w-5 text-gray-600 dark:text-white" />
               Visitas de Hoje ({todayVisits.length})
             </CardTitle>
           </CardHeader>
@@ -314,7 +314,7 @@ export const VisitsManagementPage: React.FC = () => {
               type="date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert dark:[&::-webkit-calendar-picker-indicator]:filter dark:[&::-webkit-calendar-picker-indicator]:invert"
             />
           </div>
         </CardContent>
@@ -348,7 +348,7 @@ export const VisitsManagementPage: React.FC = () => {
                     ) : visit.status === 'cancelled' ? (
                       <XCircle className={`h-5 w-5 ${colors.icons.error}`} />
                     ) : (
-                      <Calendar className={`h-5 w-5 ${colors.icons.primary}`} />
+                      <Calendar className={`h-5 w-5 text-primary-600 dark:text-white`} />
                     )}
                   </div>
                   <div>
@@ -558,7 +558,7 @@ export const VisitsManagementPage: React.FC = () => {
             </label>
             <input
               type="datetime-local"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert dark:[&::-webkit-calendar-picker-indicator]:filter dark:[&::-webkit-calendar-picker-indicator]:invert"
             />
           </div>
           

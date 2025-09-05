@@ -241,17 +241,17 @@ export const Sidebar: React.FC = () => {
       
       {/* Sidebar */}
       <div className={cn(
-        'fixed left-0 top-0 z-50 h-full w-64 transform bg-white dark:bg-gray-900 shadow-lg transition-transform duration-300 ease-in-out lg:translate-x-0',
+        'fixed left-0 top-0 z-50 h-full w-64 sm:w-72 lg:w-64 transform bg-white dark:bg-gray-900 shadow-lg transition-transform duration-300 ease-in-out lg:translate-x-0',
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       )}>
         <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="flex h-20 items-center justify-between border-b border-gray-200 dark:border-gray-700 px-6">
+          <div className="flex h-16 sm:h-20 items-center justify-between border-b border-gray-200 dark:border-gray-700 px-3 sm:px-4">
             <div className="flex items-center justify-center flex-1">
               <img 
                 src={logo} 
                 alt="Logo" 
-                className="h-16 w-auto object-contain"
+                className="h-12 sm:h-16 w-auto object-contain"
               />
             </div>
             <button
@@ -263,8 +263,14 @@ export const Sidebar: React.FC = () => {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto py-4">
-            <div className="space-y-6 px-3">
+          <nav 
+            className="flex-1 overflow-y-auto py-3 sidebar-scroll"
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#6366f1 transparent'
+            }}
+          >
+            <div className="space-y-3 px-2">
               {sidebarSections.map((section) => {
                 const filteredItems = section.items.filter(item => 
                   item.roles.includes(user?.role || '')
@@ -289,7 +295,7 @@ export const Sidebar: React.FC = () => {
                               <button
                                 onClick={() => toggleExpanded(item.label)}
                                 className={cn(
-                                  "w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                                  "w-full flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md transition-colors",
                                   hasActiveChild
                                     ? "bg-primary-100 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400"
                                     : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
@@ -309,7 +315,7 @@ export const Sidebar: React.FC = () => {
                               <Link
                                 to={item.href!}
                                 className={cn(
-                                  "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                                  "flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors",
                                   isActive(item.href!)
                                     ? "bg-primary-100 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400"
                                     : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
@@ -334,7 +340,7 @@ export const Sidebar: React.FC = () => {
                                       key={subItem.label}
                                       to={subItem.href}
                                       className={cn(
-                                        "flex items-center px-3 py-2 text-sm rounded-md transition-colors",
+                                        "flex items-center px-2 py-2 text-sm rounded-md transition-colors",
                                         isActive(subItem.href)
                                           ? "bg-primary-50 text-primary-600 dark:bg-primary-900/10 dark:text-primary-400"
                                           : "text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800"
@@ -362,7 +368,7 @@ export const Sidebar: React.FC = () => {
           </nav>
 
           {/* User info */}
-          <div className="border-t border-gray-200 dark:border-gray-700 p-4">
+          <div className="border-t border-gray-200 dark:border-gray-700 p-3">
             <div className="flex items-center space-x-3 mb-3">
               <div className="h-8 w-8 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
                 <User className="h-4 w-4 text-primary-600 dark:text-primary-400" />
@@ -380,7 +386,7 @@ export const Sidebar: React.FC = () => {
             {/* Logout button */}
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+              className="w-full flex items-center gap-2 px-2 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
             >
               <LogOut className="h-4 w-4" />
               Sair

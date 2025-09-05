@@ -15,9 +15,10 @@ import {
 } from 'lucide-react';
 import { mockUsers } from '../utils/mockData';
 import { formatDate } from '../utils';
-import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
+import { Button, Card, CardContent, Badge, Input, Modal, ConditionalMenu } from '../components/ui';
 import { useNavigate } from 'react-router-dom';
 import type { User } from '../types';
+import { usePermissions } from '../hooks/usePermissions';
 
 export const UsersPage: React.FC = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export const UsersPage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const { hasPermission } = usePermissions();
 
   // Filtros
   const filteredUsers = mockUsers.filter(user => {
@@ -77,27 +79,29 @@ export const UsersPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
              {/* Header */}
-       <div className="flex items-center justify-between">
+       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
          <div>
-           <h1 className="text-2xl font-bold text-secondary-900 dark:text-white">
+           <h1 className="text-xl md:text-2xl font-bold text-secondary-900 dark:text-white">
              Usuários & Perfis
            </h1>
-           <p className="text-secondary-600 dark:text-secondary-400">
+           <p className="text-sm md:text-base text-secondary-600 dark:text-secondary-400">
              Gestão de usuários e permissões
            </p>
          </div>
-         <Button>
-           <Plus className="h-4 w-4 mr-2 dark:text-white" />
-           Novo Usuário
-         </Button>
+         <ConditionalMenu requiredPermission="users">
+           <Button className="w-full sm:w-auto">
+             <Plus className="h-4 w-4 mr-2 dark:text-white" />
+             Novo Usuário
+           </Button>
+         </ConditionalMenu>
        </div>
 
       {/* Filtros */}
       <Card>
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary-400" />
               <Input
@@ -140,7 +144,7 @@ export const UsersPage: React.FC = () => {
       </Card>
 
       {/* Estatísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -205,7 +209,7 @@ export const UsersPage: React.FC = () => {
       </div>
 
       {/* Lista de Usuários */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {filteredUsers.map((user) => (
           <Card key={user.id} className="hover:shadow-lg transition-shadow">
             <CardContent className="p-6">

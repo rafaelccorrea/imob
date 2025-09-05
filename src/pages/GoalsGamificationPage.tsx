@@ -236,23 +236,23 @@ export const GoalsGamificationPage: React.FC = () => {
   ];
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className={`text-3xl font-bold ${colors.text.title}`}>
+          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
             Metas & Gamificação
           </h1>
-          <p className={`text-sm ${colors.text.subtitle}`}>
+          <p className={`text-sm md:text-base ${colors.text.subtitle}`}>
             Alcance suas metas e desbloqueie conquistas incríveis!
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
             <Calendar className="h-4 w-4" />
             <span className="text-gray-900 dark:text-gray-100">Calendário</span>
           </Button>
-          <Button className="flex items-center gap-2">
+          <Button className="flex items-center gap-2 w-full sm:w-auto">
             <Plus className="h-4 w-4" />
             <span className="text-gray-900 dark:text-gray-100">Nova Meta</span>
           </Button>

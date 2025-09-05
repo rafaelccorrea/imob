@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuthStore } from '../stores';
-import { Card, CardContent, CardHeader, CardTitle, Button, Badge } from '../components/ui';
+import { Card, CardContent, CardHeader, CardTitle, Button, Badge, ConditionalMenu } from '../components/ui';
 import { 
   TrendingUp, 
   DollarSign, 
@@ -12,6 +12,7 @@ import {
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { formatCurrency, formatDate } from '../utils';
 import { colors } from '../utils/colors';
+import { usePermissions } from '../hooks/usePermissions';
 
 // Dados mockados para demonstração
 const monthlyData = [
@@ -94,6 +95,7 @@ const metrics = {
 
 export const DashboardPage: React.FC = () => {
   const { user } = useAuthStore();
+  const { hasPermission } = usePermissions();
 
   // Função para detectar se está no modo dark
   const isDarkMode = () => {
@@ -175,27 +177,29 @@ export const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="w-full max-w-full space-y-4 md:space-y-6 p-4 md:p-6 custom-scroll overflow-x-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className={`text-2xl font-bold ${colors.text.title}`}>
+          <h1 className={`text-xl md:text-2xl font-bold ${colors.text.title}`}>
             Dashboard
           </h1>
-          <p className={colors.text.body}>
+          <p className={`text-sm md:text-base ${colors.text.body}`}>
             Bem-vindo de volta, {user?.name}! Aqui está um resumo do seu negócio.
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Novo Imóvel
-        </Button>
+        <ConditionalMenu requiredPermission="properties">
+          <Button className="w-full sm:w-auto">
+            <Plus className="h-4 w-4 mr-2" />
+            Novo Imóvel
+          </Button>
+        </ConditionalMenu>
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className={`text-sm font-medium ${colors.text.body}`}>Receita Total</p>
@@ -207,8 +211,8 @@ export const DashboardPage: React.FC = () => {
                   +12% este mês
                 </p>
               </div>
-              <div className={`h-12 w-12 rounded-lg ${colors.iconBg.money} flex items-center justify-center`}>
-                <DollarSign className={`h-6 w-6 ${colors.icons.money}`} />
+              <div className={`h-10 w-10 md:h-12 md:w-12 rounded-lg ${colors.iconBg.money} flex items-center justify-center`}>
+                <DollarSign className={`h-5 w-5 md:h-6 md:w-6 ${colors.icons.money}`} />
               </div>
             </div>
           </CardContent>
@@ -227,7 +231,7 @@ export const DashboardPage: React.FC = () => {
           color="primary"
         />
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-secondary-600 dark:text-white">Comissões Pendentes</p>
@@ -235,8 +239,8 @@ export const DashboardPage: React.FC = () => {
                   {formatCurrency(metrics.pendingCommissions)}
                 </p>
               </div>
-                             <div className="h-12 w-12 rounded-lg bg-danger-100 dark:bg-danger-900 flex items-center justify-center">
-                 <DollarSign className="h-6 w-6" style={{ color: getIconColor('expense') }} />
+                             <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-danger-100 dark:bg-danger-900 flex items-center justify-center">
+                 <DollarSign className="h-5 w-5 md:h-6 md:w-6" style={{ color: getIconColor('expense') }} />
                </div>
             </div>
           </CardContent>
@@ -244,14 +248,14 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
         {/* Revenue Chart */}
         <Card>
           <CardHeader>
             <CardTitle className="dark:text-white">Receita Mensal</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={180}>
               <LineChart data={monthlyData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
@@ -277,7 +281,7 @@ export const DashboardPage: React.FC = () => {
             <CardTitle className="dark:text-white">Tipos de Imóveis</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={180}>
               <PieChart>
                 <Pie
                   data={propertyTypeData}
@@ -300,7 +304,7 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
         {/* Recent Deals */}
         <Card>
           <CardHeader>
@@ -309,16 +313,16 @@ export const DashboardPage: React.FC = () => {
           <CardContent>
             <div className="space-y-4">
               {recentDeals.map((deal) => (
-                <div key={deal.id} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700">
+                <div key={deal.id} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700 min-w-0">
                   <div className="flex items-center space-x-3">
-                    <div className={`h-8 w-8 rounded-full flex items-center justify-center ${
+                    <div className={`h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                       deal.type === 'Venda' ? 'bg-success-100 dark:bg-success-900' : 'bg-primary-100 dark:bg-primary-900'
                     }`}>
                                              <DollarSign className="h-4 w-4" style={{ color: deal.type === 'Venda' ? getIconColor('income') : getIconColor('income') }} />
                     </div>
-                    <div>
-                      <p className="font-medium text-secondary-900 dark:text-secondary-100">{deal.property}</p>
-                      <p className="text-sm text-secondary-600 dark:text-secondary-400">{deal.client}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-secondary-900 dark:text-secondary-100 truncate">{deal.property}</p>
+                      <p className="text-sm text-secondary-600 dark:text-secondary-400 truncate">{deal.client}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -343,14 +347,14 @@ export const DashboardPage: React.FC = () => {
           <CardContent>
             <div className="space-y-4">
               {expiringContracts.map((contract) => (
-                <div key={contract.id} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700">
-                  <div className="flex items-center space-x-3">
-                    <div className="h-8 w-8 rounded-full bg-warning-100 dark:bg-warning-900 flex items-center justify-center">
+                <div key={contract.id} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700 min-w-0">
+                  <div className="flex items-center space-x-3 min-w-0 flex-1">
+                    <div className="h-8 w-8 rounded-full bg-warning-100 dark:bg-warning-900 flex items-center justify-center flex-shrink-0">
                       <Calendar className="h-4 w-4 text-warning-600 dark:text-white" />
                     </div>
-                    <div>
-                      <p className="font-medium text-secondary-900 dark:text-secondary-100">{contract.property}</p>
-                      <p className="text-sm text-secondary-600 dark:text-secondary-400">{contract.tenant}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-secondary-900 dark:text-secondary-100 truncate">{contract.property}</p>
+                      <p className="text-sm text-secondary-600 dark:text-secondary-400 truncate">{contract.tenant}</p>
                     </div>
                   </div>
                   <div className="text-right">
