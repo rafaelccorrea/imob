@@ -26,28 +26,15 @@ import {
 import { mockTransactions, mockCommissions } from '../utils/mockData';
 import { formatCurrency, formatDate } from '../utils';
 import { Button, Card, CardContent, CardHeader, CardTitle, Badge, Input, Modal } from '../components/ui';
+import type { Transaction } from '../types';
 
-// Definindo o tipo Transaction localmente para evitar problemas de importação
-interface Transaction {
-  id: string;
-  description: string;
-  type: 'income' | 'expense';
-  category: 'commission' | 'rent' | 'sale' | 'maintenance' | 'marketing' | 'salary' | 'other';
-  amount: number;
-  date: string;
-  relatedDealId?: string;
-  relatedPropertyId?: string;
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export const FinancialPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
   // Função para detectar se está no modo dark
   const isDarkMode = () => {
@@ -125,7 +112,7 @@ export const FinancialPage: React.FC = () => {
     }
   };
 
-  const openTransactionModal = (transaction: any) => {
+  const openTransactionModal = (transaction: Transaction) => {
     setSelectedTransaction(transaction);
     setShowModal(true);
   };
@@ -389,7 +376,7 @@ export const FinancialPage: React.FC = () => {
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                                         <Badge variant={getTypeColor(transaction.type) as any}>
+                                         <Badge variant={getTypeColor(transaction.type) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                        {getTypeText(transaction.type)}
                      </Badge>
                     

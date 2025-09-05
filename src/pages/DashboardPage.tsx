@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { formatCurrency, formatDate } from '../utils';
-import { colors, formatCurrencyWithColor, getGrowthColor } from '../utils/colors';
+import { colors } from '../utils/colors';
 
 // Dados mockados para demonstração
 const monthlyData = [

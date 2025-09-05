@@ -50,7 +50,7 @@ export const isValidCNPJ = (cnpj: string): boolean => {
     sum += parseInt(cleaned.charAt(i)) * weights1[i];
   }
   let remainder = sum % 11;
-  let digit1 = remainder < 2 ? 0 : 11 - remainder;
+  const digit1 = remainder < 2 ? 0 : 11 - remainder;
   if (digit1 !== parseInt(cleaned.charAt(12))) return false;
   
   // Validate second digit
@@ -60,7 +60,7 @@ export const isValidCNPJ = (cnpj: string): boolean => {
     sum += parseInt(cleaned.charAt(i)) * weights2[i];
   }
   remainder = sum % 11;
-  let digit2 = remainder < 2 ? 0 : 11 - remainder;
+  const digit2 = remainder < 2 ? 0 : 11 - remainder;
   if (digit2 !== parseInt(cleaned.charAt(13))) return false;
   
   return true;
@@ -108,7 +108,7 @@ export const getPasswordStrength = (password: string): {
 };
 
 // Required field validation
-export const isRequired = (value: any): boolean => {
+export const isRequired = (value: unknown): boolean => {
   if (value === null || value === undefined) return false;
   if (typeof value === 'string') return value.trim().length > 0;
   if (Array.isArray(value)) return value.length > 0;

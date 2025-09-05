@@ -1,8 +1,6 @@
-// Configuração global para desabilitar erros de any
-// Este arquivo deve ser incluído no tsconfig.json
+// Configuração global de tipos
 export {};
 
 declare global {
-  // Desabilitar erros de any globalmente
-  type AnyType = any;
+  // Tipos globais podem ser adicionados aqui
 }

@@ -3,11 +3,12 @@ import { Shield, Check, X, Save, User } from 'lucide-react';
 import { Modal, Button, Badge } from '../ui';
 import { ROLE_PERMISSIONS } from '../../types/permissions';
 import type { UserRole, ModulePermissions } from '../../types/permissions';
+import type { User } from '../../types';
 
 interface PermissionsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  user: any;
+  user: User | null;
   onSave: (userId: string, permissions: ModulePermissions) => void;
 }
 
@@ -137,7 +138,7 @@ export const PermissionsModal: React.FC<PermissionsModalProps> = ({
                     : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                 }`}
               >
-                <Badge variant={getRoleColor(role) as any} className="mb-2">
+                <Badge variant={getRoleColor(role) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'} className="mb-2">
                   {getRoleText(role)}
                 </Badge>
                 <p className="text-xs text-gray-600 dark:text-gray-400">

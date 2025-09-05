@@ -16,18 +16,17 @@ import {
   CheckCircle,
   Clock
 } from 'lucide-react';
-import { useAuthStore } from '../stores';
 import { mockEmployees } from '../utils/mockData';
 import { formatCurrency, formatDate } from '../utils';
-import { Button, Card, CardHeader, CardTitle, CardContent, Badge, Input, Modal } from '../components/ui';
+import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
+import type { Employee } from '../types';
 
 export const HRPage: React.FC = () => {
-  const { user } = useAuthStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
 
   // Filtros
   const filteredEmployees = mockEmployees.filter(employee => {
@@ -47,7 +46,7 @@ export const HRPage: React.FC = () => {
     return isActive ? 'Ativo' : 'Inativo';
   };
 
-  const openEmployeeModal = (employee: any) => {
+  const openEmployeeModal = (employee: Employee) => {
     setSelectedEmployee(employee);
     setShowModal(true);
   };
@@ -232,7 +231,7 @@ export const HRPage: React.FC = () => {
                   <Badge variant="default">
                     {employee.department}
                   </Badge>
-                  <Badge variant={getStatusColor(employee.isActive) as any}>
+                  <Badge variant={getStatusColor(employee.isActive) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                     {getStatusText(employee.isActive)}
                   </Badge>
                 </div>

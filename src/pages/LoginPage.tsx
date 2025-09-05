@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuthStore } from '../stores';
 import { mockUsers } from '../utils/mockData';
-import { Button, Alert, Modal } from '../components/ui';
+import { Button, Alert } from '../components/ui';
 import logo from '../assets/uniao-imobiliaria-logo.png';
 
 const loginSchema = z.object({

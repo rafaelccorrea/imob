@@ -2,6 +2,7 @@
 export type { UserRole, ModulePermissions } from './permissions';
 export { ROLE_PERMISSIONS } from './permissions';
 
+
 // Tipos para as entidades do sistema
 
 // Tipos para as entidades do sistema
@@ -11,19 +12,34 @@ export interface Property {
   description: string;
   address: {
     street: string;
+    number?: string;
+    complement?: string;
     neighborhood: string;
     city: string;
     state: string;
     zipCode: string;
   };
   price: number;
-  rentPrice: number;
+  rentPrice?: number;
   status: 'available' | 'sold' | 'rented' | 'reserved' | 'inactive';
   type: 'house' | 'apartment' | 'commercial' | 'land';
   bedrooms: number;
   bathrooms: number;
   area: number;
   responsibleAgentId: string;
+  images?: string[];
+  features?: {
+    bedrooms: number;
+    bathrooms: number;
+    parkingSpaces?: number;
+    area: number;
+    builtArea?: number;
+  };
+  owner?: {
+    name: string;
+    phone: string;
+    email: string;
+  };
   createdAt: string;
   updatedAt: string;
 }
@@ -218,4 +234,89 @@ export interface PaginatedResponse<T> {
   page: number;
   limit: number;
   totalPages: number;
+}
+
+
+// Tipos adicionais para entidades específicas
+export interface Contact {
+  id: string;
+  clientId: string;
+  agentId: string;
+  type: 'call' | 'email' | 'visit' | 'meeting';
+  description: string;
+  date: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Document {
+  id: string;
+  title: string;
+  type: 'contract' | 'proposal' | 'invoice' | 'receipt' | 'other';
+  category?: string;
+  status?: string;
+  version?: string;
+  size?: string;
+  fileUrl: string;
+  relatedDealId?: string;
+  relatedPropertyId?: string;
+  propertyId?: string;
+  propertyTitle?: string;
+  clientName?: string;
+  agentName?: string;
+  expiresAt?: string;
+  priority?: string;
+  uploadedBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Client {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  type: 'buyer' | 'seller' | 'tenant' | 'landlord';
+  status: 'active' | 'inactive' | 'prospect';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Key {
+  id: string;
+  propertyId: string;
+  keyNumber: string;
+  location: string;
+  status: 'available' | 'borrowed' | 'lost';
+  borrowedBy?: string;
+  borrowedAt?: string;
+  returnedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Visit {
+  id: string;
+  propertyId: string;
+  clientId: string;
+  agentId: string;
+  scheduledDate: string;
+  status: 'scheduled' | 'completed' | 'cancelled';
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Employee {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  position: string;
+  department: string;
+  salary: number;
+  hireDate: string;
+  status: 'active' | 'inactive' | 'terminated';
+  createdAt: string;
+  updatedAt: string;
 }

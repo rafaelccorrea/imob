@@ -17,7 +17,8 @@ import {
   Car
 } from 'lucide-react';
 import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
-import { colors, getStatusColor, getStatusBgColor } from '../utils/colors';
+import { colors } from '../utils/colors';
+import type { Visit } from '../types';
 
 // Mock data para visitas
 const mockVisits = [
@@ -92,7 +93,7 @@ export const VisitsPage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedVisit, setSelectedVisit] = useState<any>(null);
+  const [selectedVisit, setSelectedVisit] = useState<Visit | null>(null);
 
   const filteredVisits = mockVisits.filter(visit => {
     const matchesSearch = 
@@ -113,7 +114,7 @@ export const VisitsPage: React.FC = () => {
     return typeConfig[type as keyof typeof typeConfig] || typeConfig['in-person'];
   };
 
-  const openVisitModal = (visit: any) => {
+  const openVisitModal = (visit: Visit) => {
     setSelectedVisit(visit);
     setShowModal(true);
   };
@@ -293,11 +294,11 @@ export const VisitsPage: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex space-x-2">
-                    <Badge variant={status.color as any}>
+                    <Badge variant={status.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                       <StatusIcon className="h-3 w-3 mr-1" />
                       {status.label}
                     </Badge>
-                    <Badge variant={type.color as any}>
+                    <Badge variant={type.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                       <TypeIcon className="h-3 w-3 mr-1" />
                       {type.label}
                     </Badge>
@@ -425,7 +426,7 @@ export const VisitsPage: React.FC = () => {
                   <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                     <p><strong>Nome:</strong> {selectedVisit.agentName}</p>
                     <p><strong>Status:</strong> 
-                      <Badge variant={getStatusConfig(selectedVisit.status).color as any} className="ml-2">
+                      <Badge variant={getStatusConfig(selectedVisit.status).color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'} className="ml-2">
                         {getStatusConfig(selectedVisit.status).label}
                       </Badge>
                     </p>

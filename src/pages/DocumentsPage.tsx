@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
 import { colors } from '../utils/colors';
+import type { Document } from '../types';
 
 // Mock data para documentos
 const mockDocuments = [
@@ -38,6 +39,8 @@ const mockDocuments = [
     isSigned: true,
     isArchived: false,
     priority: 'high',
+    fileUrl: '/documents/contract-1.pdf',
+    uploadedBy: 'admin',
   },
   {
     id: '2',
@@ -125,7 +128,7 @@ export const DocumentsPage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedDocument, setSelectedDocument] = useState<any>(null);
+  const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
 
   const filteredDocuments = mockDocuments.filter(doc => {
     const matchesSearch = 
@@ -151,7 +154,7 @@ export const DocumentsPage: React.FC = () => {
     return priorityConfig[priority as keyof typeof priorityConfig] || priorityConfig.low;
   };
 
-  const openDocumentModal = (document: any) => {
+  const openDocumentModal = (document: Document) => {
     setSelectedDocument(document);
     setShowModal(true);
   };

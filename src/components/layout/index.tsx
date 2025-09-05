@@ -1,7 +1,6 @@
 import React from 'react';
 import { 
   Menu, 
-  LogOut, 
   User, 
   Bell
 } from 'lucide-react';

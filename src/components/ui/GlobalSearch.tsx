@@ -2,7 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
 import { useSearchStore } from '../../stores';
-import { Button } from '../ui';
+
+interface SearchResult {
+  id: string;
+  type: 'property' | 'client' | 'lead' | 'deal' | 'user';
+  title: string;
+  subtitle?: string;
+  data: any;
+}
 
 export const GlobalSearch: React.FC = () => {
   const { searchTerm, results, isSearchOpen, setSearchTerm, setIsSearchOpen, clearSearch } = useSearchStore();
@@ -34,8 +41,10 @@ export const GlobalSearch: React.FC = () => {
     }
   }, [isSearchOpen]);
 
-  const handleResultClick = (result: any) => {
-    navigate(result.url);
+  const handleResultClick = (result: SearchResult) => {
+    // Construir URL baseada no tipo do resultado
+    const url = `/${result.type}s/${result.id}`;
+    navigate(url);
     setIsSearchOpen(false);
     clearSearch();
   };

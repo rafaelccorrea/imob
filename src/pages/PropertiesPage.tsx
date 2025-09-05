@@ -14,14 +14,14 @@ import {
 import { mockProperties } from '../utils/mockData';
 import { formatCurrency } from '../utils';
 import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
-import { colors, getStatusColor, getStatusBgColor } from '../utils/colors';
+import type { Property } from '../types';
 
 export const PropertiesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState<any>(null);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
 
   // Função para detectar se está no modo dark
   const isDarkMode = () => {
@@ -50,7 +50,7 @@ export const PropertiesPage: React.FC = () => {
     return matchesSearch && matchesType && matchesStatus;
   });
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string): 'default' | 'success' | 'destructive' | 'primary' | 'warning' | 'secondary' | 'outline' => {
     switch (status) {
       case 'available': return 'success';
       case 'sold': return 'destructive';
@@ -83,7 +83,7 @@ export const PropertiesPage: React.FC = () => {
     }
   };
 
-  const openPropertyModal = (property: any) => {
+  const openPropertyModal = (property: Property) => {
     setSelectedProperty(property);
     setShowModal(true);
   };
@@ -230,7 +230,7 @@ export const PropertiesPage: React.FC = () => {
                 className="w-full h-48 object-cover"
               />
               <Badge 
-                variant={getStatusColor(property.status) as any}
+                variant={getStatusColor(property.status)}
                 className="absolute top-4 left-4"
               >
                 {getStatusText(property.status)}
@@ -310,7 +310,7 @@ export const PropertiesPage: React.FC = () => {
           <div className="space-y-6">
             {/* Imagens */}
             <div className="grid grid-cols-2 gap-4">
-              {selectedProperty.images.map((image: string, index: number) => (
+              {selectedProperty.images?.map((image: string, index: number) => (
                 <img
                   key={index}
                   src={image}
@@ -327,11 +327,11 @@ export const PropertiesPage: React.FC = () => {
                  <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                    <p><strong>Tipo:</strong> {getTypeText(selectedProperty.type)}</p>
                    <p><strong>Status:</strong> {getStatusText(selectedProperty.status)}</p>
-                   <p><strong>Área:</strong> {selectedProperty.features.area}m²</p>
-                   <p><strong>Área construída:</strong> {selectedProperty.features.builtArea}m²</p>
-                   <p><strong>Quartos:</strong> {selectedProperty.features.bedrooms}</p>
-                   <p><strong>Banheiros:</strong> {selectedProperty.features.bathrooms}</p>
-                   <p><strong>Vagas:</strong> {selectedProperty.features.parkingSpaces}</p>
+                   <p><strong>Área:</strong> {selectedProperty.features?.area}m²</p>
+                   <p><strong>Área construída:</strong> {selectedProperty.features?.builtArea}m²</p>
+                   <p><strong>Quartos:</strong> {selectedProperty.features?.bedrooms}</p>
+                   <p><strong>Banheiros:</strong> {selectedProperty.features?.bathrooms}</p>
+                   <p><strong>Vagas:</strong> {selectedProperty.features?.parkingSpaces}</p>
                  </div>
                </div>
                
@@ -367,9 +367,9 @@ export const PropertiesPage: React.FC = () => {
              <div>
                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Proprietário</h4>
                <div className="text-sm text-gray-700 dark:text-gray-300">
-                 <p><strong>Nome:</strong> {selectedProperty.owner.name}</p>
-                 <p><strong>Telefone:</strong> {selectedProperty.owner.phone}</p>
-                 {selectedProperty.owner.email && (
+                 <p><strong>Nome:</strong> {selectedProperty.owner?.name}</p>
+                 <p><strong>Telefone:</strong> {selectedProperty.owner?.phone}</p>
+                 {selectedProperty.owner?.email && (
                    <p><strong>Email:</strong> {selectedProperty.owner.email}</p>
                  )}
                </div>

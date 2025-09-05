@@ -8,7 +8,7 @@ import {
   Edit, 
   Phone,
   Calendar,
-  User,
+  User as UserIcon,
   Shield,
   CheckCircle,
   Key
@@ -17,6 +17,7 @@ import { mockUsers } from '../utils/mockData';
 import { formatDate } from '../utils';
 import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
 import { useNavigate } from 'react-router-dom';
+import type { User } from '../types';
 
 export const UsersPage: React.FC = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export const UsersPage: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   // Filtros
   const filteredUsers = mockUsers.filter(user => {
@@ -36,9 +37,9 @@ export const UsersPage: React.FC = () => {
     return matchesSearch && matchesRole && matchesStatus;
   });
 
-  const getRoleColor = (role: string) => {
+  const getRoleColor = (role: string): 'default' | 'success' | 'destructive' | 'primary' | 'warning' | 'secondary' | 'outline' => {
     switch (role) {
-      case 'owner': return 'danger';
+      case 'owner': return 'destructive';
       case 'manager': return 'warning';
       case 'agent': return 'primary';
       case 'financial': return 'success';
@@ -58,15 +59,15 @@ export const UsersPage: React.FC = () => {
     }
   };
 
-  const getStatusColor = (isActive: boolean) => {
-    return isActive ? 'success' : 'danger';
+  const getStatusColor = (isActive: boolean): 'default' | 'success' | 'destructive' | 'primary' | 'warning' | 'secondary' | 'outline' => {
+    return isActive ? 'success' : 'destructive';
   };
 
   const getStatusText = (isActive: boolean) => {
     return isActive ? 'Ativo' : 'Inativo';
   };
 
-  const openUserModal = (user: any) => {
+  const openUserModal = (user: User) => {
     setSelectedUser(user);
     setShowModal(true);
   };
@@ -148,7 +149,7 @@ export const UsersPage: React.FC = () => {
                 <p className="text-2xl font-bold text-primary-600 dark:text-white">{mockUsers.length}</p>
               </div>
               <div className="h-12 w-12 rounded-lg flex items-center justify-center">
-                <User className="h-6 w-6 text-primary-600 dark:text-white" />
+                <UserIcon className="h-6 w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -196,7 +197,7 @@ export const UsersPage: React.FC = () => {
                 </p>
               </div>
               <div className="h-12 w-12 rounded-lg flex items-center justify-center">
-                <User className="h-6 w-6 text-primary-600 dark:text-white" />
+                <UserIcon className="h-6 w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -211,7 +212,7 @@ export const UsersPage: React.FC = () => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="h-12 w-12 rounded-full flex items-center justify-center">
-                    <User className="h-6 w-6 text-primary-600 dark:text-white" />
+                    <UserIcon className="h-6 w-6 text-primary-600 dark:text-white" />
                   </div>
                   <div>
                                          <h3 className="font-semibold text-lg dark:text-white">{user.name}</h3>
@@ -242,10 +243,10 @@ export const UsersPage: React.FC = () => {
                  </div>
                 
                 <div className="flex items-center justify-between">
-                  <Badge variant={getRoleColor(user.role) as any}>
+                  <Badge variant={getRoleColor(user.role)}>
                     {getRoleText(user.role)}
                   </Badge>
-                  <Badge variant={getStatusColor(user.isActive) as any}>
+                  <Badge variant={getStatusColor(user.isActive)}>
                     {getStatusText(user.isActive)}
                   </Badge>
                 </div>
@@ -303,16 +304,16 @@ export const UsersPage: React.FC = () => {
              {/* Header do Modal */}
              <div className="flex items-center space-x-4 pb-4 border-b border-gray-200 dark:border-gray-700">
                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center">
-                 <User className="h-8 w-8 text-white" />
+                 <UserIcon className="h-8 w-8 text-white" />
                </div>
                <div>
                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">{selectedUser.name}</h3>
                  <p className="text-sm text-gray-600 dark:text-gray-400">{selectedUser.email}</p>
                  <div className="flex items-center space-x-2 mt-1">
-                   <Badge variant={getRoleColor(selectedUser.role) as any}>
+                   <Badge variant={getRoleColor(selectedUser.role)}>
                      {getRoleText(selectedUser.role)}
                    </Badge>
-                   <Badge variant={getStatusColor(selectedUser.isActive) as any}>
+                   <Badge variant={getStatusColor(selectedUser.isActive)}>
                      {getStatusText(selectedUser.isActive)}
                    </Badge>
                  </div>
@@ -322,7 +323,7 @@ export const UsersPage: React.FC = () => {
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                  <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100 flex items-center">
-                   <User className="h-4 w-4 mr-2" />
+                   <UserIcon className="h-4 w-4 mr-2" />
                    Informações Pessoais
                  </h4>
                  <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">

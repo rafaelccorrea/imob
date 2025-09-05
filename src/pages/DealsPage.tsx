@@ -15,13 +15,14 @@ import {
 import { mockDeals, mockProperties } from '../utils/mockData';
 import { formatCurrency, formatDate } from '../utils';
 import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
+import type { Deal } from '../types';
 
 export const DealsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedDeal, setSelectedDeal] = useState<any>(null);
+  const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
 
   // Filtros
   const filteredDeals = mockDeals.filter(deal => {
@@ -33,7 +34,7 @@ export const DealsPage: React.FC = () => {
     return matchesSearch && matchesType && matchesStatus;
   });
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string): 'default' | 'success' | 'destructive' | 'primary' | 'warning' | 'secondary' | 'outline' => {
     switch (status) {
       case 'negotiating': return 'warning';
       case 'approved': return 'primary';
@@ -61,7 +62,7 @@ export const DealsPage: React.FC = () => {
     }
   };
 
-  const openDealModal = (deal: any) => {
+  const openDealModal = (deal: Deal) => {
     setSelectedDeal(deal);
     setShowModal(true);
   };
@@ -253,7 +254,7 @@ export const DealsPage: React.FC = () => {
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    <Badge variant={getStatusColor(deal.status) as any}>
+                    <Badge variant={getStatusColor(deal.status)}>
                       {getStatusText(deal.status)}
                     </Badge>
                     

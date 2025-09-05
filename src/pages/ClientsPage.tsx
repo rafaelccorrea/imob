@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   User,
   Phone,
-  Mail,
   MapPin,
   Calendar,
   DollarSign,
@@ -15,13 +14,12 @@ import {
   Filter,
   Eye,
   Edit,
-  Trash2,
-  Heart,
   Target,
   AlertCircle
 } from 'lucide-react';
 import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
 import { colors } from '../utils/colors';
+import type { Client } from '../types';
 
 // Mock data para perfis de clientes
 const mockClients = [
@@ -129,7 +127,7 @@ export const ClientsPage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedPriority, setSelectedPriority] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedClient, setSelectedClient] = useState<any>(null);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
   const filteredClients = mockClients.filter(client => {
     const matchesSearch = client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -153,7 +151,7 @@ export const ClientsPage: React.FC = () => {
     return priorityConfig[priority as keyof typeof priorityConfig] || priorityConfig.medium;
   };
 
-  const openClientModal = (client: any) => {
+  const openClientModal = (client: Client) => {
     setSelectedClient(client);
     setShowModal(true);
   };
@@ -346,15 +344,15 @@ export const ClientsPage: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex flex-col space-y-1">
-                    <Badge variant={typeConfig.color as any}>
+                    <Badge variant={typeConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                       <TypeIcon className="h-3 w-3 mr-1" />
                       {typeConfig.label}
                     </Badge>
-                    <Badge variant={statusConfig.color as any}>
+                    <Badge variant={statusConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                       <StatusIcon className="h-3 w-3 mr-1" />
                       {statusConfig.label}
                     </Badge>
-                    <Badge variant={priorityConfig.color as any}>
+                    <Badge variant={priorityConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                       <PriorityIcon className="h-3 w-3 mr-1" />
                       {priorityConfig.label}
                     </Badge>

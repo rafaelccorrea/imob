@@ -186,7 +186,7 @@ export const UserPermissionsPage: React.FC = () => {
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">{user.name}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">{user.email}</p>
                              <div className="flex items-center space-x-2 mt-2">
-                 <Badge variant={getRoleColor(user.role as UserRole) as any}>
+                 <Badge variant={getRoleColor(user.role as UserRole) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                    {getRoleText(user.role as UserRole)}
                  </Badge>
                  <Badge variant={user.isActive ? 'success' : 'destructive'}>
@@ -213,7 +213,7 @@ export const UserPermissionsPage: React.FC = () => {
                     : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
               >
-                <Badge variant={getRoleColor(role) as any} className="mb-2">
+                <Badge variant={getRoleColor(role) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'} className="mb-2">
                   {getRoleText(role)}
                 </Badge>
                 <p className="text-xs text-gray-600 dark:text-gray-400">

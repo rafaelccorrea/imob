@@ -7,7 +7,6 @@ import {
   Eye, 
   Edit, 
   Phone,
-  Mail,
   Calendar,
   MapPin,
   DollarSign,
@@ -15,18 +14,17 @@ import {
   MessageSquare,
   Clock
 } from 'lucide-react';
-import { useAuthStore } from '../stores';
 import { mockLeads } from '../utils/mockData';
 import { formatCurrency, formatDate } from '../utils';
-import { Button, Card, CardHeader, CardTitle, CardContent, Badge, Input, Modal } from '../components/ui';
+import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
+import type { Lead } from '../types';
 
 export const LeadsPage: React.FC = () => {
-  const { user } = useAuthStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedSource, setSelectedSource] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedLead, setSelectedLead] = useState<any>(null);
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
   // Filtros
   const filteredLeads = mockLeads.filter(lead => {
@@ -74,7 +72,7 @@ export const LeadsPage: React.FC = () => {
     }
   };
 
-  const openLeadModal = (lead: any) => {
+  const openLeadModal = (lead: Lead) => {
     setSelectedLead(lead);
     setShowModal(true);
   };
@@ -257,7 +255,7 @@ export const LeadsPage: React.FC = () => {
                  </div>
                 
                 <div className="flex items-center justify-between">
-                  <Badge variant={getStatusColor(lead.status) as any}>
+                  <Badge variant={getStatusColor(lead.status) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                     {getStatusText(lead.status)}
                   </Badge>
                   <Badge variant="default">

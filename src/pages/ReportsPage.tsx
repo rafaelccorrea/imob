@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { 
-  BarChart3, 
   TrendingUp, 
   TrendingDown, 
   DollarSign, 
@@ -10,14 +9,12 @@ import {
   Download,
   Filter,
   PieChart,
-  LineChart,
-  Target,
   Award,
   Clock,
   MapPin
 } from 'lucide-react';
 import { Button, Card, CardContent, Badge } from '../components/ui';
-import { colors, formatCurrencyWithColor, getGrowthColor } from '../utils/colors';
+import { colors } from '../utils/colors';
 
 // Mock data para relatórios
 const mockReportData = {
@@ -77,7 +74,6 @@ const neighborhoodData = [
 
 export const ReportsPage: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('month');
-  const [selectedReport, setSelectedReport] = useState('sales');
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -135,8 +131,8 @@ export const ReportsPage: React.FC = () => {
                     const GrowthIcon = getGrowthIcon(mockReportData.sales.growth);
                     return (
                       <>
-                        <GrowthIcon className={`h-4 w-4 mr-1 ${getGrowthColor(mockReportData.sales.growth)}`} />
-                        <span className={`text-sm ${getGrowthColor(mockReportData.sales.growth)}`}>
+                        <GrowthIcon className={`h-4 w-4 mr-1 ${colors.icons.primary}`} />
+                        <span className={`text-sm ${colors.icons.primary}`}>
                           {mockReportData.sales.growth}%
                         </span>
                       </>
@@ -446,7 +442,7 @@ export const ReportsPage: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className={colors.text.body}>Crescimento:</span>
-                  <span className={`font-medium ${getGrowthColor(mockReportData.sales.growth)}`}>
+                  <span className={`font-medium ${colors.icons.primary}`}>
                     {mockReportData.sales.growth}%
                   </span>
                 </div>

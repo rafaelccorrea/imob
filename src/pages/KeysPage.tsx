@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Key,
+  Key as KeyIcon,
   User,
   Calendar,
   Clock,
@@ -13,10 +13,10 @@ import {
   Filter,
   Eye,
   Edit,
-  Trash2
 } from 'lucide-react';
 import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
 import { colors } from '../utils/colors';
+import type { Key } from '../types';
 
 // Mock data para controle de chaves
 const mockKeys = [
@@ -75,7 +75,7 @@ export const KeysPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedKey, setSelectedKey] = useState<any>(null);
+  const [selectedKey, setSelectedKey] = useState<Key | null>(null);
 
   const filteredKeys = mockKeys.filter(key => {
     const matchesSearch = key.propertyTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -89,7 +89,7 @@ export const KeysPage: React.FC = () => {
     return statusConfig[status as keyof typeof statusConfig] || statusConfig.available;
   };
 
-  const openKeyModal = (key: any) => {
+  const openKeyModal = (key: Key) => {
     setSelectedKey(key);
     setShowModal(true);
   };
@@ -163,7 +163,7 @@ export const KeysPage: React.FC = () => {
                 <p className={`text-2xl font-bold ${colors.text.title}`}>{mockKeys.length}</p>
               </div>
               <div className={`h-12 w-12 rounded-lg ${colors.iconBg.info} flex items-center justify-center`}>
-                <Key className={`h-6 w-6 ${colors.icons.info}`} />
+                <KeyIcon className={`h-6 w-6 ${colors.icons.info}`} />
               </div>
             </div>
           </CardContent>
@@ -224,7 +224,7 @@ export const KeysPage: React.FC = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     <div className="h-12 w-12 rounded-full bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center">
-                      <Key className="h-6 w-6 text-primary-600 dark:text-primary-400" />
+                      <KeyIcon className="h-6 w-6 text-primary-600 dark:text-primary-400" />
                     </div>
                     <div>
                       <h3 className={`font-semibold text-lg ${colors.text.title}`}>
@@ -235,7 +235,7 @@ export const KeysPage: React.FC = () => {
                       </p>
                     </div>
                   </div>
-                  <Badge variant={status.color as any}>
+                  <Badge variant={status.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                     <StatusIcon className="h-3 w-3 mr-1" />
                     {status.label}
                   </Badge>
@@ -335,7 +335,7 @@ export const KeysPage: React.FC = () => {
               <div className="space-y-4">
                 <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                   <h4 className={`font-semibold mb-3 ${colors.text.title} flex items-center`}>
-                    <Key className="h-4 w-4 mr-2" />
+                    <KeyIcon className="h-4 w-4 mr-2" />
                     Informações da Chave
                   </h4>
                   <div className={`space-y-2 text-sm ${colors.text.subtitle}`}>

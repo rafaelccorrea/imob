@@ -12,13 +12,12 @@ import {
   Filter,
   Eye,
   Edit,
-  Trash2,
   CheckCircle,
   AlertCircle,
-  Star
 } from 'lucide-react';
 import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
 import { colors } from '../utils/colors';
+import type { Contact } from '../types';
 
 // Mock data para histórico de contatos
 const mockContacts = [
@@ -110,7 +109,7 @@ export const ContactsPage: React.FC = () => {
   const [selectedOutcome, setSelectedOutcome] = useState('');
   const [selectedAgent, setSelectedAgent] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedContact, setSelectedContact] = useState<any>(null);
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
   const filteredContacts = mockContacts.filter(contact => {
     const matchesSearch = contact.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -134,7 +133,7 @@ export const ContactsPage: React.FC = () => {
     return outcomeConfig[outcome as keyof typeof outcomeConfig] || outcomeConfig.neutral;
   };
 
-  const openContactModal = (contact: any) => {
+  const openContactModal = (contact: Contact) => {
     setSelectedContact(contact);
     setShowModal(true);
   };
@@ -333,15 +332,15 @@ export const ContactsPage: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex flex-col space-y-1">
-                    <Badge variant={typeConfig.color as any}>
+                    <Badge variant={typeConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                       <TypeIcon className="h-3 w-3 mr-1" />
                       {typeConfig.label}
                     </Badge>
-                    <Badge variant={methodConfig.color as any}>
+                    <Badge variant={methodConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                       <MethodIcon className="h-3 w-3 mr-1" />
                       {methodConfig.label}
                     </Badge>
-                    <Badge variant={outcomeConfig.color as any}>
+                    <Badge variant={outcomeConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
                       <OutcomeIcon className="h-3 w-3 mr-1" />
                       {outcomeConfig.label}
                     </Badge>
