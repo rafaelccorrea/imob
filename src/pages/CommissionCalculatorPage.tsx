@@ -18,6 +18,28 @@ import { formatCurrency } from '../utils';
 import { colors } from '../utils/colors';
 import { Button, Card, CardContent, CardHeader, CardTitle, Badge, Input, Modal } from '../components/ui';
 
+// Função para formatar valor como moeda brasileira
+const formatCurrencyInput = (value: string): string => {
+  // Remove tudo que não é dígito
+  const numericValue = value.replace(/\D/g, '');
+  
+  // Converte para número e divide por 100 para ter centavos
+  const numberValue = parseInt(numericValue) / 100;
+  
+  // Formata como moeda brasileira
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+  }).format(numberValue);
+};
+
+// Função para extrair valor numérico da string formatada
+const parseCurrencyValue = (formattedValue: string): number => {
+  const numericValue = formattedValue.replace(/[^\d]/g, '');
+  return parseInt(numericValue) / 100;
+};
+
 interface CommissionCalculation {
   propertyValue: number;
   commissionRate: number;
@@ -74,6 +96,7 @@ const commissionTiers: CommissionTier[] = [
 
 export const CommissionCalculatorPage: React.FC = () => {
   const [propertyValue, setPropertyValue] = useState<number>(500000);
+  const [propertyValueFormatted, setPropertyValueFormatted] = useState<string>('R$ 5.000,00');
   const [dealType, setDealType] = useState<'sale' | 'rent'>('sale');
   const [agentLevel, setAgentLevel] = useState<'junior' | 'senior' | 'expert' | 'master'>('senior');
   const [customRate, setCustomRate] = useState<number>(0);
@@ -162,13 +185,17 @@ export const CommissionCalculatorPage: React.FC = () => {
                   Valor do Imóvel
                 </label>
                 <div className="relative">
-                  <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
                   <Input
-                    type="number"
-                    value={propertyValue}
-                    onChange={(e) => setPropertyValue(Number(e.target.value))}
+                    type="text"
+                    value={propertyValueFormatted}
+                    onChange={(e) => {
+                      const formatted = formatCurrencyInput(e.target.value);
+                      setPropertyValueFormatted(formatted);
+                      setPropertyValue(parseCurrencyValue(formatted));
+                    }}
                     className="pl-10 text-lg"
-                    placeholder="500000"
+                    placeholder="R$ 0,00"
                   />
                 </div>
               </div>
@@ -185,7 +212,7 @@ export const CommissionCalculatorPage: React.FC = () => {
                     className="flex items-center gap-2"
                   >
                     <TrendingUp className="h-4 w-4" />
-                    Venda
+                    <span className="text-gray-900 dark:text-gray-100">Venda</span>
                   </Button>
                   <Button
                     variant={dealType === 'rent' ? 'default' : 'outline'}
@@ -193,7 +220,7 @@ export const CommissionCalculatorPage: React.FC = () => {
                     className="flex items-center gap-2"
                   >
                     <DollarSign className="h-4 w-4" />
-                    Locação
+                    <span className="text-gray-900 dark:text-gray-100">Locação</span>
                   </Button>
                 </div>
               </div>
@@ -214,7 +241,7 @@ export const CommissionCalculatorPage: React.FC = () => {
                         className="flex items-center gap-2"
                       >
                         <Icon className="h-4 w-4" />
-                        {tier.level}
+                        <span className="text-gray-900 dark:text-gray-100">{tier.level}</span>
                       </Button>
                     );
                   })}
@@ -237,7 +264,7 @@ export const CommissionCalculatorPage: React.FC = () => {
                 </div>
                 {useCustomRate && (
                   <div className="relative">
-                    <Percent className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Percent className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
                     <Input
                       type="number"
                       value={customRate}

@@ -199,7 +199,7 @@ export const GoalsGamificationPage: React.FC = () => {
       case 'leads': return colors.iconBg.primary;
       case 'commission': return colors.iconBg.money;
       case 'conversion': return colors.iconBg.info;
-      default: return colors.iconBg.secondary;
+      default: return colors.iconBg.primary;
     }
   };
 
@@ -250,11 +250,11 @@ export const GoalsGamificationPage: React.FC = () => {
         <div className="flex gap-2">
           <Button variant="outline" className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
-            Calendário
+            <span className="text-gray-900 dark:text-gray-100">Calendário</span>
           </Button>
           <Button className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
-            Nova Meta
+            <span className="text-gray-900 dark:text-gray-100">Nova Meta</span>
           </Button>
         </div>
       </div>
@@ -677,7 +677,7 @@ export const GoalsGamificationPage: React.FC = () => {
                         className="flex items-center gap-1"
                       >
                         <Gift className="h-3 w-3" />
-                        Resgatar
+                        <span className="text-gray-900 dark:text-gray-100">Resgatar</span>
                       </Button>
                     </div>
                   </div>
