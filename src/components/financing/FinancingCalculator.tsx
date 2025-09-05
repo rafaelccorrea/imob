@@ -401,7 +401,7 @@ export const FinancingCalculator: React.FC<FinancingCalculatorProps> = ({
         title="Comparação de Bancos"
         size="xl"
       >
-        <div className="space-y-6">
+        <div className="max-h-[70vh] overflow-y-auto custom-scroll space-y-6 pr-2">
           {/* Resumo da Simulação */}
           <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
             <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">Parâmetros da Simulação</h3>
@@ -541,7 +541,7 @@ export const FinancingCalculator: React.FC<FinancingCalculatorProps> = ({
         onClose={() => setShowClientModal(false)}
         title="Perfil do Cliente"
       >
-        <div className="space-y-4">
+        <div className="max-h-[60vh] overflow-y-auto custom-scroll space-y-4 pr-2">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className={`block text-sm font-medium ${colors.text.title} mb-2`}>
