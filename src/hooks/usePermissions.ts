@@ -39,6 +39,7 @@ export const usePermissions = () => {
   
   const getRoleName = (role: UserRole): string => {
     const roleNames = {
+      admin: 'Administrador',
       owner: 'Proprietário',
       manager: 'Gestor',
       agent: 'Corretor',

@@ -1,5 +1,5 @@
 // Tipos de usuário e perfis
-export type UserRole = 'owner' | 'manager' | 'agent' | 'financial' | 'hr';
+export type UserRole = 'admin' | 'owner' | 'manager' | 'agent' | 'financial' | 'hr';
 
 // Permissões por módulo
 export interface ModulePermissions {
@@ -21,6 +21,22 @@ export interface ModulePermissions {
 
 // Configuração de permissões por perfil
 export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
+  admin: {
+    dashboard: true,
+    properties: true,
+    leads: true,
+    deals: true,
+    visits: true,
+    reports: true,
+    documents: true,
+    financial: true,
+    hr: true,
+    users: true,
+    settings: true,
+    keys: true,
+    clients: true,
+    contacts: true,
+  },
   owner: {
     dashboard: true,
     properties: true,

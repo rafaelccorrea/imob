@@ -28,7 +28,7 @@ export const mockUsers: User[] = [
     id: '0',
     name: 'Administrador',
     email: 'admin@imob.com',
-    role: 'owner' as UserRole,
+    role: 'admin' as UserRole,
     phone: '(11) 99999-9999',
     isActive: true,
     createdAt: new Date('2023-01-01').toISOString(),

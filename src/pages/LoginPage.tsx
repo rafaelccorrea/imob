@@ -45,7 +45,7 @@ export const LoginPage: React.FC = () => {
           id: mockUser.id,
           name: mockUser.name,
           email: mockUser.email,
-          role: mockUser.role as 'owner' | 'manager' | 'agent' | 'financial' | 'hr',
+          role: mockUser.role as 'admin' | 'owner' | 'manager' | 'agent' | 'financial' | 'hr',
         };
         login(user, 'mock-token-123');
         navigate('/dashboard');
@@ -73,7 +73,7 @@ export const LoginPage: React.FC = () => {
           id: mockUser.id,
           name: mockUser.name,
           email: mockUser.email,
-          role: mockUser.role as 'owner' | 'manager' | 'agent' | 'financial' | 'hr',
+          role: mockUser.role as 'admin' | 'owner' | 'manager' | 'agent' | 'financial' | 'hr',
         };
         login(user, 'mock-token-123');
         navigate('/dashboard');
