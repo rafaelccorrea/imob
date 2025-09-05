@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardFactory } from './components/dashboard/DashboardFactory';
+import ManagerDashboardPage from './pages/ManagerDashboardPage';
+import PresentationsPage from './pages/PresentationsPage';
+import TeamsPage from './pages/TeamsPage';
 import { PropertiesPage } from './pages/PropertiesPage';
 import { LeadsPage } from './pages/LeadsPage';
 import { DealsPage } from './pages/DealsPage';
@@ -81,6 +84,30 @@ function App() {
               <AuthProtectedRoute>
                 <Layout>
                   <DashboardFactory />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/manager-dashboard" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <ManagerDashboardPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/presentations" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <PresentationsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/teams" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <TeamsPage />
                 </Layout>
               </AuthProtectedRoute>
             } />

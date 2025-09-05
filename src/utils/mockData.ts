@@ -1,5 +1,24 @@
 // Dados mockados para demonstração do sistema
-import type { User, UserRole } from '../types';
+import type { 
+  User, 
+  UserRole,
+  Achievement,
+  AgentRanking,
+  PersonalGoal,
+  PersonalContact,
+  PersonalInteraction,
+  TeamPerformance,
+  TeamPerformanceMetrics,
+  ExecutiveMetrics,
+  PresentationSlide,
+  PresentationTemplate,
+  Presentation,
+  PresentationSettings,
+  Team,
+  TeamAgent,
+  TeamGoal,
+  TeamAssignment
+} from '../types';
 
 export const mockUsers: User[] = [
   {
@@ -1314,5 +1333,736 @@ export const mockTaxPlanning: TaxPlanning[] = [
     status: 'implemented',
     createdAt: new Date('2023-12-01').toISOString(),
     updatedAt: new Date('2024-01-01').toISOString(),
+  }
+];
+
+// Dados para Gamificação
+export const mockAchievements: Achievement[] = [
+  {
+    id: 'ach1',
+    name: 'Primeira Venda',
+    description: 'Realize sua primeira venda',
+    icon: '🎯',
+    points: 100,
+    category: 'sales',
+    requirement: 1,
+    unlockedAt: '2024-01-15'
+  },
+  {
+    id: 'ach2',
+    name: 'Vendedor do Mês',
+    description: 'Seja o melhor vendedor do mês',
+    icon: '🏆',
+    points: 500,
+    category: 'sales',
+    requirement: 1
+  },
+  {
+    id: 'ach3',
+    name: 'Mestre dos Leads',
+    description: 'Converta 10 leads em vendas',
+    icon: '🎪',
+    points: 300,
+    category: 'conversion',
+    requirement: 10
+  },
+  {
+    id: 'ach4',
+    name: 'Visitante Assíduo',
+    description: 'Realize 50 visitas',
+    icon: '🚶‍♂️',
+    points: 200,
+    category: 'visits',
+    requirement: 50
+  },
+  {
+    id: 'ach5',
+    name: 'Networker',
+    description: 'Cadastre 100 contatos',
+    icon: '👥',
+    points: 150,
+    category: 'leads',
+    requirement: 100
+  }
+];
+
+export const mockAgentRankings: AgentRanking[] = [
+  {
+    agentId: '3',
+    agentName: 'Pedro Lima',
+    position: 1,
+    points: 1250,
+    sales: 8,
+    conversionRate: 18.5,
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face'
+  },
+  {
+    agentId: '5',
+    agentName: 'Carlos Oliveira',
+    position: 2,
+    points: 980,
+    sales: 6,
+    conversionRate: 15.2,
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face'
+  },
+  {
+    agentId: '7',
+    agentName: 'Ana Silva',
+    position: 3,
+    points: 750,
+    sales: 4,
+    conversionRate: 12.8,
+    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
+  }
+];
+
+export const mockPersonalGoals: PersonalGoal[] = [
+  {
+    id: 'goal1',
+    agentId: '3',
+    type: 'monthly_sales',
+    target: 5,
+    current: 3,
+    period: '2024-02',
+    status: 'active',
+    reward: 'Bônus de R$ 2.000'
+  },
+  {
+    id: 'goal2',
+    agentId: '3',
+    type: 'monthly_leads',
+    target: 20,
+    current: 15,
+    period: '2024-02',
+    status: 'active',
+    reward: 'Dia de folga'
+  },
+  {
+    id: 'goal3',
+    agentId: '3',
+    type: 'conversion_rate',
+    target: 15,
+    current: 18.5,
+    period: '2024-02',
+    status: 'completed',
+    reward: 'Vale-presente R$ 500'
+  }
+];
+
+// Dados para CRM Pessoal
+export const mockPersonalContacts: PersonalContact[] = [
+  {
+    id: 'pc1',
+    agentId: '3',
+    name: 'Maria Santos',
+    email: 'maria@email.com',
+    phone: '(11) 99999-1111',
+    type: 'client',
+    source: 'Indicação',
+    status: 'active',
+    lastContact: '2024-02-15',
+    notes: 'Interessada em apartamento de 2 quartos',
+    tags: ['alto-potencial', 'centro'],
+    createdAt: '2024-01-10'
+  },
+  {
+    id: 'pc2',
+    agentId: '3',
+    name: 'João Silva',
+    email: 'joao@email.com',
+    phone: '(11) 99999-2222',
+    type: 'prospect',
+    source: 'Site',
+    status: 'active',
+    lastContact: '2024-02-14',
+    notes: 'Procurando casa com quintal',
+    tags: ['casa', 'quintal'],
+    createdAt: '2024-02-01'
+  },
+  {
+    id: 'pc3',
+    agentId: '3',
+    name: 'Ana Costa',
+    email: 'ana@email.com',
+    phone: '(11) 99999-3333',
+    type: 'referral',
+    source: 'Cliente atual',
+    status: 'converted',
+    lastContact: '2024-02-10',
+    notes: 'Já comprou apartamento',
+    tags: ['convertido', 'referência'],
+    createdAt: '2024-01-20'
+  }
+];
+
+export const mockPersonalInteractions: PersonalInteraction[] = [
+  {
+    id: 'pi1',
+    contactId: 'pc1',
+    agentId: '3',
+    type: 'call',
+    description: 'Ligação para agendar visita',
+    date: '2024-02-15',
+    outcome: 'positive',
+    nextAction: 'Visita agendada para sábado',
+    nextActionDate: '2024-02-17'
+  },
+  {
+    id: 'pi2',
+    contactId: 'pc2',
+    agentId: '3',
+    type: 'visit',
+    description: 'Visita ao apartamento',
+    date: '2024-02-14',
+    outcome: 'positive',
+    nextAction: 'Enviar proposta',
+    nextActionDate: '2024-02-16'
+  },
+  {
+    id: 'pi3',
+    contactId: 'pc3',
+    agentId: '3',
+    type: 'whatsapp',
+    description: 'Mensagem de agradecimento',
+    date: '2024-02-10',
+    outcome: 'positive',
+    nextAction: 'Pedir indicações',
+    nextActionDate: '2024-02-20'
+  }
+];
+
+// Dados para Dashboard Executivo
+export const mockTeamPerformanceData: TeamPerformance[] = [
+  {
+    agentId: '3',
+    agentName: 'Pedro Lima',
+    sales: 8,
+    leads: 45,
+    conversionRate: 18.5,
+    commission: 25000,
+    ranking: 1,
+    goals: mockPersonalGoals.filter(g => g.agentId === '3'),
+    achievements: mockAchievements.filter(a => a.unlockedAt)
+  },
+  {
+    agentId: '5',
+    agentName: 'Carlos Oliveira',
+    sales: 6,
+    leads: 38,
+    conversionRate: 15.2,
+    commission: 18000,
+    ranking: 2,
+    goals: [],
+    achievements: []
+  },
+  {
+    agentId: '7',
+    agentName: 'Ana Silva',
+    sales: 4,
+    leads: 32,
+    conversionRate: 12.8,
+    commission: 12000,
+    ranking: 3,
+    goals: [],
+    achievements: []
+  }
+];
+
+export const mockExecutiveMetrics: ExecutiveMetrics = {
+  totalSales: 18,
+  totalLeads: 115,
+  averageConversion: 15.5,
+  topPerformers: mockTeamPerformanceData,
+  teamGoals: {
+    monthly: 25,
+    quarterly: 75,
+    yearly: 300
+  },
+  marketInsights: {
+    trend: 'up',
+    seasonality: 'Alta temporada de vendas no primeiro trimestre',
+    recommendations: [
+      'Focar em leads de alto valor',
+      'Aumentar visitas presenciais',
+      'Melhorar follow-up com clientes'
+    ]
+  }
+};
+
+// Dados para Sistema de Apresentações Executivas
+export const mockPresentationTemplates: PresentationTemplate[] = [
+  {
+    id: 'template1',
+    name: 'Relatório Executivo Mensal',
+    description: 'Template padrão para apresentações mensais da diretoria',
+    category: 'executive',
+    thumbnail: '/templates/executive-monthly.jpg',
+    isDefault: true,
+    createdBy: '1',
+    createdAt: '2024-01-01',
+    slides: [
+      {
+        type: 'title',
+        title: 'Relatório Executivo - Janeiro 2024',
+        content: {
+          text: 'União Imobiliária - Performance e Resultados'
+        },
+        layout: 'full',
+        position: 1
+      },
+      {
+        type: 'metrics',
+        title: 'Principais Indicadores',
+        content: {
+          metrics: [
+            { label: 'Vendas Totais', value: '18', change: 12, trend: 'up' },
+            { label: 'Receita Total', value: 'R$ 2.5M', change: 8, trend: 'up' },
+            { label: 'Taxa de Conversão', value: '15.5%', change: 2, trend: 'up' },
+            { label: 'Novos Leads', value: '115', change: -5, trend: 'down' }
+          ]
+        },
+        layout: 'full',
+        position: 2
+      },
+      {
+        type: 'chart',
+        title: 'Performance da Equipe',
+        content: {
+          chartType: 'bar',
+          chartData: [
+            { name: 'Pedro Lima', sales: 8, leads: 45 },
+            { name: 'Carlos Oliveira', sales: 6, leads: 38 },
+            { name: 'Ana Silva', sales: 4, leads: 32 }
+          ]
+        },
+        layout: 'half',
+        position: 3
+      },
+      {
+        type: 'goals',
+        title: 'Metas e Objetivos',
+        content: {
+          goalsData: [
+            { period: 'Mensal', target: 25, achieved: 18, percentage: 72 },
+            { period: 'Trimestral', target: 75, achieved: 54, percentage: 72 },
+            { period: 'Anual', target: 300, achieved: 216, percentage: 72 }
+          ]
+        },
+        layout: 'half',
+        position: 4
+      }
+    ]
+  },
+  {
+    id: 'template2',
+    name: 'Apresentação para Investidores',
+    description: 'Template para apresentações para investidores e stakeholders',
+    category: 'executive',
+    thumbnail: '/templates/investor-presentation.jpg',
+    isDefault: false,
+    createdBy: '1',
+    createdAt: '2024-01-15',
+    slides: [
+      {
+        type: 'title',
+        title: 'União Imobiliária - Visão Estratégica 2024',
+        content: {
+          text: 'Crescimento Sustentável e Inovação no Mercado Imobiliário'
+        },
+        layout: 'full',
+        position: 1
+      },
+      {
+        type: 'metrics',
+        title: 'Crescimento e Rentabilidade',
+        content: {
+          metrics: [
+            { label: 'Crescimento Anual', value: '25%', change: 5, trend: 'up' },
+            { label: 'Margem de Lucro', value: '18%', change: 3, trend: 'up' },
+            { label: 'ROI', value: '22%', change: 4, trend: 'up' },
+            { label: 'Market Share', value: '12%', change: 2, trend: 'up' }
+          ]
+        },
+        layout: 'full',
+        position: 2
+      }
+    ]
+  }
+];
+
+export const mockPresentations: Presentation[] = [
+  {
+    id: 'pres1',
+    name: 'Relatório Janeiro 2024',
+    description: 'Apresentação mensal para diretoria',
+    templateId: 'template1',
+    slides: [
+      {
+        id: 'slide1',
+        type: 'title',
+        title: 'Relatório Executivo - Janeiro 2024',
+        content: {
+          text: 'União Imobiliária - Performance e Resultados'
+        },
+        layout: 'full',
+        position: 1,
+        backgroundColor: '#1e40af',
+        textColor: '#ffffff'
+      },
+      {
+        id: 'slide2',
+        type: 'metrics',
+        title: 'Principais Indicadores',
+        content: {
+          metrics: [
+            { label: 'Vendas Totais', value: '18', change: 12, trend: 'up' },
+            { label: 'Receita Total', value: 'R$ 2.5M', change: 8, trend: 'up' },
+            { label: 'Taxa de Conversão', value: '15.5%', change: 2, trend: 'up' },
+            { label: 'Novos Leads', value: '115', change: -5, trend: 'down' }
+          ]
+        },
+        layout: 'full',
+        position: 2
+      }
+    ],
+    ownerId: '1',
+    ownerRole: 'owner',
+    status: 'published',
+    lastPresented: '2024-02-01',
+    createdAt: '2024-01-31',
+    updatedAt: '2024-02-01'
+  },
+  {
+    id: 'pres2',
+    name: 'Performance da Equipe - Q1 2024',
+    description: 'Apresentação trimestral para gestores',
+    templateId: 'template1',
+    slides: [
+      {
+        id: 'slide3',
+        type: 'title',
+        title: 'Performance da Equipe - Q1 2024',
+        content: {
+          text: 'Análise de Resultados e Metas do Primeiro Trimestre'
+        },
+        layout: 'full',
+        position: 1
+      },
+      {
+        id: 'slide4',
+        type: 'team',
+        title: 'Ranking da Equipe',
+        content: {
+          teamData: mockTeamPerformanceData
+        },
+        layout: 'full',
+        position: 2
+      }
+    ],
+    ownerId: '2',
+    ownerRole: 'manager',
+    status: 'draft',
+    createdAt: '2024-03-31',
+    updatedAt: '2024-03-31'
+  }
+];
+
+export const mockPresentationSettings: PresentationSettings = {
+  theme: 'corporate',
+  logo: '/logo-uniao-imobiliaria.png',
+  companyName: 'União Imobiliária',
+  primaryColor: '#1e40af',
+  secondaryColor: '#3b82f6',
+  fontFamily: 'default',
+  autoRefresh: true,
+  refreshInterval: 30
+};
+
+// Dados para Sistema de Gestão de Equipes
+export const mockTeams: Team[] = [
+  {
+    id: 'team1',
+    name: 'Equipe Alpha',
+    description: 'Equipe de vendas premium focada em imóveis de alto valor',
+    managerId: '2',
+    managerName: 'Maria Santos',
+    color: '#3b82f6',
+    isActive: true,
+    agents: [
+      {
+        agentId: '3',
+        agentName: 'Pedro Lima',
+        role: 'leader',
+        joinedAt: '2023-03-01',
+        isActive: true,
+        performance: {
+          sales: 8,
+          leads: 45,
+          conversionRate: 18.5,
+          commission: 25000
+        }
+      },
+      {
+        agentId: '5',
+        agentName: 'Carlos Oliveira',
+        role: 'member',
+        joinedAt: '2023-05-01',
+        isActive: true,
+        performance: {
+          sales: 6,
+          leads: 38,
+          conversionRate: 15.2,
+          commission: 18000
+        }
+      }
+    ],
+    goals: [
+      {
+        id: 'goal1',
+        teamId: 'team1',
+        type: 'monthly_sales',
+        target: 15,
+        current: 14,
+        period: '2024-02',
+        status: 'active',
+        reward: 'Bônus de R$ 5.000 para a equipe',
+        createdAt: '2024-01-01',
+        updatedAt: '2024-02-15'
+      },
+      {
+        id: 'goal2',
+        teamId: 'team1',
+        type: 'monthly_leads',
+        target: 80,
+        current: 83,
+        period: '2024-02',
+        status: 'completed',
+        reward: 'Dia de folga coletivo',
+        createdAt: '2024-01-01',
+        updatedAt: '2024-02-15'
+      }
+    ],
+    createdAt: '2023-03-01',
+    updatedAt: '2024-02-15'
+  },
+  {
+    id: 'team2',
+    name: 'Equipe Beta',
+    description: 'Equipe focada em locações e imóveis comerciais',
+    managerId: '2',
+    managerName: 'Maria Santos',
+    color: '#10b981',
+    isActive: true,
+    agents: [
+      {
+        agentId: '7',
+        agentName: 'Ana Silva',
+        role: 'leader',
+        joinedAt: '2023-06-01',
+        isActive: true,
+        performance: {
+          sales: 4,
+          leads: 32,
+          conversionRate: 12.8,
+          commission: 12000
+        }
+      },
+      {
+        agentId: '8',
+        agentName: 'Roberto Costa',
+        role: 'member',
+        joinedAt: '2023-08-01',
+        isActive: true,
+        performance: {
+          sales: 3,
+          leads: 25,
+          conversionRate: 12.0,
+          commission: 9000
+        }
+      },
+      {
+        agentId: '9',
+        agentName: 'Fernanda Lima',
+        role: 'trainee',
+        joinedAt: '2024-01-01',
+        isActive: true,
+        performance: {
+          sales: 1,
+          leads: 15,
+          conversionRate: 6.7,
+          commission: 3000
+        }
+      }
+    ],
+    goals: [
+      {
+        id: 'goal3',
+        teamId: 'team2',
+        type: 'monthly_sales',
+        target: 8,
+        current: 8,
+        period: '2024-02',
+        status: 'completed',
+        reward: 'Almoço da equipe',
+        createdAt: '2024-01-01',
+        updatedAt: '2024-02-15'
+      }
+    ],
+    createdAt: '2023-06-01',
+    updatedAt: '2024-02-15'
+  },
+  {
+    id: 'team3',
+    name: 'Equipe Gamma',
+    description: 'Equipe de expansão para novos mercados',
+    managerId: '2',
+    managerName: 'Maria Santos',
+    color: '#f59e0b',
+    isActive: true,
+    agents: [
+      {
+        agentId: '10',
+        agentName: 'Lucas Pereira',
+        role: 'leader',
+        joinedAt: '2024-01-01',
+        isActive: true,
+        performance: {
+          sales: 2,
+          leads: 20,
+          conversionRate: 10.0,
+          commission: 6000
+        }
+      }
+    ],
+    goals: [
+      {
+        id: 'goal4',
+        teamId: 'team3',
+        type: 'monthly_sales',
+        target: 5,
+        current: 2,
+        period: '2024-02',
+        status: 'active',
+        reward: 'Curso de especialização',
+        createdAt: '2024-01-01',
+        updatedAt: '2024-02-15'
+      }
+    ],
+    createdAt: '2024-01-01',
+    updatedAt: '2024-02-15'
+  }
+];
+
+export const mockTeamAssignments: TeamAssignment[] = [
+  {
+    id: 'assign1',
+    agentId: '3',
+    agentName: 'Pedro Lima',
+    teamId: 'team1',
+    teamName: 'Equipe Alpha',
+    assignedBy: '2',
+    assignedAt: '2023-03-01',
+    status: 'active',
+    notes: 'Líder da equipe Alpha'
+  },
+  {
+    id: 'assign2',
+    agentId: '5',
+    agentName: 'Carlos Oliveira',
+    teamId: 'team1',
+    teamName: 'Equipe Alpha',
+    assignedBy: '2',
+    assignedAt: '2023-05-01',
+    status: 'active',
+    notes: 'Membro sênior'
+  },
+  {
+    id: 'assign3',
+    agentId: '7',
+    agentName: 'Ana Silva',
+    teamId: 'team2',
+    teamName: 'Equipe Beta',
+    assignedBy: '2',
+    assignedAt: '2023-06-01',
+    status: 'active',
+    notes: 'Líder da equipe Beta'
+  },
+  {
+    id: 'assign4',
+    agentId: '8',
+    agentName: 'Roberto Costa',
+    teamId: 'team2',
+    teamName: 'Equipe Beta',
+    assignedBy: '2',
+    assignedAt: '2023-08-01',
+    status: 'active',
+    notes: 'Especialista em locações'
+  },
+  {
+    id: 'assign5',
+    agentId: '9',
+    agentName: 'Fernanda Lima',
+    teamId: 'team2',
+    teamName: 'Equipe Beta',
+    assignedBy: '2',
+    assignedAt: '2024-01-01',
+    status: 'active',
+    notes: 'Estagiária em treinamento'
+  },
+  {
+    id: 'assign6',
+    agentId: '10',
+    agentName: 'Lucas Pereira',
+    teamId: 'team3',
+    teamName: 'Equipe Gamma',
+    assignedBy: '2',
+    assignedAt: '2024-01-01',
+    status: 'active',
+    notes: 'Líder da equipe Gamma'
+  }
+];
+
+export const mockTeamPerformanceMetrics: TeamPerformanceMetrics[] = [
+  {
+    teamId: 'team1',
+    teamName: 'Equipe Alpha',
+    totalSales: 14,
+    totalLeads: 83,
+    averageConversion: 16.9,
+    totalCommission: 43000,
+    agentsCount: 2,
+    ranking: 1,
+    goals: [],
+    topPerformers: mockTeams.find(t => t.id === 'team1')?.agents || [],
+    monthlyGrowth: 15.2,
+    lastUpdated: '2024-02-15'
+  },
+  {
+    teamId: 'team2',
+    teamName: 'Equipe Beta',
+    totalSales: 8,
+    totalLeads: 72,
+    averageConversion: 11.1,
+    totalCommission: 24000,
+    agentsCount: 3,
+    ranking: 2,
+    goals: [],
+    topPerformers: mockTeams.find(t => t.id === 'team2')?.agents || [],
+    monthlyGrowth: 8.5,
+    lastUpdated: '2024-02-15'
+  },
+  {
+    teamId: 'team3',
+    teamName: 'Equipe Gamma',
+    totalSales: 2,
+    totalLeads: 20,
+    averageConversion: 10.0,
+    totalCommission: 6000,
+    agentsCount: 1,
+    ranking: 3,
+    goals: [],
+    topPerformers: mockTeams.find(t => t.id === 'team3')?.agents || [],
+    monthlyGrowth: 5.0,
+    lastUpdated: '2024-02-15'
   }
 ];

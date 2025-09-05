@@ -531,3 +531,229 @@ export interface TimeTracking {
   status: 'present' | 'absent' | 'late' | 'half_day';
   notes?: string;
 }
+
+// Tipos para Gamificação
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  points: number;
+  category: 'sales' | 'leads' | 'visits' | 'conversion' | 'special';
+  requirement: number;
+  unlockedAt?: string;
+}
+
+export interface AgentRanking {
+  agentId: string;
+  agentName: string;
+  position: number;
+  points: number;
+  sales: number;
+  conversionRate: number;
+  avatar?: string;
+}
+
+export interface PersonalGoal {
+  id: string;
+  agentId: string;
+  type: 'monthly_sales' | 'monthly_leads' | 'conversion_rate' | 'commission_target';
+  target: number;
+  current: number;
+  period: string;
+  status: 'active' | 'completed' | 'failed';
+  reward?: string;
+}
+
+// Tipos para CRM Pessoal
+export interface PersonalContact {
+  id: string;
+  agentId: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  type: 'client' | 'prospect' | 'referral';
+  source: string;
+  status: 'active' | 'inactive' | 'converted';
+  lastContact: string;
+  notes: string;
+  tags: string[];
+  createdAt: string;
+}
+
+export interface PersonalInteraction {
+  id: string;
+  contactId: string;
+  agentId: string;
+  type: 'call' | 'email' | 'visit' | 'meeting' | 'whatsapp';
+  description: string;
+  date: string;
+  outcome: 'positive' | 'neutral' | 'negative';
+  nextAction?: string;
+  nextActionDate?: string;
+}
+
+// Tipos para Dashboard Executivo
+export interface TeamPerformance {
+  agentId: string;
+  agentName: string;
+  sales: number;
+  leads: number;
+  conversionRate: number;
+  commission: number;
+  ranking: number;
+  goals: PersonalGoal[];
+  achievements: Achievement[];
+}
+
+export interface ExecutiveMetrics {
+  totalSales: number;
+  totalLeads: number;
+  averageConversion: number;
+  topPerformers: TeamPerformance[];
+  teamGoals: {
+    monthly: number;
+    quarterly: number;
+    yearly: number;
+  };
+  marketInsights: {
+    trend: 'up' | 'down' | 'stable';
+    seasonality: string;
+    recommendations: string[];
+  };
+}
+
+// Tipos para Sistema de Apresentações Executivas
+export interface PresentationSlide {
+  id: string;
+  type: 'title' | 'metrics' | 'chart' | 'team' | 'goals' | 'custom';
+  title: string;
+  content: {
+    text?: string;
+    metrics?: {
+      label: string;
+      value: string | number;
+      change?: number;
+      trend?: 'up' | 'down' | 'stable';
+    }[];
+    chartType?: 'bar' | 'line' | 'pie' | 'area';
+    chartData?: any[];
+    teamData?: TeamPerformance[];
+    goalsData?: {
+      period: string;
+      target: number;
+      achieved: number;
+      percentage: number;
+    }[];
+  };
+  layout: 'full' | 'half' | 'quarter';
+  position: number;
+  backgroundColor?: string;
+  textColor?: string;
+}
+
+export interface PresentationTemplate {
+  id: string;
+  name: string;
+  description: string;
+  category: 'executive' | 'monthly' | 'quarterly' | 'annual' | 'custom';
+  slides: Omit<PresentationSlide, 'id'>[];
+  thumbnail: string;
+  isDefault: boolean;
+  createdBy: string;
+  createdAt: string;
+}
+
+export interface Presentation {
+  id: string;
+  name: string;
+  description: string;
+  templateId?: string;
+  slides: PresentationSlide[];
+  ownerId: string;
+  ownerRole: 'owner' | 'manager';
+  status: 'draft' | 'published' | 'archived';
+  lastPresented?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PresentationSettings {
+  theme: 'corporate' | 'modern' | 'minimal' | 'colorful';
+  logo?: string;
+  companyName: string;
+  primaryColor: string;
+  secondaryColor: string;
+  fontFamily: 'default' | 'serif' | 'sans-serif';
+  autoRefresh: boolean;
+  refreshInterval: number; // em minutos
+}
+
+// Tipos para Sistema de Gestão de Equipes
+export interface Team {
+  id: string;
+  name: string;
+  description: string;
+  managerId: string;
+  managerName: string;
+  agents: TeamAgent[];
+  goals: TeamGoal[];
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
+  color: string; // cor para identificação visual
+}
+
+export interface TeamAgent {
+  agentId: string;
+  agentName: string;
+  role: 'leader' | 'member' | 'trainee';
+  joinedAt: string;
+  isActive: boolean;
+  performance: {
+    sales: number;
+    leads: number;
+    conversionRate: number;
+    commission: number;
+  };
+}
+
+export interface TeamGoal {
+  id: string;
+  teamId: string;
+  type: 'monthly_sales' | 'monthly_leads' | 'conversion_rate' | 'revenue';
+  target: number;
+  current: number;
+  period: string;
+  status: 'active' | 'completed' | 'failed';
+  reward?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TeamPerformanceMetrics {
+  teamId: string;
+  teamName: string;
+  totalSales: number;
+  totalLeads: number;
+  averageConversion: number;
+  totalCommission: number;
+  agentsCount: number;
+  ranking: number;
+  goals: TeamGoal[];
+  topPerformers: TeamAgent[];
+  monthlyGrowth: number;
+  lastUpdated: string;
+}
+
+export interface TeamAssignment {
+  id: string;
+  agentId: string;
+  agentName: string;
+  teamId: string;
+  teamName: string;
+  assignedBy: string;
+  assignedAt: string;
+  status: 'active' | 'inactive' | 'transferred';
+  notes?: string;
+}

@@ -34,7 +34,10 @@ import {
   CalendarDays,
   BookOpen,
   PieChart,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Presentation,
+  Plus,
+  Layout
 } from 'lucide-react';
 import { useAuthStore, useUIStore } from '../../stores';
 import { usePermissions } from '../../hooks/usePermissions';
@@ -70,6 +73,72 @@ const sidebarSections: SidebarSection[] = [
         icon: Home,
         href: '/dashboard',
         roles: ['owner', 'manager', 'agent', 'financial', 'hr'],
+        subItems: [
+          {
+            label: 'Visão Geral',
+            icon: Home,
+            href: '/dashboard',
+            roles: ['owner', 'agent', 'financial', 'hr'],
+          },
+          {
+            label: 'Dashboard Executivo',
+            icon: BarChart3,
+            href: '/manager-dashboard',
+            roles: ['manager', 'owner'],
+          },
+        ],
+      },
+      {
+        label: 'Apresentações',
+        icon: Presentation,
+        href: '/presentations',
+        roles: ['owner', 'manager'],
+        subItems: [
+          {
+            label: 'Criar Apresentação',
+            icon: Plus,
+            href: '/presentations',
+            roles: ['owner', 'manager'],
+          },
+          {
+            label: 'Templates',
+            icon: Layout,
+            href: '/presentations?tab=templates',
+            roles: ['owner', 'manager'],
+          },
+          {
+            label: 'Minhas Apresentações',
+            icon: FileText,
+            href: '/presentations?tab=presentations',
+            roles: ['owner', 'manager'],
+          },
+        ],
+      },
+      {
+        label: 'Equipes',
+        icon: Users,
+        href: '/teams',
+        roles: ['manager'],
+        subItems: [
+          {
+            label: 'Gestão de Equipes',
+            icon: Users,
+            href: '/teams',
+            roles: ['manager'],
+          },
+          {
+            label: 'Performance',
+            icon: TrendingUp,
+            href: '/teams?tab=performance',
+            roles: ['manager'],
+          },
+          {
+            label: 'Atribuições',
+            icon: UserCheck,
+            href: '/teams?tab=assignments',
+            roles: ['manager'],
+          },
+        ],
       },
     ],
   },
@@ -327,8 +396,22 @@ export const Sidebar: React.FC = () => {
     return location.pathname === href;
   };
 
+  const isSubItemActive = (subItemHref: string) => {
+    const currentPath = location.pathname;
+    const currentSearch = location.search;
+    
+    // If subItem has query parameters, check both path and search
+    if (subItemHref.includes('?')) {
+      const [path, search] = subItemHref.split('?');
+      return currentPath === path && currentSearch === `?${search}`;
+    }
+    
+    // If no query parameters, just check path
+    return currentPath === subItemHref;
+  };
+
   const hasActiveSubItem = (subItems: SidebarSubItem[]) => {
-    return subItems.some(subItem => isActive(subItem.href));
+    return subItems.some(subItem => isSubItemActive(subItem.href));
   };
 
   return (
@@ -443,7 +526,7 @@ export const Sidebar: React.FC = () => {
                                       to={subItem.href}
                                       className={cn(
                                         "flex items-center px-2 py-2 text-sm rounded-md transition-colors",
-                                        isActive(subItem.href)
+                                        isSubItemActive(subItem.href)
                                           ? "bg-primary-50 text-primary-600 dark:bg-primary-900/10 dark:text-primary-400"
                                           : "text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800"
                                       )}
