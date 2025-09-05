@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { formatCurrency, formatDate } from '../utils';
+import { colors, formatCurrencyWithColor, getGrowthColor } from '../utils/colors';
 
 // Dados mockados para demonstração
 const monthlyData = [
@@ -178,10 +179,10 @@ export const DashboardPage: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-secondary-900 dark:text-secondary-100">
+          <h1 className={`text-2xl font-bold ${colors.text.title}`}>
             Dashboard
           </h1>
-          <p className="text-secondary-600 dark:text-secondary-400">
+          <p className={colors.text.body}>
             Bem-vindo de volta, {user?.name}! Aqui está um resumo do seu negócio.
           </p>
         </div>
@@ -197,18 +198,18 @@ export const DashboardPage: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-secondary-600 dark:text-white">Receita Total</p>
-                <p className="text-2xl font-bold" style={{ color: getValueColor(metrics.totalRevenue, 'income') }}>
+                <p className={`text-sm font-medium ${colors.text.body}`}>Receita Total</p>
+                <p className={`text-2xl font-bold ${colors.icons.money}`}>
                   {formatCurrency(metrics.totalRevenue)}
                 </p>
-                <p className="text-xs text-success-600 dark:text-white flex items-center mt-1">
+                <p className={`text-xs ${colors.icons.success} flex items-center mt-1`}>
                   <TrendingUp className="h-3 w-3 mr-1" />
                   +12% este mês
                 </p>
               </div>
-                             <div className="h-12 w-12 rounded-lg bg-success-100 dark:bg-success-900 flex items-center justify-center">
-                 <DollarSign className="h-6 w-6" style={{ color: getIconColor('income') }} />
-               </div>
+              <div className={`h-12 w-12 rounded-lg ${colors.iconBg.money} flex items-center justify-center`}>
+                <DollarSign className={`h-6 w-6 ${colors.icons.money}`} />
+              </div>
             </div>
           </CardContent>
         </Card>

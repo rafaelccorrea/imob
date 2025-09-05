@@ -59,6 +59,34 @@ export const LoginPage: React.FC = () => {
     }
   };
 
+  const handleQuickLogin = async (email: string, password: string) => {
+    setLoading(true);
+    setError('');
+    setShowCredentials(false);
+
+    try {
+      // Simulação de login com dados mock
+      const mockUser = mockUsers.find(u => u.email === email);
+      if (mockUser && password === '123456') {
+        // Converter o mockUser para o tipo User esperado
+        const user = {
+          id: mockUser.id,
+          name: mockUser.name,
+          email: mockUser.email,
+          role: mockUser.role as 'owner' | 'manager' | 'agent' | 'financial' | 'hr',
+        };
+        login(user, 'mock-token-123');
+        navigate('/dashboard');
+      } else {
+        setError('Email ou senha inválidos');
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Erro ao fazer login');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Branding Section (60%) */}
@@ -71,7 +99,7 @@ export const LoginPage: React.FC = () => {
               <img 
                 src={logo} 
                 alt="União Imobiliária" 
-                className="h-20 w-auto mx-auto mb-8 drop-shadow-lg"
+                className="h-24 w-auto mx-auto mb-8 drop-shadow-lg"
               />
               <div className="flex items-center justify-center space-x-2 mb-6">
                 <Sparkles className="h-6 w-6 text-yellow-300" />
@@ -95,7 +123,7 @@ export const LoginPage: React.FC = () => {
             <img 
               src={logo} 
               alt="União Imobiliária" 
-              className="h-16 w-auto mx-auto mb-4"
+              className="h-20 w-auto mx-auto mb-4"
             />
             <h1 className="text-2xl font-bold text-gray-900">Sistema de Gestão</h1>
           </div>
@@ -194,37 +222,140 @@ export const LoginPage: React.FC = () => {
       </div>
 
       {/* Credentials Modal */}
-      <Modal
-        isOpen={showCredentials}
-        onClose={() => setShowCredentials(false)}
-        title="Credenciais de Demonstração"
-      >
-        <div className="space-y-4">
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 className="font-medium text-blue-900 mb-2">Usuário Administrador</h3>
-            <div className="space-y-1 text-sm text-gray-600">
-              <p><strong>Email:</strong> admin@imob.com</p>
-              <p><strong>Senha:</strong> 123456</p>
+      <div className={`fixed inset-0 z-50 flex items-center justify-center ${showCredentials ? 'block' : 'hidden'}`}>
+        <div className="fixed inset-0 bg-black/50" onClick={() => setShowCredentials(false)} />
+        <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
+          <div className="p-6">
+            {/* Header */}
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-3">
+                <Info className="h-6 w-6 text-white" />
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 mb-1">Credenciais de Teste</h2>
+              <p className="text-sm text-gray-600">Clique para fazer login automaticamente</p>
             </div>
-          </div>
-          
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 className="font-medium text-purple-900 mb-2">Outros Usuários</h3>
-            <div className="space-y-1 text-sm text-gray-600">
-              <p><strong>Gestor:</strong> manager@imob.com / 123456</p>
-              <p><strong>Corretor:</strong> agent@imob.com / 123456</p>
-              <p><strong>Financeiro:</strong> financial@imob.com / 123456</p>
-              <p><strong>RH:</strong> hr@imob.com / 123456</p>
-            </div>
-          </div>
 
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <p className="text-sm text-black">
-              <strong>Nota:</strong> Este é um sistema de demonstração. Use qualquer uma das credenciais acima para testar as diferentes funcionalidades.
-            </p>
+            {/* Users List */}
+            <div className="space-y-3">
+              {/* Admin */}
+              <button
+                onClick={() => handleQuickLogin('admin@imob.com', '123456')}
+                className="w-full bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-3 hover:from-blue-100 hover:to-blue-200 transition-all duration-200"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                    <User className="h-4 w-4 text-white" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h4 className="font-semibold text-blue-900">Administrador</h4>
+                    <p className="text-xs text-blue-700">admin@imob.com</p>
+                  </div>
+                  <div className="text-blue-600">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </button>
+
+              {/* Manager */}
+              <button
+                onClick={() => handleQuickLogin('manager@imob.com', '123456')}
+                className="w-full bg-gradient-to-r from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-3 hover:from-purple-100 hover:to-purple-200 transition-all duration-200"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                    <User className="h-4 w-4 text-white" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h4 className="font-semibold text-purple-900">Gestor</h4>
+                    <p className="text-xs text-purple-700">manager@imob.com</p>
+                  </div>
+                  <div className="text-purple-600">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </button>
+
+              {/* Agent */}
+              <button
+                onClick={() => handleQuickLogin('agent@imob.com', '123456')}
+                className="w-full bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-lg p-3 hover:from-green-100 hover:to-green-200 transition-all duration-200"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <User className="h-4 w-4 text-white" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h4 className="font-semibold text-green-900">Corretor</h4>
+                    <p className="text-xs text-green-700">agent@imob.com</p>
+                  </div>
+                  <div className="text-green-600">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </button>
+
+              {/* Financial */}
+              <button
+                onClick={() => handleQuickLogin('financial@imob.com', '123456')}
+                className="w-full bg-gradient-to-r from-yellow-50 to-yellow-100 border border-yellow-200 rounded-lg p-3 hover:from-yellow-100 hover:to-yellow-200 transition-all duration-200"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                    <User className="h-4 w-4 text-white" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h4 className="font-semibold text-yellow-900">Financeiro</h4>
+                    <p className="text-xs text-yellow-700">financial@imob.com</p>
+                  </div>
+                  <div className="text-yellow-600">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </button>
+
+              {/* HR */}
+              <button
+                onClick={() => handleQuickLogin('hr@imob.com', '123456')}
+                className="w-full bg-gradient-to-r from-pink-50 to-pink-100 border border-pink-200 rounded-lg p-3 hover:from-pink-100 hover:to-pink-200 transition-all duration-200"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center">
+                    <User className="h-4 w-4 text-white" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h4 className="font-semibold text-pink-900">RH</h4>
+                    <p className="text-xs text-pink-700">hr@imob.com</p>
+                  </div>
+                  <div className="text-pink-600">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </button>
+            </div>
+
+            {/* Close Button */}
+            <div className="flex justify-center mt-6 pt-4 border-t border-gray-200">
+              <Button 
+                variant="outline"
+                onClick={() => setShowCredentials(false)}
+                className="px-6"
+              >
+                Fechar
+              </Button>
+            </div>
           </div>
         </div>
-      </Modal>
+      </div>
     </div>
   );
 };

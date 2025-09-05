@@ -12,17 +12,16 @@ export const usePermissions = () => {
         properties: false,
         leads: false,
         deals: false,
+        visits: false,
+        reports: false,
+        documents: false,
         financial: false,
         hr: false,
         users: false,
         settings: false,
-        reports: false,
-        analytics: false,
-        commissions: false,
-        marketing: false,
-        training: false,
-        documents: false,
-        notifications: false,
+        keys: false, // NEW
+        clients: false, // NEW
+        contacts: false, // NEW
       };
     }
     

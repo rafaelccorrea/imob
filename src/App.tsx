@@ -8,6 +8,12 @@ import { LeadsPage } from './pages/LeadsPage';
 import { DealsPage } from './pages/DealsPage';
 import { FinancialPage } from './pages/FinancialPage';
 import { HRPage } from './pages/HRPage';
+import { VisitsPage } from './pages/VisitsPage';
+import { ReportsPage } from './pages/ReportsPage';
+import { DocumentsPage } from './pages/DocumentsPage';
+import { KeysPage } from './pages/KeysPage'; // NEW
+import { ClientsPage } from './pages/ClientsPage'; // NEW
+import { ContactsPage } from './pages/ContactsPage'; // NEW
 import { UsersPage } from './pages/UsersPage';
 import { UserPermissionsPage } from './pages/UserPermissionsPage';
 import { SettingsPage } from './pages/SettingsPage';
@@ -82,6 +88,54 @@ function App() {
               <AuthProtectedRoute>
                 <Layout>
                   <DealsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/visits" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <VisitsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/reports" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <ReportsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/documents" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <DocumentsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/keys" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <KeysPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/clients" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <ClientsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/contacts" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <ContactsPage />
                 </Layout>
               </AuthProtectedRoute>
             } />

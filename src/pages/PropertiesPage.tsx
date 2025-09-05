@@ -14,6 +14,7 @@ import {
 import { mockProperties } from '../utils/mockData';
 import { formatCurrency } from '../utils';
 import { Button, Card, CardContent, Badge, Input, Modal } from '../components/ui';
+import { colors, getStatusColor, getStatusBgColor } from '../utils/colors';
 
 export const PropertiesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');

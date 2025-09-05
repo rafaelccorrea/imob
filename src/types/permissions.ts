@@ -7,17 +7,16 @@ export interface ModulePermissions {
   properties: boolean;
   leads: boolean;
   deals: boolean;
+  visits: boolean;
+  reports: boolean;
+  documents: boolean;
   financial: boolean;
   hr: boolean;
   users: boolean;
   settings: boolean;
-  reports: boolean;
-  analytics: boolean;
-  commissions: boolean;
-  marketing: boolean;
-  training: boolean;
-  documents: boolean;
-  notifications: boolean;
+  keys: boolean; // NEW: Controle de chaves
+  clients: boolean; // NEW: Perfis de clientes
+  contacts: boolean; // NEW: Histórico de contatos
 }
 
 // Configuração de permissões por perfil
@@ -27,84 +26,79 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     properties: true,
     leads: true,
     deals: true,
+    visits: true,
+    reports: true,
+    documents: true,
     financial: true,
     hr: true,
     users: true,
     settings: true,
-    reports: true,
-    analytics: true,
-    commissions: true,
-    marketing: true,
-    training: true,
-    documents: true,
-    notifications: true,
+    keys: true, // NEW
+    clients: true, // NEW
+    contacts: true, // NEW
   },
   manager: {
     dashboard: true,
     properties: true,
     leads: true,
     deals: true,
+    visits: true,
+    reports: true,
+    documents: true,
     financial: false,
     hr: false,
     users: true,
     settings: false,
-    reports: true,
-    analytics: true,
-    commissions: true,
-    marketing: true,
-    training: true,
-    documents: true,
-    notifications: true,
+    keys: true, // NEW
+    clients: true, // NEW
+    contacts: true, // NEW
   },
   agent: {
     dashboard: true,
     properties: true,
     leads: true,
     deals: true,
+    visits: true,
+    reports: false,
+    documents: true,
     financial: false,
     hr: false,
     users: false,
     settings: false,
-    reports: false,
-    analytics: false,
-    commissions: true,
-    marketing: false,
-    training: true,
-    documents: true,
-    notifications: true,
+    keys: true, // NEW
+    clients: true, // NEW
+    contacts: true, // NEW
   },
   financial: {
     dashboard: true,
     properties: false,
     leads: false,
-    deals: true,
+    deals: false,
+    visits: false,
+    reports: true,
+    documents: true,
     financial: true,
     hr: false,
     users: false,
     settings: false,
-    reports: true,
-    analytics: true,
-    commissions: true,
-    marketing: false,
-    training: false,
-    documents: true,
-    notifications: true,
+    keys: false, // NEW: Financial não precisa de controle de chaves
+    clients: false, // NEW: Financial não precisa de perfis de clientes
+    contacts: false, // NEW: Financial não precisa de histórico de contatos
   },
   hr: {
     dashboard: true,
     properties: false,
     leads: false,
     deals: false,
+    visits: false,
+    reports: false,
+    documents: false,
     financial: false,
     hr: true,
     users: true,
     settings: false,
-    reports: true,
-    analytics: false,
-    commissions: false,
-    marketing: false,
-    training: true,
-    documents: true,
-    notifications: true,
+    keys: false, // NEW: HR não precisa de controle de chaves
+    clients: false, // NEW: HR não precisa de perfis de clientes
+    contacts: false, // NEW: HR não precisa de histórico de contatos
   },
 };
