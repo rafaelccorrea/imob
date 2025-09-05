@@ -90,17 +90,21 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Branding Section (60%) */}
-      <div className="hidden lg:flex lg:w-3/5 relative overflow-hidden bg-gradient-to-br from-purple-500 to-blue-600">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/30 to-blue-700/30"></div>
+      <div className="hidden lg:flex lg:w-3/5 relative overflow-hidden" style={{ 
+        background: 'linear-gradient(135deg, rgba(183, 59, 38, 0.8) 0%, rgba(166, 56, 31, 0.8) 100%), url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1973&q=80") center/cover'
+      }}>
+        <div className="absolute inset-0 bg-black/20"></div>
         
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-white w-full px-8">
           <div className="text-center max-w-md">
             <div className="mb-8">
-              <img 
-                src={logo} 
-                alt="União Imobiliária" 
-                className="h-24 w-auto mx-auto mb-8 drop-shadow-lg"
-              />
+              <div className="bg-black/30 rounded-lg p-4 mb-8 inline-block">
+                <img 
+                  src={logo} 
+                  alt="União Imobiliária" 
+                  className="h-24 w-auto mx-auto drop-shadow-lg"
+                />
+              </div>
               <div className="flex items-center justify-center space-x-2 mb-6">
                 <Sparkles className="h-6 w-6 text-yellow-300" />
                 <h1 className="text-4xl font-bold">Sistema de Gestão</h1>
@@ -131,7 +135,7 @@ export const LoginPage: React.FC = () => {
           {/* Login Card */}
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-6">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6" style={{ background: 'linear-gradient(135deg, #B73B26 0%, #A6381F 100%)' }}>
                 <User className="h-10 w-10 text-white" />
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-3">Entrar no Sistema</h2>
@@ -152,7 +156,8 @@ export const LoginPage: React.FC = () => {
                 <input
                   type="email"
                   placeholder="seu@email.com"
-                  className="w-full h-14 px-4 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full h-14 px-4 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:border-gray-400"
+                  style={{ '--tw-ring-color': '#B73B26' } as React.CSSProperties}
                   {...register('email')}
                 />
                 {errors.email && (
@@ -166,7 +171,8 @@ export const LoginPage: React.FC = () => {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
-                    className="w-full h-14 px-4 pr-12 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full h-14 px-4 pr-12 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:border-gray-400"
+                    style={{ '--tw-ring-color': '#B73B26' } as React.CSSProperties}
                     {...register('password')}
                   />
                   <button
@@ -188,7 +194,11 @@ export const LoginPage: React.FC = () => {
 
               <Button
                 type="submit"
-                className="w-full h-14 text-base font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                className="w-full h-14 text-base font-semibold text-white"
+                style={{ 
+                  background: 'linear-gradient(90deg, #B73B26 0%, #A6381F 100%)',
+                  '--tw-ring-color': '#B73B26'
+                } as React.CSSProperties}
                 loading={loading}
                 disabled={loading}
               >
@@ -198,12 +208,13 @@ export const LoginPage: React.FC = () => {
 
             <div className="mt-8 pt-6 border-t border-gray-200">
               <div className="flex items-center justify-between">
-                <button className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                <button className="text-sm text-gray-600 transition-colors" style={{ '--hover-color': '#B73B26' } as React.CSSProperties}>
                   Esqueceu sua senha?
                 </button>
                 <button 
                   onClick={() => setShowCredentials(true)}
-                  className="flex items-center space-x-1 text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                  className="flex items-center space-x-1 text-sm text-gray-600 transition-colors"
+                  style={{ '--hover-color': '#A6A597' } as React.CSSProperties}
                 >
                   <Info className="h-4 w-4" />
                   <span>Credenciais de Teste</span>
@@ -228,7 +239,7 @@ export const LoginPage: React.FC = () => {
           <div className="p-6">
             {/* Header */}
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-3">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-3" style={{ background: 'linear-gradient(135deg, #B73B26 0%, #A6381F 100%)' }}>
                 <Info className="h-6 w-6 text-white" />
               </div>
               <h2 className="text-xl font-bold text-gray-900 mb-1">Credenciais de Teste</h2>

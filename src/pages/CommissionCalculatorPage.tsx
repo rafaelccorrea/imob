@@ -209,18 +209,30 @@ export const CommissionCalculatorPage: React.FC = () => {
                   <Button
                     variant={dealType === 'sale' ? 'default' : 'outline'}
                     onClick={() => setDealType('sale')}
-                    className="flex items-center gap-2"
+                    className={`flex items-center gap-2 ${
+                      dealType === 'sale' 
+                        ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                        : 'border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                    }`}
                   >
-                    <TrendingUp className="h-4 w-4" />
-                    <span className="text-gray-900 dark:text-gray-100">Venda</span>
+                    <TrendingUp className={`h-4 w-4 ${
+                      dealType === 'sale' ? 'text-white' : 'text-blue-600'
+                    }`} />
+                    <span className={dealType === 'sale' ? 'text-white' : 'text-blue-600 dark:text-blue-400'}>Venda</span>
                   </Button>
                   <Button
                     variant={dealType === 'rent' ? 'default' : 'outline'}
                     onClick={() => setDealType('rent')}
-                    className="flex items-center gap-2"
+                    className={`flex items-center gap-2 ${
+                      dealType === 'rent' 
+                        ? 'bg-green-600 hover:bg-green-700 text-white' 
+                        : 'border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20'
+                    }`}
                   >
-                    <DollarSign className="h-4 w-4" />
-                    <span className="text-gray-900 dark:text-gray-100">Locação</span>
+                    <DollarSign className={`h-4 w-4 ${
+                      dealType === 'rent' ? 'text-white' : 'text-green-600'
+                    }`} />
+                    <span className={dealType === 'rent' ? 'text-white' : 'text-green-600 dark:text-green-400'}>Locação</span>
                   </Button>
                 </div>
               </div>
@@ -238,10 +250,32 @@ export const CommissionCalculatorPage: React.FC = () => {
                         key={tier.level}
                         variant={agentLevel === tier.level.toLowerCase() ? 'default' : 'outline'}
                         onClick={() => setAgentLevel(tier.level.toLowerCase() as any)}
-                        className="flex items-center gap-2"
+                        className={`flex items-center gap-2 ${
+                          agentLevel === tier.level.toLowerCase()
+                            ? tier.level === 'Junior' ? 'bg-blue-600 hover:bg-blue-700 text-white' :
+                              tier.level === 'Senior' ? 'bg-green-600 hover:bg-green-700 text-white' :
+                              tier.level === 'Expert' ? 'bg-purple-600 hover:bg-purple-700 text-white' :
+                              'bg-yellow-600 hover:bg-yellow-700 text-white'
+                            : tier.level === 'Junior' ? 'border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20' :
+                              tier.level === 'Senior' ? 'border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20' :
+                              tier.level === 'Expert' ? 'border-purple-600 text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20' :
+                              'border-yellow-600 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
+                        }`}
                       >
-                        <Icon className="h-4 w-4" />
-                        <span className="text-gray-900 dark:text-gray-100">{tier.level}</span>
+                        <Icon className={`h-4 w-4 ${
+                          agentLevel === tier.level.toLowerCase() ? 'text-white' :
+                          tier.level === 'Junior' ? 'text-blue-600' :
+                          tier.level === 'Senior' ? 'text-green-600' :
+                          tier.level === 'Expert' ? 'text-purple-600' :
+                          'text-yellow-600'
+                        }`} />
+                        <span className={
+                          agentLevel === tier.level.toLowerCase() ? 'text-white' :
+                          tier.level === 'Junior' ? 'text-blue-600 dark:text-blue-400' :
+                          tier.level === 'Senior' ? 'text-green-600 dark:text-green-400' :
+                          tier.level === 'Expert' ? 'text-purple-600 dark:text-purple-400' :
+                          'text-yellow-600 dark:text-yellow-400'
+                        }>{tier.level}</span>
                       </Button>
                     );
                   })}

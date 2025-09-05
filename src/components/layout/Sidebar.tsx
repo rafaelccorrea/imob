@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../ui/utils';
 import { 
   Home, 
@@ -19,7 +19,8 @@ import {
   UserPlus,
   MessageSquare,
   Calculator,
-  Target
+  Target,
+  LogOut
 } from 'lucide-react';
 import { useAuthStore, useUIStore } from '../../stores';
 import { usePermissions } from '../../hooks/usePermissions';
@@ -196,10 +197,11 @@ const sidebarSections: SidebarSection[] = [
 ];
 
 export const Sidebar: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { sidebarOpen, toggleSidebar } = useUIStore();
   const { getRoleName } = usePermissions();
   const location = useLocation();
+  const navigate = useNavigate();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
   const toggleExpanded = (itemLabel: string) => {
@@ -212,6 +214,11 @@ export const Sidebar: React.FC = () => {
 
   const isItemExpanded = (itemLabel: string) => {
     return expandedItems.includes(itemLabel);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   const isActive = (href: string) => {
@@ -356,7 +363,7 @@ export const Sidebar: React.FC = () => {
 
           {/* User info */}
           <div className="border-t border-gray-200 dark:border-gray-700 p-4">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 mb-3">
               <div className="h-8 w-8 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
                 <User className="h-4 w-4 text-primary-600 dark:text-primary-400" />
               </div>
@@ -369,6 +376,15 @@ export const Sidebar: React.FC = () => {
                 </p>
               </div>
             </div>
+            
+            {/* Logout button */}
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+            >
+              <LogOut className="h-4 w-4" />
+              Sair
+            </button>
           </div>
         </div>
       </div>
