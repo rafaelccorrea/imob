@@ -2,6 +2,18 @@
 export type { UserRole, ModulePermissions } from './permissions';
 export { ROLE_PERMISSIONS } from './permissions';
 
+// Re-exportações de tipos financeiros
+export type { 
+  FinancialEntry, 
+  Commission as FinancialCommission, 
+  CashFlowEntry, 
+  FinancialMetrics, 
+  AgentFinancialSummary,
+  Visit as FinancialVisit,
+  Lead as FinancialLead,
+  AgentDashboard as FinancialAgentDashboard
+} from './financial';
+
 
 // Tipos para as entidades do sistema
 

@@ -12,11 +12,12 @@ import {
   FileText,
   BarChart3,
   DollarSign,
-  Bell,
   Target,
-  GraduationCap,
   FolderOpen,
-  Users
+  Users,
+  Calendar,
+  Key,
+  MessageSquare
 } from 'lucide-react';
 import { mockUsers } from '../utils/mockData';
 import { Button, Card, CardContent, Badge } from '../components/ui';
@@ -28,17 +29,16 @@ const moduleLabels = {
   properties: 'Imóveis',
   leads: 'Leads',
   deals: 'Negociações',
+  visits: 'Visitas',
   financial: 'Financeiro',
   hr: 'RH',
   users: 'Usuários',
   settings: 'Configurações',
   reports: 'Relatórios',
-  analytics: 'Analytics',
-  commissions: 'Comissões',
-  marketing: 'Marketing',
-  training: 'Treinamento',
   documents: 'Documentos',
-  notifications: 'Notificações',
+  keys: 'Chaves',
+  clients: 'Clientes',
+  contacts: 'Contatos',
 };
 
 const moduleIcons = {
@@ -46,17 +46,16 @@ const moduleIcons = {
   properties: Building,
   leads: Users,
   deals: Target,
+  visits: Calendar,
   financial: DollarSign,
   hr: Users,
   users: Users,
   settings: Settings,
   reports: FileText,
-  analytics: BarChart3,
-  commissions: DollarSign,
-  marketing: Target,
-  training: GraduationCap,
   documents: FolderOpen,
-  notifications: Bell,
+  keys: Key,
+  clients: Users,
+  contacts: MessageSquare,
 };
 
 const moduleDescriptions = {
@@ -64,17 +63,16 @@ const moduleDescriptions = {
   properties: 'Gerenciar portfólio de imóveis',
   leads: 'Gerenciar leads e clientes',
   deals: 'Acompanhar negociações',
+  visits: 'Agendar e gerenciar visitas',
   financial: 'Controle financeiro',
   hr: 'Gestão de recursos humanos',
   users: 'Gerenciar usuários do sistema',
   settings: 'Configurações do sistema',
   reports: 'Gerar relatórios',
-  analytics: 'Análises e métricas',
-  commissions: 'Controle de comissões',
-  marketing: 'Campanhas de marketing',
-  training: 'Gestão de treinamentos',
   documents: 'Documentos e contratos',
-  notifications: 'Sistema de notificações',
+  keys: 'Controle de chaves dos imóveis',
+  clients: 'Gerenciar perfis de clientes',
+  contacts: 'Histórico de contatos',
 };
 
 export const UserPermissionsPage: React.FC = () => {
@@ -116,9 +114,9 @@ export const UserPermissionsPage: React.FC = () => {
     }, 2000);
   };
 
-  const getRoleColor = (role: UserRole) => {
+  const getRoleColor = (role: UserRole): 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'destructive' => {
     switch (role) {
-      case 'owner': return 'danger';
+      case 'owner': return 'destructive';
       case 'manager': return 'warning';
       case 'agent': return 'primary';
       case 'financial': return 'success';
@@ -185,14 +183,14 @@ export const UserPermissionsPage: React.FC = () => {
             <div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">{user.name}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">{user.email}</p>
-                             <div className="flex items-center space-x-2 mt-2">
-                 <Badge variant={getRoleColor(user.role as UserRole) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
-                   {getRoleText(user.role as UserRole)}
-                 </Badge>
-                 <Badge variant={user.isActive ? 'success' : 'destructive'}>
-                   {user.isActive ? 'Ativo' : 'Inativo'}
-                 </Badge>
-               </div>
+              <div className="flex items-center space-x-2 mt-2">
+                <Badge variant={getRoleColor(user.role as UserRole)}>
+                  {getRoleText(user.role as UserRole)}
+                </Badge>
+                <Badge variant={user.isActive ? 'success' : 'destructive'}>
+                  {user.isActive ? 'Ativo' : 'Inativo'}
+                </Badge>
+              </div>
             </div>
           </div>
         </CardContent>
@@ -213,7 +211,7 @@ export const UserPermissionsPage: React.FC = () => {
                     : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
               >
-                <Badge variant={getRoleColor(role) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'} className="mb-2">
+                <Badge variant={getRoleColor(role)} className="mb-2">
                   {getRoleText(role)}
                 </Badge>
                 <p className="text-xs text-gray-600 dark:text-gray-400">
@@ -234,7 +232,7 @@ export const UserPermissionsPage: React.FC = () => {
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
             {(Object.keys(permissions) as Array<keyof ModulePermissions>).map((module) => {
-              const IconComponent = moduleIcons[module];
+              const IconComponent = moduleIcons[module] || Settings; // Fallback para Settings se não encontrar
               return (
                 <div
                   key={module}
@@ -249,7 +247,7 @@ export const UserPermissionsPage: React.FC = () => {
                     <div className="flex items-center space-x-2">
                       <IconComponent className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                       <h5 className="font-medium text-gray-900 dark:text-gray-100">
-                        {moduleLabels[module]}
+                        {moduleLabels[module] || module}
                       </h5>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -261,7 +259,7 @@ export const UserPermissionsPage: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-xs text-gray-600 dark:text-gray-400">
-                    {moduleDescriptions[module]}
+                    {moduleDescriptions[module] || `Módulo ${module}`}
                   </p>
                 </div>
               );

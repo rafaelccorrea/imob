@@ -1,6 +1,6 @@
 import React from 'react';
 import { usePermissions } from '../../hooks/usePermissions';
-import { AgentDashboard } from './AgentDashboard';
+import AgentDashboardPage from '../../pages/AgentDashboardPage';
 import { DashboardPage } from '../../pages/DashboardPage';
 
 export const DashboardFactory: React.FC = () => {
@@ -9,7 +9,7 @@ export const DashboardFactory: React.FC = () => {
   // Renderiza o dashboard específico baseado no perfil
   switch (userRole) {
     case 'agent':
-      return <AgentDashboard />;
+      return <AgentDashboardPage />;
     case 'manager':
     case 'owner':
     case 'financial':

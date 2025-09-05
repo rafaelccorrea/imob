@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Check, X, Save, User } from 'lucide-react';
+import { Shield, Check, X, Save, User as UserIcon } from 'lucide-react';
 import { Modal, Button, Badge } from '../ui';
 import { ROLE_PERMISSIONS } from '../../types/permissions';
 import type { UserRole, ModulePermissions } from '../../types/permissions';
@@ -77,13 +77,15 @@ export const PermissionsModal: React.FC<PermissionsModalProps> = ({
   };
 
   const handleSave = () => {
-    onSave(user.id, permissions);
-    onClose();
+    if (user) {
+      onSave(user.id, permissions);
+      onClose();
+    }
   };
 
   const getRoleColor = (role: UserRole) => {
     switch (role) {
-      case 'owner': return 'danger';
+      case 'owner': return 'destructive';
       case 'manager': return 'warning';
       case 'agent': return 'primary';
       case 'financial': return 'success';
@@ -116,7 +118,7 @@ export const PermissionsModal: React.FC<PermissionsModalProps> = ({
         {/* Header do Usuário */}
         <div className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <div className="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center">
-            <User className="h-6 w-6 text-primary-600" />
+            <UserIcon className="h-6 w-6 text-primary-600" />
           </div>
           <div>
             <h3 className="font-semibold text-gray-900 dark:text-gray-100">{user.name}</h3>
@@ -138,7 +140,7 @@ export const PermissionsModal: React.FC<PermissionsModalProps> = ({
                     : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                 }`}
               >
-                <Badge variant={getRoleColor(role) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'} className="mb-2">
+                <Badge variant={getRoleColor(role) as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'destructive'} className="mb-2">
                   {getRoleText(role)}
                 </Badge>
                 <p className="text-xs text-gray-600 dark:text-gray-400">

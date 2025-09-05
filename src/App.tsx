@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardFactory } from './components/dashboard/DashboardFactory';
 import { PropertiesPage } from './pages/PropertiesPage';
@@ -9,6 +8,9 @@ import { DealsPage } from './pages/DealsPage';
 import { FinancialPage } from './pages/FinancialPage';
 import { HRPage } from './pages/HRPage';
 import { VisitsPage } from './pages/VisitsPage';
+import { VisitsManagementPage } from './pages/VisitsManagementPage';
+import { CommissionCalculatorPage } from './pages/CommissionCalculatorPage';
+import { GoalsGamificationPage } from './pages/GoalsGamificationPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { DocumentsPage } from './pages/DocumentsPage';
 import { KeysPage } from './pages/KeysPage'; // NEW
@@ -21,14 +23,15 @@ import { Layout } from './components/layout';
 import { useAuthStore } from './stores';
 import { ThemeProvider } from './components/providers/ThemeProvider';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+// QueryClient removed for now
+// const queryClient = new QueryClient({
+//   defaultOptions: {
+//     queries: {
+//       retry: 1,
+//       refetchOnWindowFocus: false,
+//     },
+//   },
+// });
 
 const AuthProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
@@ -42,9 +45,8 @@ const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <Router>
+    <ThemeProvider>
+      <Router>
           <Routes>
             <Route path="/login" element={
               <PublicRoute>
@@ -96,6 +98,30 @@ function App() {
               <AuthProtectedRoute>
                 <Layout>
                   <VisitsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/visits-management" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <VisitsManagementPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/commission-calculator" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <CommissionCalculatorPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/goals-gamification" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <GoalsGamificationPage />
                 </Layout>
               </AuthProtectedRoute>
             } />
@@ -182,7 +208,6 @@ function App() {
           </Routes>
         </Router>
       </ThemeProvider>
-    </QueryClientProvider>
   );
 }
 

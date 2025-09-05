@@ -378,3 +378,341 @@ export const mockEmployees = [
     updatedAt: new Date('2024-01-01'),
   },
 ];
+
+// Dados mock para sistema financeiro avançado
+import type { 
+  FinancialEntry, 
+  Commission as FinancialCommission, 
+  CashFlowEntry, 
+  FinancialMetrics, 
+  AgentFinancialSummary,
+  Visit as FinancialVisit,
+  Lead as FinancialLead,
+  AgentDashboard as FinancialAgentDashboard
+} from '../types/financial';
+
+export const mockFinancialEntries: FinancialEntry[] = [
+  {
+    id: 'fe1',
+    type: 'income',
+    category: 'Aluguel',
+    description: 'Aluguel Apartamento Centro - Rua A, 123',
+    amount: 2500,
+    date: '2024-01-15',
+    status: 'paid',
+    propertyId: 'prop1',
+    agentId: '3',
+    tags: ['recorrente', 'aluguel']
+  },
+  {
+    id: 'fe2',
+    type: 'income',
+    category: 'Venda',
+    description: 'Comissão Venda Casa Jardins - Rua B, 456',
+    amount: 15000,
+    date: '2024-01-20',
+    status: 'paid',
+    propertyId: 'prop2',
+    agentId: '3',
+    dealId: 'deal1',
+    tags: ['comissão', 'venda']
+  },
+  {
+    id: 'fe3',
+    type: 'expense',
+    category: 'Comissão',
+    description: 'Pagamento Comissão Pedro Lima - Venda Casa Jardins',
+    amount: 15000,
+    date: '2024-01-25',
+    status: 'paid',
+    agentId: '3',
+    dealId: 'deal1',
+    tags: ['comissão', 'pagamento']
+  },
+  {
+    id: 'fe4',
+    type: 'expense',
+    category: 'Salário',
+    description: 'Salário Janeiro - Equipe',
+    amount: 25000,
+    date: '2024-01-31',
+    status: 'paid',
+    tags: ['salário', 'recorrente']
+  },
+  {
+    id: 'fe5',
+    type: 'expense',
+    category: 'Marketing',
+    description: 'Campanha Facebook - Janeiro',
+    amount: 3000,
+    date: '2024-01-10',
+    status: 'paid',
+    tags: ['marketing', 'digital']
+  },
+  {
+    id: 'fe6',
+    type: 'income',
+    category: 'Taxa',
+    description: 'Taxa de Administração - Apartamento Centro',
+    amount: 250,
+    date: '2024-01-15',
+    status: 'pending',
+    propertyId: 'prop1',
+    tags: ['taxa', 'administração']
+  }
+];
+
+export const mockFinancialCommissions: FinancialCommission[] = [
+  {
+    id: 'fc1',
+    agentId: '3',
+    agentName: 'Pedro Lima',
+    dealId: 'deal1',
+    propertyId: 'prop2',
+    propertyTitle: 'Casa Jardins - Rua B, 456',
+    dealType: 'sale',
+    dealValue: 500000,
+    commissionRate: 0.03,
+    commissionAmount: 15000,
+    status: 'paid',
+    dueDate: '2024-01-25',
+    paidDate: '2024-01-25',
+    notes: 'Comissão paga conforme acordo'
+  },
+  {
+    id: 'fc2',
+    agentId: '3',
+    agentName: 'Pedro Lima',
+    dealId: 'deal2',
+    propertyId: 'prop3',
+    propertyTitle: 'Apartamento Centro - Rua C, 789',
+    dealType: 'rent',
+    dealValue: 2500,
+    commissionRate: 0.1,
+    commissionAmount: 250,
+    status: 'pending',
+    dueDate: '2024-02-15',
+    notes: 'Aguardando confirmação do pagamento'
+  },
+  {
+    id: 'fc3',
+    agentId: '5',
+    agentName: 'Carlos Oliveira',
+    dealId: 'deal3',
+    propertyId: 'prop4',
+    propertyTitle: 'Casa Vila Madalena - Rua D, 101',
+    dealType: 'sale',
+    dealValue: 750000,
+    commissionRate: 0.03,
+    commissionAmount: 22500,
+    status: 'pending',
+    dueDate: '2024-02-20',
+    notes: 'Negócio fechado, aguardando documentação'
+  }
+];
+
+export const mockCashFlowEntries: CashFlowEntry[] = [
+  {
+    id: 'cfe1',
+    date: '2024-01-01',
+    income: 2500,
+    expense: 0,
+    balance: 2500,
+    description: 'Saldo inicial',
+    category: 'Inicial'
+  },
+  {
+    id: 'cfe2',
+    date: '2024-01-15',
+    income: 2500,
+    expense: 0,
+    balance: 5000,
+    description: 'Aluguel Apartamento Centro',
+    category: 'Aluguel'
+  },
+  {
+    id: 'cfe3',
+    date: '2024-01-20',
+    income: 15000,
+    expense: 0,
+    balance: 20000,
+    description: 'Comissão Venda Casa Jardins',
+    category: 'Comissão'
+  },
+  {
+    id: 'cfe4',
+    date: '2024-01-25',
+    income: 0,
+    expense: 15000,
+    balance: 5000,
+    description: 'Pagamento Comissão Pedro Lima',
+    category: 'Comissão'
+  },
+  {
+    id: 'cfe5',
+    date: '2024-01-31',
+    income: 0,
+    expense: 25000,
+    balance: -20000,
+    description: 'Salários Janeiro',
+    category: 'Salário'
+  }
+];
+
+export const mockFinancialMetrics: FinancialMetrics = {
+  totalIncome: 52500,
+  totalExpense: 43000,
+  netBalance: 9500,
+  pendingCommissions: 22750,
+  overduePayments: 0,
+  monthlyGrowth: 12.5,
+  topCategories: [
+    { category: 'Comissões', amount: 37750, percentage: 45.2 },
+    { category: 'Aluguéis', amount: 2500, percentage: 3.0 },
+    { category: 'Salários', amount: 25000, percentage: 29.9 },
+    { category: 'Marketing', amount: 3000, percentage: 3.6 },
+    { category: 'Taxas', amount: 250, percentage: 0.3 }
+  ]
+};
+
+export const mockAgentFinancialSummaries: AgentFinancialSummary[] = [
+  {
+    agentId: '3',
+    agentName: 'Pedro Lima',
+    totalCommissions: 15250,
+    pendingCommissions: 250,
+    paidCommissions: 15000,
+    dealsClosed: 2,
+    conversionRate: 15.5,
+    averageDealValue: 251250,
+    ranking: 1
+  },
+  {
+    agentId: '5',
+    agentName: 'Carlos Oliveira',
+    totalCommissions: 22500,
+    pendingCommissions: 22500,
+    paidCommissions: 0,
+    dealsClosed: 1,
+    conversionRate: 8.2,
+    averageDealValue: 750000,
+    ranking: 2
+  }
+];
+
+export const mockFinancialVisits: FinancialVisit[] = [
+  {
+    id: 'fv1',
+    propertyId: 'prop1',
+    propertyTitle: 'Apartamento Centro - Rua A, 123',
+    agentId: '3',
+    agentName: 'Pedro Lima',
+    clientId: 'client1',
+    clientName: 'João Silva',
+    clientPhone: '(11) 99999-1111',
+    clientEmail: 'joao@email.com',
+    scheduledDate: '2024-02-15T14:00:00',
+    status: 'scheduled',
+    notes: 'Cliente interessado em apartamento de 2 quartos'
+  },
+  {
+    id: 'fv2',
+    propertyId: 'prop2',
+    propertyTitle: 'Casa Jardins - Rua B, 456',
+    agentId: '3',
+    agentName: 'Pedro Lima',
+    clientId: 'client2',
+    clientName: 'Maria Santos',
+    clientPhone: '(11) 99999-2222',
+    clientEmail: 'maria@email.com',
+    scheduledDate: '2024-02-10T10:00:00',
+    status: 'completed',
+    notes: 'Visita realizada com sucesso',
+    feedback: 'Cliente muito interessado, aguardando proposta',
+    rating: 5
+  }
+];
+
+export const mockFinancialLeads: FinancialLead[] = [
+  {
+    id: 'fl1',
+    name: 'Ana Costa',
+    email: 'ana@email.com',
+    phone: '(11) 99999-3333',
+    status: 'new',
+    source: 'Website',
+    assignedAgentId: '3',
+    assignedAgentName: 'Pedro Lima',
+    propertyPreferences: {
+      type: ['apartment'],
+      minPrice: 200000,
+      maxPrice: 400000,
+      neighborhoods: ['Centro', 'Jardins'],
+      bedrooms: 2,
+      bathrooms: 1
+    },
+    lastContact: '2024-02-01T10:00:00',
+    notes: 'Cliente procura apartamento para investimento',
+    createdAt: '2024-02-01T10:00:00',
+    updatedAt: '2024-02-01T10:00:00'
+  },
+  {
+    id: 'fl2',
+    name: 'Roberto Silva',
+    email: 'roberto@email.com',
+    phone: '(11) 99999-4444',
+    status: 'visit_scheduled',
+    source: 'Indicação',
+    assignedAgentId: '5',
+    assignedAgentName: 'Carlos Oliveira',
+    propertyPreferences: {
+      type: ['house'],
+      minPrice: 500000,
+      maxPrice: 800000,
+      neighborhoods: ['Vila Madalena', 'Pinheiros'],
+      bedrooms: 3,
+      bathrooms: 2
+    },
+    lastContact: '2024-02-05T15:30:00',
+    notes: 'Família com filhos, procura casa com quintal',
+    createdAt: '2024-02-05T15:30:00',
+    updatedAt: '2024-02-05T15:30:00'
+  }
+];
+
+export const mockFinancialAgentDashboard: FinancialAgentDashboard = {
+  agentId: '3',
+  agentName: 'Pedro Lima',
+  totalLeads: 15,
+  activeLeads: 8,
+  visitsScheduled: 5,
+  dealsClosed: 2,
+  totalCommissions: 15250,
+  pendingCommissions: 250,
+  conversionRate: 15.5,
+  ranking: 1,
+  recentActivities: [
+    {
+      type: 'deal',
+      description: 'Venda Casa Jardins - R$ 500.000',
+      date: '2024-01-20T16:00:00',
+      value: 500000
+    },
+    {
+      type: 'visit',
+      description: 'Visita Apartamento Centro com João Silva',
+      date: '2024-02-10T14:00:00'
+    },
+    {
+      type: 'lead',
+      description: 'Novo lead: Ana Costa - Apartamento Centro',
+      date: '2024-02-01T10:00:00'
+    },
+    {
+      type: 'commission',
+      description: 'Comissão paga - Casa Jardins',
+      date: '2024-01-25T10:00:00',
+      value: 15000
+    }
+  ]
+};

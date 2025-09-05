@@ -2,14 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
 import { useSearchStore } from '../../stores';
-
-interface SearchResult {
-  id: string;
-  type: 'property' | 'client' | 'lead' | 'deal' | 'user';
-  title: string;
-  subtitle?: string;
-  data: any;
-}
+import type { SearchResult } from '../../stores/searchStore';
 
 export const GlobalSearch: React.FC = () => {
   const { searchTerm, results, isSearchOpen, setSearchTerm, setIsSearchOpen, clearSearch } = useSearchStore();

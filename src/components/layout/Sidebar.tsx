@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { cn } from '../ui/utils';
 import { 
   Home, 
   Building2, 
@@ -16,18 +17,14 @@ import {
   BarChart3,
   Key,
   UserPlus,
-  MessageSquare
+  MessageSquare,
+  Calculator,
+  Target
 } from 'lucide-react';
 import { useAuthStore, useUIStore } from '../../stores';
 import { usePermissions } from '../../hooks/usePermissions';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
 import logo from '../../assets/uniao-imobiliaria-logo.png';
 
-// Utility function for combining class names
-const cn = (...inputs: (string | undefined | null | false)[]) => {
-  return twMerge(clsx(inputs));
-};
 
 interface SidebarSection {
   title: string;
@@ -128,6 +125,24 @@ const sidebarSections: SidebarSection[] = [
             href: '/visits',
             roles: ['owner', 'manager', 'agent'],
           },
+          {
+            label: 'Gestão de Visitas',
+            icon: Calendar,
+            href: '/visits-management',
+            roles: ['owner', 'manager', 'agent'],
+          },
+          {
+            label: 'Calculadora de Comissões',
+            icon: Calculator,
+            href: '/commission-calculator',
+            roles: ['owner', 'manager', 'agent'],
+          },
+          {
+            label: 'Metas & Gamificação',
+            icon: Target,
+            href: '/goals-gamification',
+            roles: ['owner', 'manager', 'agent'],
+          },
         ],
       },
     ],
@@ -224,16 +239,13 @@ export const Sidebar: React.FC = () => {
       )}>
         <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="flex h-16 items-center justify-between border-b border-gray-200 dark:border-gray-700 px-6">
-            <div className="flex items-center space-x-3">
+          <div className="flex h-20 items-center justify-between border-b border-gray-200 dark:border-gray-700 px-6">
+            <div className="flex items-center justify-center flex-1">
               <img 
                 src={logo} 
-                alt="União Imobiliária" 
-                className="h-8 w-8"
+                alt="Logo" 
+                className="h-16 w-auto object-contain"
               />
-              <span className="text-xl font-bold text-gray-900 dark:text-white">
-                União Imobiliária
-              </span>
             </div>
             <button
               onClick={toggleSidebar}
