@@ -20,7 +20,21 @@ import {
   MessageSquare,
   Calculator,
   Target,
-  LogOut
+  LogOut,
+  Briefcase,
+  GraduationCap,
+  CreditCard,
+  Clock3,
+  Receipt,
+  Scale,
+  TrendingUp,
+  Building,
+  ClipboardList,
+  Award,
+  CalendarDays,
+  BookOpen,
+  PieChart,
+  FileSpreadsheet
 } from 'lucide-react';
 import { useAuthStore, useUIStore } from '../../stores';
 import { usePermissions } from '../../hooks/usePermissions';
@@ -173,12 +187,100 @@ const sidebarSections: SidebarSection[] = [
         icon: DollarSign,
         href: '/financial',
         roles: ['owner', 'financial'],
+        subItems: [
+          {
+            label: 'Visão Geral',
+            icon: DollarSign,
+            href: '/financial',
+            roles: ['owner', 'financial'],
+          },
+          {
+            label: 'Contas a Pagar',
+            icon: CreditCard,
+            href: '/accounts-payable',
+            roles: ['owner', 'financial'],
+          },
+          {
+            label: 'Contas a Receber',
+            icon: Receipt,
+            href: '/accounts-receivable',
+            roles: ['owner', 'financial'],
+          },
+          {
+            label: 'Orçamento',
+            icon: Calculator,
+            href: '/budget',
+            roles: ['owner', 'financial'],
+          },
+          {
+            label: 'Relatórios',
+            icon: FileSpreadsheet,
+            href: '/financial-reports',
+            roles: ['owner', 'financial'],
+          },
+          {
+            label: 'Patrimônio',
+            icon: Building,
+            href: '/assets',
+            roles: ['owner', 'financial'],
+          },
+          {
+            label: 'Investimentos',
+            icon: TrendingUp,
+            href: '/investments',
+            roles: ['owner', 'financial'],
+          },
+          {
+            label: 'Impostos',
+            icon: Scale,
+            href: '/taxes',
+            roles: ['owner', 'financial'],
+          },
+        ],
       },
       {
         label: 'RH',
         icon: UserCheck,
         href: '/hr',
         roles: ['owner', 'hr'],
+        subItems: [
+          {
+            label: 'Colaboradores',
+            icon: Users,
+            href: '/employees',
+            roles: ['owner', 'hr'],
+          },
+          {
+            label: 'Recrutamento',
+            icon: UserPlus,
+            href: '/recruitment',
+            roles: ['owner', 'hr'],
+          },
+          {
+            label: 'Performance',
+            icon: Target,
+            href: '/performance',
+            roles: ['owner', 'hr'],
+          },
+          {
+            label: 'Treinamentos',
+            icon: GraduationCap,
+            href: '/training',
+            roles: ['owner', 'hr'],
+          },
+          {
+            label: 'Folha de Pagamento',
+            icon: CreditCard,
+            href: '/payroll',
+            roles: ['owner', 'hr'],
+          },
+          {
+            label: 'Controle de Tempo',
+            icon: Clock3,
+            href: '/time-tracking',
+            roles: ['owner', 'hr'],
+          },
+        ],
       },
       {
         label: 'Usuários',
@@ -246,7 +348,7 @@ export const Sidebar: React.FC = () => {
       )}>
         <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="flex h-16 sm:h-20 items-center justify-between border-b border-gray-200 dark:border-gray-700 px-3 sm:px-4">
+          <div className="flex h-16 items-center justify-between border-b border-gray-200 dark:border-gray-700 px-4">
             <div className="flex items-center justify-center flex-1">
               <img 
                 src={logo} 

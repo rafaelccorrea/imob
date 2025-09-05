@@ -11,7 +11,17 @@ export type {
   AgentFinancialSummary,
   Visit as FinancialVisit,
   Lead as FinancialLead,
-  AgentDashboard as FinancialAgentDashboard
+  AgentDashboard as FinancialAgentDashboard,
+  Supplier,
+  AccountsPayable,
+  AccountsReceivable,
+  Budget,
+  BudgetPlan,
+  FinancialReport,
+  Asset,
+  Investment,
+  Tax,
+  TaxPlanning
 } from './financial';
 
 
@@ -329,6 +339,195 @@ export interface Employee {
   salary: number;
   hireDate: string;
   status: 'active' | 'inactive' | 'terminated';
+  documents: {
+    contract?: string;
+    idCard?: string;
+    medicalExam?: string;
+    workCard?: string;
+    bankAccount?: string;
+  };
+  benefits: {
+    healthInsurance?: boolean;
+    mealTicket?: number;
+    transportTicket?: number;
+    gymPass?: boolean;
+    lifeInsurance?: boolean;
+  };
+  emergencyContact: {
+    name: string;
+    phone: string;
+    relationship: string;
+  };
+  address: {
+    street: string;
+    number: string;
+    complement?: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+    zipCode: string;
+  };
   createdAt: string;
   updatedAt: string;
+}
+
+// Novos tipos para RH expandido
+export interface JobPosition {
+  id: string;
+  title: string;
+  department: string;
+  description: string;
+  requirements: string[];
+  salaryRange: {
+    min: number;
+    max: number;
+  };
+  status: 'open' | 'closed' | 'paused';
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Candidate {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  position: string;
+  resume: string;
+  status: 'applied' | 'screening' | 'interview' | 'test' | 'hired' | 'rejected';
+  interviewDate?: string;
+  notes: string[];
+  score?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Interview {
+  id: string;
+  candidateId: string;
+  candidateName: string;
+  position: string;
+  interviewerId: string;
+  interviewerName: string;
+  scheduledDate: string;
+  status: 'scheduled' | 'completed' | 'cancelled';
+  score?: number;
+  feedback?: string;
+  notes: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PerformanceReview {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  reviewerId: string;
+  reviewerName: string;
+  period: string;
+  goals: Array<{
+    id: string;
+    description: string;
+    target: number;
+    achieved: number;
+    weight: number;
+  }>;
+  competencies: Array<{
+    id: string;
+    name: string;
+    rating: 1 | 2 | 3 | 4 | 5;
+    comments: string;
+  }>;
+  overallScore: number;
+  strengths: string[];
+  improvements: string[];
+  developmentPlan: string[];
+  status: 'draft' | 'submitted' | 'approved';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Training {
+  id: string;
+  title: string;
+  description: string;
+  type: 'mandatory' | 'optional' | 'certification';
+  duration: number; // em horas
+  provider: string;
+  cost: number;
+  status: 'active' | 'inactive';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface EmployeeTraining {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  trainingId: string;
+  trainingTitle: string;
+  status: 'not_started' | 'in_progress' | 'completed' | 'expired';
+  startDate?: string;
+  completionDate?: string;
+  score?: number;
+  certificate?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Payroll {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  period: string; // YYYY-MM
+  grossSalary: number;
+  benefits: {
+    healthInsurance: number;
+    mealTicket: number;
+    transportTicket: number;
+    gymPass: number;
+    lifeInsurance: number;
+  };
+  deductions: {
+    inss: number;
+    irrf: number;
+    transportTicket: number;
+    other: number;
+  };
+  netSalary: number;
+  status: 'draft' | 'approved' | 'paid';
+  paidAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface VacationRequest {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  startDate: string;
+  endDate: string;
+  days: number;
+  status: 'pending' | 'approved' | 'rejected';
+  requestedAt: string;
+  approvedBy?: string;
+  approvedAt?: string;
+  reason?: string;
+  notes?: string;
+}
+
+export interface TimeTracking {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  date: string;
+  checkIn?: string;
+  checkOut?: string;
+  breakStart?: string;
+  breakEnd?: string;
+  totalHours: number;
+  overtimeHours: number;
+  status: 'present' | 'absent' | 'late' | 'half_day';
+  notes?: string;
 }

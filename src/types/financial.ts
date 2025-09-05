@@ -123,3 +123,180 @@ export interface AgentDashboard {
     value?: number;
   }>;
 }
+
+// Novos tipos para Financeiro expandido
+export interface Supplier {
+  id: string;
+  name: string;
+  cnpj?: string;
+  cpf?: string;
+  email: string;
+  phone: string;
+  address: {
+    street: string;
+    number: string;
+    complement?: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+    zipCode: string;
+  };
+  category: 'services' | 'products' | 'utilities' | 'marketing' | 'other';
+  paymentTerms: number; // dias para pagamento
+  status: 'active' | 'inactive';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AccountsPayable {
+  id: string;
+  supplierId: string;
+  supplierName: string;
+  description: string;
+  amount: number;
+  dueDate: string;
+  status: 'pending' | 'paid' | 'overdue' | 'cancelled';
+  category: string;
+  installments?: {
+    current: number;
+    total: number;
+  };
+  paidAt?: string;
+  paidAmount?: number;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AccountsReceivable {
+  id: string;
+  clientId: string;
+  clientName: string;
+  description: string;
+  amount: number;
+  dueDate: string;
+  status: 'pending' | 'paid' | 'overdue' | 'cancelled';
+  category: 'rent' | 'commission' | 'service' | 'other';
+  propertyId?: string;
+  propertyTitle?: string;
+  paidAt?: string;
+  paidAmount?: number;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Budget {
+  id: string;
+  year: number;
+  month: number;
+  category: string;
+  plannedAmount: number;
+  actualAmount: number;
+  variance: number;
+  variancePercentage: number;
+  status: 'on_track' | 'over_budget' | 'under_budget';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BudgetPlan {
+  id: string;
+  year: number;
+  department: string;
+  totalBudget: number;
+  categories: Array<{
+    category: string;
+    plannedAmount: number;
+    actualAmount: number;
+    variance: number;
+  }>;
+  status: 'draft' | 'approved' | 'active';
+  approvedBy?: string;
+  approvedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FinancialReport {
+  id: string;
+  type: 'dre' | 'balance_sheet' | 'cash_flow' | 'profit_loss';
+  period: string;
+  title: string;
+  data: any; // Estrutura específica para cada tipo de relatório
+  status: 'draft' | 'final';
+  generatedBy: string;
+  generatedAt: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Asset {
+  id: string;
+  name: string;
+  category: 'property' | 'equipment' | 'vehicle' | 'furniture' | 'investment';
+  description: string;
+  purchaseDate: string;
+  purchaseValue: number;
+  currentValue: number;
+  depreciationRate: number;
+  accumulatedDepreciation: number;
+  location: string;
+  responsible: string;
+  status: 'active' | 'inactive' | 'sold' | 'disposed';
+  insurance?: {
+    company: string;
+    policy: string;
+    value: number;
+    expiry: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Investment {
+  id: string;
+  name: string;
+  type: 'stocks' | 'bonds' | 'funds' | 'real_estate' | 'cdb' | 'other';
+  description: string;
+  amount: number;
+  currentValue: number;
+  returnRate: number;
+  purchaseDate: string;
+  maturityDate?: string;
+  risk: 'low' | 'medium' | 'high';
+  status: 'active' | 'matured' | 'sold';
+  broker?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Tax {
+  id: string;
+  name: string;
+  type: 'federal' | 'state' | 'municipal';
+  description: string;
+  rate: number;
+  amount: number;
+  dueDate: string;
+  status: 'pending' | 'paid' | 'overdue';
+  referencePeriod: string;
+  paidAt?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TaxPlanning {
+  id: string;
+  year: number;
+  totalTaxes: number;
+  federalTaxes: number;
+  stateTaxes: number;
+  municipalTaxes: number;
+  savings: number;
+  strategies: string[];
+  status: 'draft' | 'approved' | 'implemented';
+  createdAt: string;
+  updatedAt: string;
+}

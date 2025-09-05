@@ -355,6 +355,29 @@ export const mockEmployees = [
       contract: 'contrato_joao.pdf',
       idCard: 'rg_joao.pdf',
       medicalExam: 'exame_joao.pdf',
+      workCard: 'ctps_joao.pdf',
+      bankAccount: 'dados_bancarios_joao.pdf',
+    },
+    benefits: {
+      healthInsurance: true,
+      mealTicket: 500,
+      transportTicket: 200,
+      gymPass: true,
+      lifeInsurance: true,
+    },
+    emergencyContact: {
+      name: 'Ana Silva',
+      phone: '(11) 99999-8888',
+      relationship: 'Esposa',
+    },
+    address: {
+      street: 'Rua das Flores',
+      number: '123',
+      complement: 'Apto 45',
+      neighborhood: 'Centro',
+      city: 'São Paulo',
+      state: 'SP',
+      zipCode: '01000-000',
     },
     createdAt: new Date('2023-01-01').toISOString(),
     updatedAt: new Date('2024-01-01').toISOString(),
@@ -373,10 +396,296 @@ export const mockEmployees = [
       contract: 'contrato_maria.pdf',
       idCard: 'rg_maria.pdf',
       medicalExam: 'exame_maria.pdf',
+      workCard: 'ctps_maria.pdf',
+      bankAccount: 'dados_bancarios_maria.pdf',
     },
-    createdAt: new Date('2023-02-01'),
-    updatedAt: new Date('2024-01-01'),
+    benefits: {
+      healthInsurance: true,
+      mealTicket: 600,
+      transportTicket: 200,
+      gymPass: false,
+      lifeInsurance: true,
+    },
+    emergencyContact: {
+      name: 'Carlos Santos',
+      phone: '(11) 88888-7777',
+      relationship: 'Marido',
+    },
+    address: {
+      street: 'Av. Paulista',
+      number: '1000',
+      complement: 'Conjunto 501',
+      neighborhood: 'Bela Vista',
+      city: 'São Paulo',
+      state: 'SP',
+      zipCode: '01310-100',
+    },
+    createdAt: new Date('2023-02-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString(),
   },
+];
+
+// Dados mock para RH expandido
+import type { 
+  JobPosition, 
+  Candidate, 
+  Interview, 
+  PerformanceReview, 
+  Training, 
+  EmployeeTraining, 
+  Payroll, 
+  VacationRequest, 
+  TimeTracking 
+} from '../types';
+
+export const mockJobPositions: JobPosition[] = [
+  {
+    id: 'jp1',
+    title: 'Corretor de Imóveis',
+    department: 'Vendas',
+    description: 'Responsável por intermediar vendas e locações de imóveis',
+    requirements: [
+      'CRECI ativo',
+      'Experiência mínima de 2 anos',
+      'Conhecimento em imóveis comerciais e residenciais',
+      'Boa comunicação e relacionamento interpessoal'
+    ],
+    salaryRange: { min: 2500, max: 5000 },
+    status: 'open',
+    createdBy: '2',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString(),
+  },
+  {
+    id: 'jp2',
+    title: 'Assistente Administrativo',
+    department: 'Administrativo',
+    description: 'Suporte administrativo e atendimento ao cliente',
+    requirements: [
+      'Ensino médio completo',
+      'Conhecimento em informática',
+      'Experiência com atendimento ao cliente',
+      'Organização e proatividade'
+    ],
+    salaryRange: { min: 1800, max: 2500 },
+    status: 'open',
+    createdBy: '2',
+    createdAt: new Date('2024-01-15').toISOString(),
+    updatedAt: new Date('2024-01-15').toISOString(),
+  }
+];
+
+export const mockCandidates: Candidate[] = [
+  {
+    id: 'c1',
+    name: 'Pedro Oliveira',
+    email: 'pedro@email.com',
+    phone: '(11) 77777-7777',
+    position: 'Corretor de Imóveis',
+    resume: 'curriculo_pedro.pdf',
+    status: 'interview',
+    interviewDate: '2024-02-20T14:00:00',
+    notes: ['CRECI ativo', 'Experiência em vendas'],
+    score: 8.5,
+    createdAt: new Date('2024-02-01').toISOString(),
+    updatedAt: new Date('2024-02-15').toISOString(),
+  },
+  {
+    id: 'c2',
+    name: 'Ana Costa',
+    email: 'ana@email.com',
+    phone: '(11) 66666-6666',
+    position: 'Assistente Administrativo',
+    resume: 'curriculo_ana.pdf',
+    status: 'screening',
+    notes: ['Recém formada', 'Estagiou em imobiliária'],
+    score: 7.0,
+    createdAt: new Date('2024-02-10').toISOString(),
+    updatedAt: new Date('2024-02-10').toISOString(),
+  }
+];
+
+export const mockInterviews: Interview[] = [
+  {
+    id: 'i1',
+    candidateId: 'c1',
+    candidateName: 'Pedro Oliveira',
+    position: 'Corretor de Imóveis',
+    interviewerId: '2',
+    interviewerName: 'Maria Santos',
+    scheduledDate: '2024-02-20T14:00:00',
+    status: 'scheduled',
+    notes: ['Entrevista técnica', 'Avaliação de portfólio'],
+    createdAt: new Date('2024-02-15').toISOString(),
+    updatedAt: new Date('2024-02-15').toISOString(),
+  }
+];
+
+export const mockPerformanceReviews: PerformanceReview[] = [
+  {
+    id: 'pr1',
+    employeeId: '1',
+    employeeName: 'João Silva',
+    reviewerId: '2',
+    reviewerName: 'Maria Santos',
+    period: '2024-Q1',
+    goals: [
+      {
+        id: 'g1',
+        description: 'Fechar 5 vendas no trimestre',
+        target: 5,
+        achieved: 4,
+        weight: 40
+      },
+      {
+        id: 'g2',
+        description: 'Manter taxa de conversão acima de 15%',
+        target: 15,
+        achieved: 18,
+        weight: 30
+      },
+      {
+        id: 'g3',
+        description: 'Atender 50 leads qualificados',
+        target: 50,
+        achieved: 45,
+        weight: 30
+      }
+    ],
+    competencies: [
+      {
+        id: 'c1',
+        name: 'Comunicação',
+        rating: 4,
+        comments: 'Excelente comunicação com clientes'
+      },
+      {
+        id: 'c2',
+        name: 'Negociação',
+        rating: 5,
+        comments: 'Habilidade excepcional em negociação'
+      },
+      {
+        id: 'c3',
+        name: 'Proatividade',
+        rating: 4,
+        comments: 'Sempre busca novas oportunidades'
+      }
+    ],
+    overallScore: 4.2,
+    strengths: ['Excelente relacionamento com clientes', 'Conhecimento técnico sólido'],
+    improvements: ['Melhorar follow-up pós-venda', 'Organizar melhor a agenda'],
+    developmentPlan: ['Curso de técnicas avançadas de vendas', 'Workshop de CRM'],
+    status: 'approved',
+    createdAt: new Date('2024-03-31').toISOString(),
+    updatedAt: new Date('2024-04-05').toISOString(),
+  }
+];
+
+export const mockTrainings: Training[] = [
+  {
+    id: 't1',
+    title: 'Técnicas Avançadas de Vendas',
+    description: 'Curso completo sobre técnicas de vendas imobiliárias',
+    type: 'mandatory',
+    duration: 40,
+    provider: 'CRECI-SP',
+    cost: 500,
+    status: 'active',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString(),
+  },
+  {
+    id: 't2',
+    title: 'Gestão de CRM',
+    description: 'Aprenda a usar sistemas de CRM para vendas',
+    type: 'optional',
+    duration: 20,
+    provider: 'Tech Solutions',
+    cost: 300,
+    status: 'active',
+    createdAt: new Date('2024-01-15').toISOString(),
+    updatedAt: new Date('2024-01-15').toISOString(),
+  }
+];
+
+export const mockEmployeeTrainings: EmployeeTraining[] = [
+  {
+    id: 'et1',
+    employeeId: '1',
+    employeeName: 'João Silva',
+    trainingId: 't1',
+    trainingTitle: 'Técnicas Avançadas de Vendas',
+    status: 'completed',
+    startDate: '2024-01-15',
+    completionDate: '2024-02-15',
+    score: 9.2,
+    certificate: 'certificado_joao_vendas.pdf',
+    createdAt: new Date('2024-01-15').toISOString(),
+    updatedAt: new Date('2024-02-15').toISOString(),
+  }
+];
+
+export const mockPayrolls: Payroll[] = [
+  {
+    id: 'p1',
+    employeeId: '1',
+    employeeName: 'João Silva',
+    period: '2024-01',
+    grossSalary: 3000,
+    benefits: {
+      healthInsurance: 200,
+      mealTicket: 500,
+      transportTicket: 200,
+      gymPass: 100,
+      lifeInsurance: 50,
+    },
+    deductions: {
+      inss: 330,
+      irrf: 150,
+      transportTicket: 200,
+      other: 0,
+    },
+    netSalary: 3120,
+    status: 'paid',
+    paidAt: '2024-02-05',
+    createdAt: new Date('2024-01-31').toISOString(),
+    updatedAt: new Date('2024-02-05').toISOString(),
+  }
+];
+
+export const mockVacationRequests: VacationRequest[] = [
+  {
+    id: 'vr1',
+    employeeId: '1',
+    employeeName: 'João Silva',
+    startDate: '2024-03-15',
+    endDate: '2024-03-29',
+    days: 15,
+    status: 'approved',
+    requestedAt: '2024-02-01',
+    approvedBy: '2',
+    approvedAt: '2024-02-05',
+    reason: 'Férias anuais',
+    notes: 'Aprovado pelo gestor',
+  }
+];
+
+export const mockTimeTracking: TimeTracking[] = [
+  {
+    id: 'tt1',
+    employeeId: '1',
+    employeeName: 'João Silva',
+    date: '2024-02-15',
+    checkIn: '08:00',
+    checkOut: '18:00',
+    breakStart: '12:00',
+    breakEnd: '13:00',
+    totalHours: 9,
+    overtimeHours: 1,
+    status: 'present',
+    notes: 'Horário normal',
+  }
 ];
 
 // Dados mock para sistema financeiro avançado
@@ -388,7 +697,17 @@ import type {
   AgentFinancialSummary,
   Visit as FinancialVisit,
   Lead as FinancialLead,
-  AgentDashboard as FinancialAgentDashboard
+  AgentDashboard as FinancialAgentDashboard,
+  Supplier,
+  AccountsPayable,
+  AccountsReceivable,
+  Budget,
+  BudgetPlan,
+  FinancialReport,
+  Asset,
+  Investment,
+  Tax,
+  TaxPlanning
 } from '../types/financial';
 
 export const mockFinancialEntries: FinancialEntry[] = [
@@ -716,3 +1035,284 @@ export const mockFinancialAgentDashboard: FinancialAgentDashboard = {
     }
   ]
 };
+
+// Dados mock para sistema financeiro expandido
+export const mockSuppliers: Supplier[] = [
+  {
+    id: 's1',
+    name: 'Tech Solutions Ltda',
+    cnpj: '12.345.678/0001-90',
+    email: 'contato@techsolutions.com',
+    phone: '(11) 3333-3333',
+    address: {
+      street: 'Rua da Tecnologia',
+      number: '100',
+      neighborhood: 'Vila Tech',
+      city: 'São Paulo',
+      state: 'SP',
+      zipCode: '01234-567',
+    },
+    category: 'services',
+    paymentTerms: 30,
+    status: 'active',
+    createdAt: new Date('2023-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString(),
+  },
+  {
+    id: 's2',
+    name: 'Marketing Digital Pro',
+    cnpj: '98.765.432/0001-10',
+    email: 'contato@marketingpro.com',
+    phone: '(11) 4444-4444',
+    address: {
+      street: 'Av. Marketing',
+      number: '200',
+      neighborhood: 'Centro',
+      city: 'São Paulo',
+      state: 'SP',
+      zipCode: '01000-000',
+    },
+    category: 'marketing',
+    paymentTerms: 15,
+    status: 'active',
+    createdAt: new Date('2023-02-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString(),
+  }
+];
+
+export const mockAccountsPayable: AccountsPayable[] = [
+  {
+    id: 'ap1',
+    supplierId: 's1',
+    supplierName: 'Tech Solutions Ltda',
+    description: 'Manutenção sistema CRM',
+    amount: 2500,
+    dueDate: '2024-02-15',
+    status: 'pending',
+    category: 'Serviços',
+    notes: 'Manutenção mensal',
+    createdAt: new Date('2024-01-15').toISOString(),
+    updatedAt: new Date('2024-01-15').toISOString(),
+  },
+  {
+    id: 'ap2',
+    supplierId: 's2',
+    supplierName: 'Marketing Digital Pro',
+    description: 'Campanha Facebook Janeiro',
+    amount: 3000,
+    dueDate: '2024-02-10',
+    status: 'paid',
+    category: 'Marketing',
+    paidAt: '2024-02-08',
+    paidAmount: 3000,
+    createdAt: new Date('2024-01-10').toISOString(),
+    updatedAt: new Date('2024-02-08').toISOString(),
+  }
+];
+
+export const mockAccountsReceivable: AccountsReceivable[] = [
+  {
+    id: 'ar1',
+    clientId: 'client1',
+    clientName: 'João Silva',
+    description: 'Aluguel Apartamento Centro',
+    amount: 2500,
+    dueDate: '2024-02-15',
+    status: 'pending',
+    category: 'rent',
+    propertyId: 'prop1',
+    propertyTitle: 'Apartamento Centro - Rua A, 123',
+    createdAt: new Date('2024-01-15').toISOString(),
+    updatedAt: new Date('2024-01-15').toISOString(),
+  },
+  {
+    id: 'ar2',
+    clientId: 'client2',
+    clientName: 'Maria Santos',
+    description: 'Comissão Venda Casa Jardins',
+    amount: 15000,
+    dueDate: '2024-02-20',
+    status: 'paid',
+    category: 'commission',
+    propertyId: 'prop2',
+    propertyTitle: 'Casa Jardins - Rua B, 456',
+    paidAt: '2024-02-18',
+    paidAmount: 15000,
+    createdAt: new Date('2024-01-20').toISOString(),
+    updatedAt: new Date('2024-02-18').toISOString(),
+  }
+];
+
+export const mockBudgets: Budget[] = [
+  {
+    id: 'b1',
+    year: 2024,
+    month: 1,
+    category: 'Marketing',
+    plannedAmount: 5000,
+    actualAmount: 3000,
+    variance: -2000,
+    variancePercentage: -40,
+    status: 'under_budget',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-31').toISOString(),
+  },
+  {
+    id: 'b2',
+    year: 2024,
+    month: 1,
+    category: 'Salários',
+    plannedAmount: 25000,
+    actualAmount: 25000,
+    variance: 0,
+    variancePercentage: 0,
+    status: 'on_track',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-31').toISOString(),
+  }
+];
+
+export const mockBudgetPlans: BudgetPlan[] = [
+  {
+    id: 'bp1',
+    year: 2024,
+    department: 'Vendas',
+    totalBudget: 100000,
+    categories: [
+      { category: 'Comissões', plannedAmount: 60000, actualAmount: 45000, variance: -15000 },
+      { category: 'Marketing', plannedAmount: 20000, actualAmount: 15000, variance: -5000 },
+      { category: 'Treinamentos', plannedAmount: 10000, actualAmount: 8000, variance: -2000 },
+      { category: 'Equipamentos', plannedAmount: 10000, actualAmount: 12000, variance: 2000 },
+    ],
+    status: 'active',
+    approvedBy: '1',
+    approvedAt: '2023-12-15',
+    createdAt: new Date('2023-12-01').toISOString(),
+    updatedAt: new Date('2024-01-31').toISOString(),
+  }
+];
+
+export const mockAssets: Asset[] = [
+  {
+    id: 'a1',
+    name: 'Escritório Principal',
+    category: 'property',
+    description: 'Escritório sede da imobiliária',
+    purchaseDate: '2020-01-01',
+    purchaseValue: 500000,
+    currentValue: 600000,
+    depreciationRate: 2.5,
+    accumulatedDepreciation: 50000,
+    location: 'Centro - São Paulo',
+    responsible: 'Maria Santos',
+    status: 'active',
+    insurance: {
+      company: 'Seguradora ABC',
+      policy: 'POL-123456',
+      value: 600000,
+      expiry: '2024-12-31',
+    },
+    createdAt: new Date('2020-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString(),
+  },
+  {
+    id: 'a2',
+    name: 'Computador Dell',
+    category: 'equipment',
+    description: 'Workstation para corretor',
+    purchaseDate: '2023-06-01',
+    purchaseValue: 8000,
+    currentValue: 6000,
+    depreciationRate: 20,
+    accumulatedDepreciation: 1600,
+    location: 'Escritório Principal',
+    responsible: 'João Silva',
+    status: 'active',
+    createdAt: new Date('2023-06-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString(),
+  }
+];
+
+export const mockInvestments: Investment[] = [
+  {
+    id: 'inv1',
+    name: 'CDB Banco XYZ',
+    type: 'cdb',
+    description: 'CDB 110% CDI',
+    amount: 100000,
+    currentValue: 105000,
+    returnRate: 12.5,
+    purchaseDate: '2023-01-01',
+    maturityDate: '2024-12-31',
+    risk: 'low',
+    status: 'active',
+    broker: 'Corretora ABC',
+    createdAt: new Date('2023-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString(),
+  },
+  {
+    id: 'inv2',
+    name: 'Fundo Imobiliário',
+    type: 'funds',
+    description: 'FII de shoppings',
+    amount: 50000,
+    currentValue: 52000,
+    returnRate: 8.2,
+    purchaseDate: '2023-03-01',
+    risk: 'medium',
+    status: 'active',
+    broker: 'Corretora XYZ',
+    createdAt: new Date('2023-03-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString(),
+  }
+];
+
+export const mockTaxes: Tax[] = [
+  {
+    id: 'tax1',
+    name: 'IRPJ',
+    type: 'federal',
+    description: 'Imposto de Renda Pessoa Jurídica',
+    rate: 15,
+    amount: 15000,
+    dueDate: '2024-03-31',
+    status: 'pending',
+    referencePeriod: '2024-01',
+    createdAt: new Date('2024-01-31').toISOString(),
+    updatedAt: new Date('2024-01-31').toISOString(),
+  },
+  {
+    id: 'tax2',
+    name: 'ISS',
+    type: 'municipal',
+    description: 'Imposto sobre Serviços',
+    rate: 5,
+    amount: 5000,
+    dueDate: '2024-02-10',
+    status: 'paid',
+    referencePeriod: '2024-01',
+    paidAt: '2024-02-08',
+    createdAt: new Date('2024-01-31').toISOString(),
+    updatedAt: new Date('2024-02-08').toISOString(),
+  }
+];
+
+export const mockTaxPlanning: TaxPlanning[] = [
+  {
+    id: 'tp1',
+    year: 2024,
+    totalTaxes: 50000,
+    federalTaxes: 30000,
+    stateTaxes: 15000,
+    municipalTaxes: 5000,
+    savings: 8000,
+    strategies: [
+      'Aproveitar incentivos fiscais',
+      'Otimizar estrutura societária',
+      'Investir em P&D',
+    ],
+    status: 'implemented',
+    createdAt: new Date('2023-12-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString(),
+  }
+];

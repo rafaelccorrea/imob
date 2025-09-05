@@ -8,11 +8,17 @@ import {
   Eye,
   Clock,
   Users,
-  Target
+  Target,
+  CreditCard,
+  Receipt,
+  Building,
+  Calculator,
+  FileSpreadsheet,
+  Scale
 } from 'lucide-react';
 import { usePermissions } from '../hooks/usePermissions';
 import { 
-  LineChart, 
+  LineChart as RechartsLineChart, 
   Line, 
   XAxis, 
   YAxis, 
@@ -22,7 +28,7 @@ import {
   PieChart as RechartsPieChart,
   Pie,
   Cell,
-  BarChart,
+  BarChart as RechartsBarChart,
   Bar
 } from 'recharts';
 import { 
@@ -30,22 +36,41 @@ import {
   mockFinancialCommissions, 
   mockCashFlowEntries, 
   mockFinancialMetrics,
-  mockAgentFinancialSummaries
+  mockAgentFinancialSummaries,
+  mockAccountsPayable,
+  mockAccountsReceivable,
+  mockBudgets,
+  mockAssets,
+  mockInvestments,
+  mockTaxes
 } from '../utils/mockData';
 import { formatCurrency, formatDate } from '../utils';
 import { colors } from '../utils/colors';
 import { Button, Card, CardContent, CardHeader, CardTitle, Badge, Input, Modal, ConditionalMenu } from '../components/ui';
-import type { FinancialEntry, Commission as FinancialCommission } from '../types/financial';
+import { FinancialEntries, FinancialCommissions, CashFlow } from '../components/financial';
+import type { 
+  FinancialEntry, 
+  Commission as FinancialCommission, 
+  Supplier,
+  AccountsPayable,
+  AccountsReceivable,
+  Budget,
+  BudgetPlan,
+  FinancialReport,
+  Asset,
+  Investment,
+  Tax,
+  TaxPlanning
+} from '../types/financial';
 
 export const FinancialPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'entries' | 'commissions' | 'cashflow'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'entries' | 'commissions' | 'cashflow' | 'payables' | 'receivables' | 'budget' | 'reports' | 'assets' | 'investments' | 'taxes'>('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [selectedEntry, setSelectedEntry] = useState<FinancialEntry | FinancialCommission | null>(null);
+  const [selectedEntry, setSelectedEntry] = useState<any>(null);
   const { hasPermission } = usePermissions();
-
 
   // Função para obter a cor baseada no valor e tipo
   const getValueColor = (value: number, type: string = 'income') => {
@@ -58,38 +83,43 @@ export const FinancialPage: React.FC = () => {
     }
   };
 
-
   // Função para obter a cor do status
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'paid':
       case 'pago':
+      case 'approved':
+      case 'active':
         return 'success';
       case 'pending':
       case 'pendente':
+      case 'draft':
         return 'warning';
       case 'overdue':
       case 'vencido':
+      case 'rejected':
+      case 'inactive':
         return 'destructive';
       default:
         return 'secondary';
     }
   };
 
-  // Filtrar entradas financeiras
-  const filteredEntries = mockFinancialEntries.filter(entry => {
-    const matchesSearch = entry.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         entry.category.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = !selectedType || entry.type === selectedType;
-    const matchesStatus = !selectedStatus || entry.status === selectedStatus;
-    return matchesSearch && matchesType && matchesStatus;
+
+
+  // Filtrar contas a pagar
+  const filteredPayables = mockAccountsPayable.filter(payable => {
+    const matchesSearch = payable.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         payable.supplierName.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = !selectedStatus || payable.status === selectedStatus;
+    return matchesSearch && matchesStatus;
   });
 
-  // Filtrar comissões
-  const filteredCommissions = mockFinancialCommissions.filter(commission => {
-    const matchesSearch = commission.agentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         commission.propertyTitle.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = !selectedStatus || commission.status === selectedStatus;
+  // Filtrar contas a receber
+  const filteredReceivables = mockAccountsReceivable.filter(receivable => {
+    const matchesSearch = receivable.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         receivable.clientName.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = !selectedStatus || receivable.status === selectedStatus;
     return matchesSearch && matchesStatus;
   });
 
@@ -120,7 +150,14 @@ export const FinancialPage: React.FC = () => {
     { id: 'overview', label: 'Visão Geral', icon: Target },
     { id: 'entries', label: 'Entradas/Saídas', icon: DollarSign },
     { id: 'commissions', label: 'Comissões', icon: Users },
-    { id: 'cashflow', label: 'Fluxo de Caixa', icon: TrendingUp }
+    { id: 'cashflow', label: 'Fluxo de Caixa', icon: TrendingUp },
+    { id: 'payables', label: 'Contas a Pagar', icon: CreditCard },
+    { id: 'receivables', label: 'Contas a Receber', icon: Receipt },
+    { id: 'budget', label: 'Orçamento', icon: Calculator },
+    { id: 'reports', label: 'Relatórios', icon: FileSpreadsheet },
+    { id: 'assets', label: 'Patrimônio', icon: Building },
+    { id: 'investments', label: 'Investimentos', icon: TrendingUp },
+    { id: 'taxes', label: 'Impostos', icon: Scale }
   ];
 
   return (
@@ -133,7 +170,7 @@ export const FinancialPage: React.FC = () => {
           </h1>
           <p className={`text-sm text-gray-600 dark:text-gray-300`}>
             Controle financeiro completo da imobiliária
-           </p>
+          </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
           <ConditionalMenu requiredPermission="financial">
@@ -165,11 +202,11 @@ export const FinancialPage: React.FC = () => {
                 </p>
                 <p className={`text-xs text-green-600 dark:text-green-400`}>
                   +12.5% vs mês anterior
-                 </p>
+                </p>
               </div>
               <div className={`p-3 rounded-full ${colors.iconBg.money}`}>
                 <TrendingUp className={`h-6 w-6 ${colors.icons.money}`} />
-               </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -186,11 +223,11 @@ export const FinancialPage: React.FC = () => {
                 </p>
                 <p className={`text-xs text-red-600 dark:text-red-400`}>
                   +8.2% vs mês anterior
-                 </p>
+                </p>
               </div>
               <div className={`p-3 rounded-full ${colors.iconBg.error}`}>
                 <TrendingDown className={`h-6 w-6 ${colors.icons.error}`} />
-               </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -207,7 +244,7 @@ export const FinancialPage: React.FC = () => {
                 </p>
                 <p className={`text-xs text-green-600 dark:text-green-400`}>
                   +15.3% vs mês anterior
-                 </p>
+                </p>
               </div>
               <div className={`p-3 rounded-full ${colors.iconBg.success}`}>
                 <DollarSign className={`h-6 w-6 ${colors.icons.success}`} />
@@ -228,7 +265,7 @@ export const FinancialPage: React.FC = () => {
                 </p>
                 <p className={`text-xs text-gray-600 dark:text-gray-400`}>
                   3 corretores
-                 </p>
+                </p>
               </div>
               <div className={`p-3 rounded-full ${colors.iconBg.warning}`}>
                 <Clock className={`h-6 w-6 ${colors.icons.warning}`} />
@@ -240,14 +277,14 @@ export const FinancialPage: React.FC = () => {
 
       {/* Tabs */}
       <div className="border-b border-gray-200 dark:border-gray-700">
-        <nav className="-mb-px flex space-x-8">
+        <nav className="-mb-px flex space-x-8 overflow-x-auto custom-scroll px-4 py-2">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm ${
+                className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
@@ -261,42 +298,77 @@ export const FinancialPage: React.FC = () => {
         </nav>
       </div>
 
+      {/* Filtros */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex flex-wrap gap-4">
+            <div className="flex-1 min-w-64">
+              <Input
+                placeholder="Buscar por descrição ou categoria..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full"
+              />
+            </div>
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            >
+              <option value="">Todos os tipos</option>
+              <option value="income">Receitas</option>
+              <option value="expense">Despesas</option>
+            </select>
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            >
+              <option value="">Todos os status</option>
+              <option value="paid">Pago</option>
+              <option value="pending">Pendente</option>
+              <option value="overdue">Vencido</option>
+            </select>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Conteúdo das Tabs */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
-      {/* Gráficos */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Fluxo de Caixa */}
-        <Card>
-          <CardHeader>
+          {/* Gráficos */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Fluxo de Caixa */}
+            <Card>
+              <CardHeader>
                 <CardTitle className={colors.text.title}>
                   Fluxo de Caixa (Últimos 30 dias)
                 </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={cashFlowData}>
-                <CartesianGrid strokeDasharray="3 3" />
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <RechartsLineChart data={cashFlowData}>
+                    <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip 
+                    <YAxis />
+                    <Tooltip 
                       formatter={(value: number) => [formatCurrency(value), '']}
                       labelFormatter={(label) => `Data: ${label}`}
-                />
-                <Line 
-                  type="monotone" 
+                    />
+                    <Line 
+                      type="monotone" 
                       dataKey="income" 
                       stroke="#10b981" 
-                  strokeWidth={2}
-                  name="Receitas"
-                />
-                <Line 
-                  type="monotone" 
+                      strokeWidth={2}
+                      name="Receitas"
+                    />
+                    <Line 
+                      type="monotone" 
                       dataKey="expense" 
                       stroke="#ef4444" 
-                  strokeWidth={2}
-                  name="Despesas"
-                />
+                      strokeWidth={2}
+                      name="Despesas"
+                    />
                     <Line 
                       type="monotone" 
                       dataKey="balance" 
@@ -304,41 +376,41 @@ export const FinancialPage: React.FC = () => {
                       strokeWidth={2}
                       name="Saldo"
                     />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+                  </RechartsLineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
 
             {/* Categorias */}
-        <Card>
-          <CardHeader>
+            <Card>
+              <CardHeader>
                 <CardTitle className={colors.text.title}>
                   Despesas por Categoria
                 </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <RechartsPieChart>
-                <Pie
-                  data={categoryData}
-                  cx="50%"
-                  cy="50%"
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <RechartsPieChart>
+                    <Pie
+                      data={categoryData}
+                      cx="50%"
+                      cy="50%"
                       labelLine={false}
                       label={({ name, percentage }) => `${name}: ${percentage}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {categoryData.map((entry, index) => (
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {categoryData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
+                      ))}
+                    </Pie>
                     <Tooltip formatter={(value: number) => [formatCurrency(value), '']} />
-              </RechartsPieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Performance dos Corretores */}
           <Card>
@@ -349,7 +421,7 @@ export const FinancialPage: React.FC = () => {
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={agentPerformanceData}>
+                <RechartsBarChart data={agentPerformanceData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
@@ -362,7 +434,7 @@ export const FinancialPage: React.FC = () => {
                   />
                   <Bar dataKey="commissions" fill="#10b981" name="Comissões" />
                   <Bar dataKey="deals" fill="#3b82f6" name="Negócios" />
-                </BarChart>
+                </RechartsBarChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
@@ -370,97 +442,82 @@ export const FinancialPage: React.FC = () => {
       )}
 
       {activeTab === 'entries' && (
-        <div className="space-y-6">
-      {/* Filtros */}
-      <Card>
-        <CardContent className="p-6">
-              <div className="flex flex-wrap gap-4">
-                <div className="flex-1 min-w-64">
-              <Input
-                    placeholder="Buscar por descrição ou categoria..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full"
-              />
-            </div>
-            <select
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-            >
-                             <option value="">Todos os tipos</option>
-                  <option value="income">Receitas</option>
-                  <option value="expense">Despesas</option>
-            </select>
-            <select
-                  value={selectedStatus}
-                  onChange={(e) => setSelectedStatus(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                >
-                  <option value="">Todos os status</option>
-                  <option value="paid">Pago</option>
-                  <option value="pending">Pendente</option>
-                  <option value="overdue">Vencido</option>
-            </select>
-          </div>
-        </CardContent>
-      </Card>
+        <FinancialEntries
+          searchTerm={searchTerm}
+          selectedType={selectedType}
+          selectedStatus={selectedStatus}
+          onSearchChange={setSearchTerm}
+          onTypeChange={setSelectedType}
+          onStatusChange={setSelectedStatus}
+        />
+      )}
 
-          {/* Lista de Entradas */}
+      {activeTab === 'commissions' && (
+        <FinancialCommissions
+          searchTerm={searchTerm}
+          selectedStatus={selectedStatus}
+          onSearchChange={setSearchTerm}
+          onStatusChange={setSelectedStatus}
+        />
+      )}
+
+      {activeTab === 'cashflow' && (
+        <CashFlow
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+        />
+      )}
+
+      {activeTab === 'payables' && (
+        <div className="space-y-6">
+          {/* Contas a Pagar */}
           <Card>
             <CardHeader>
               <CardTitle className={colors.text.title}>
-                Entradas e Saídas ({filteredEntries.length})
+                Contas a Pagar ({filteredPayables.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
-      <div className="space-y-4">
-                {filteredEntries.map((entry) => (
+              <div className="space-y-4">
+                {filteredPayables.map((payable) => (
                   <div
-                    key={entry.id}
+                    key={payable.id}
                     className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-full ${colors.iconBg[entry.type === 'income' ? 'money' : 'error']}`}>
-                        {entry.type === 'income' ? (
-                          <TrendingUp className={`h-5 w-5 ${colors.icons.money}`} />
-                        ) : (
-                          <TrendingDown className={`h-5 w-5 ${colors.icons.error}`} />
-                        )}
+                      <div className={`p-2 rounded-full ${colors.iconBg.error}`}>
+                        <CreditCard className={`h-5 w-5 ${colors.icons.error}`} />
                       </div>
                       <div>
                         <p className={`font-medium ${colors.text.title}`}>
-                          {entry.description}
+                          {payable.description}
                         </p>
                         <p className={`text-sm text-gray-600 dark:text-gray-300`}>
-                          {entry.category} • {formatDate(entry.date)}
+                          {payable.supplierName} • {payable.category} • Vencimento: {formatDate(payable.dueDate)}
                         </p>
-                        {entry.tags && (
-                          <div className="flex gap-1 mt-1">
-                            {entry.tags.map((tag) => (
-                              <Badge key={tag} variant="secondary" className="text-xs">
-                                {tag}
-                              </Badge>
-                            ))}
-                          </div>
+                        {payable.installments && (
+                          <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                            Parcela {payable.installments.current} de {payable.installments.total}
+                          </p>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <p className={`font-bold ${getValueColor(entry.amount, entry.type)}`}>
-                          {entry.type === 'expense' ? '-' : '+'}{formatCurrency(entry.amount)}
+                        <p className={`font-bold text-red-600 dark:text-red-400`}>
+                          {formatCurrency(payable.amount)}
                         </p>
-                        <Badge variant={getStatusColor(entry.status) as any}>
-                          {entry.status === 'paid' ? 'Pago' : 
-                           entry.status === 'pending' ? 'Pendente' : 'Vencido'}
+                        <Badge variant={getStatusColor(payable.status) as any}>
+                          {payable.status === 'paid' ? 'Pago' : 
+                           payable.status === 'pending' ? 'Pendente' : 
+                           payable.status === 'overdue' ? 'Vencido' : 'Cancelado'}
                         </Badge>
                       </div>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                          setSelectedEntry(entry);
+                          setSelectedEntry(payable);
                           setShowModal(true);
                         }}
                       >
@@ -475,84 +532,245 @@ export const FinancialPage: React.FC = () => {
         </div>
       )}
 
-      {activeTab === 'commissions' && (
+      {activeTab === 'receivables' && (
         <div className="space-y-6">
-          {/* Filtros */}
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex flex-wrap gap-4">
-                <div className="flex-1 min-w-64">
-                  <Input
-                    placeholder="Buscar por corretor ou propriedade..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full"
-                  />
-                </div>
-                <select
-                  value={selectedStatus}
-                  onChange={(e) => setSelectedStatus(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                >
-                  <option value="">Todos os status</option>
-                  <option value="paid">Pago</option>
-                  <option value="pending">Pendente</option>
-                  <option value="cancelled">Cancelado</option>
-                </select>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Lista de Comissões */}
+          {/* Contas a Receber */}
           <Card>
             <CardHeader>
               <CardTitle className={colors.text.title}>
-                Comissões ({filteredCommissions.length})
+                Contas a Receber ({filteredReceivables.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {filteredCommissions.map((commission) => (
+                {filteredReceivables.map((receivable) => (
                   <div
-                    key={commission.id}
+                    key={receivable.id}
+                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`p-2 rounded-full ${colors.iconBg.money}`}>
+                        <Receipt className={`h-5 w-5 ${colors.icons.money}`} />
+                      </div>
+                      <div>
+                        <p className={`font-medium ${colors.text.title}`}>
+                          {receivable.description}
+                        </p>
+                        <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                          {receivable.clientName} • {receivable.category} • Vencimento: {formatDate(receivable.dueDate)}
+                        </p>
+                        {receivable.propertyTitle && (
+                          <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                            Propriedade: {receivable.propertyTitle}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <p className={`font-bold text-green-600 dark:text-green-400`}>
+                          {formatCurrency(receivable.amount)}
+                        </p>
+                        <Badge variant={getStatusColor(receivable.status) as any}>
+                          {receivable.status === 'paid' ? 'Pago' : 
+                           receivable.status === 'pending' ? 'Pendente' : 
+                           receivable.status === 'overdue' ? 'Vencido' : 'Cancelado'}
+                        </Badge>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedEntry(receivable);
+                          setShowModal(true);
+                        }}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {activeTab === 'budget' && (
+        <div className="space-y-6">
+          {/* Orçamento */}
+          <Card>
+            <CardHeader>
+              <CardTitle className={colors.text.title}>
+                Orçamento 2024
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {mockBudgets.map((budget) => (
+                  <div
+                    key={budget.id}
+                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`p-2 rounded-full ${colors.iconBg.money}`}>
+                        <Calculator className={`h-5 w-5 ${colors.icons.money}`} />
+                      </div>
+                      <div>
+                        <p className={`font-medium ${colors.text.title}`}>
+                          {budget.category}
+                        </p>
+                        <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                          {budget.year}/{budget.month.toString().padStart(2, '0')}
+                        </p>
+                        <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                          Planejado: {formatCurrency(budget.plannedAmount)} • Realizado: {formatCurrency(budget.actualAmount)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <p className={`font-bold ${budget.variance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                          {budget.variance >= 0 ? '+' : ''}{formatCurrency(budget.variance)}
+                        </p>
+                        <p className={`text-sm ${budget.variance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                          {budget.variancePercentage >= 0 ? '+' : ''}{budget.variancePercentage.toFixed(1)}%
+                        </p>
+                        <Badge variant={getStatusColor(budget.status) as any}>
+                          {budget.status === 'on_track' ? 'No Prazo' : 
+                           budget.status === 'over_budget' ? 'Acima do Orçamento' : 'Abaixo do Orçamento'}
+                        </Badge>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedEntry(budget);
+                          setShowModal(true);
+                        }}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {activeTab === 'assets' && (
+        <div className="space-y-6">
+          {/* Patrimônio */}
+          <Card>
+            <CardHeader>
+              <CardTitle className={colors.text.title}>
+                Patrimônio ({mockAssets.length})
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {mockAssets.map((asset) => (
+                  <div
+                    key={asset.id}
+                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`p-2 rounded-full ${colors.iconBg.money}`}>
+                        <Building className={`h-5 w-5 ${colors.icons.money}`} />
+                      </div>
+                      <div>
+                        <p className={`font-medium ${colors.text.title}`}>
+                          {asset.name}
+                        </p>
+                        <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                          {asset.category} • {asset.location} • Responsável: {asset.responsible}
+                        </p>
+                        <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                          Valor Atual: {formatCurrency(asset.currentValue)} • Depreciação: {asset.depreciationRate}%
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <p className={`font-bold text-blue-600 dark:text-blue-400`}>
+                          {formatCurrency(asset.currentValue)}
+                        </p>
+                        <Badge variant={getStatusColor(asset.status) as any}>
+                          {asset.status === 'active' ? 'Ativo' : 
+                           asset.status === 'inactive' ? 'Inativo' : 
+                           asset.status === 'sold' ? 'Vendido' : 'Descartado'}
+                        </Badge>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedEntry(asset);
+                          setShowModal(true);
+                        }}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {activeTab === 'investments' && (
+        <div className="space-y-6">
+          {/* Investimentos */}
+          <Card>
+            <CardHeader>
+              <CardTitle className={colors.text.title}>
+                Investimentos ({mockInvestments.length})
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {mockInvestments.map((investment) => (
+                  <div
+                    key={investment.id}
                     className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                   >
                     <div className="flex items-center gap-4">
                       <div className={`p-2 rounded-full ${colors.iconBg.success}`}>
-                        <Users className={`h-5 w-5 ${colors.icons.success}`} />
+                        <TrendingUp className={`h-5 w-5 ${colors.icons.success}`} />
                       </div>
                       <div>
                         <p className={`font-medium ${colors.text.title}`}>
-                          {commission.agentName}
+                          {investment.name}
                         </p>
                         <p className={`text-sm text-gray-600 dark:text-gray-300`}>
-                          {commission.propertyTitle}
+                          {investment.type} • {investment.description}
                         </p>
-                        <p className={`text-xs text-gray-600 dark:text-gray-300`}>
-                          {commission.dealType === 'sale' ? 'Venda' : 'Locação'} • 
-                          Taxa: {(commission.commissionRate * 100).toFixed(1)}% • 
-                          Vencimento: {formatDate(commission.dueDate)}
+                        <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                          Investido: {formatCurrency(investment.amount)} • Retorno: {investment.returnRate}%
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
                         <p className={`font-bold text-green-600 dark:text-green-400`}>
-                          {formatCurrency(commission.commissionAmount)}
+                          {formatCurrency(investment.currentValue)}
                         </p>
-                        <p className={`text-sm text-gray-600 dark:text-gray-300`}>
-                          Valor do negócio: {formatCurrency(commission.dealValue)}
+                        <p className={`text-sm text-green-600 dark:text-green-400`}>
+                          +{formatCurrency(investment.currentValue - investment.amount)}
                         </p>
-                        <Badge variant={getStatusColor(commission.status) as any}>
-                          {commission.status === 'paid' ? 'Pago' : 
-                           commission.status === 'pending' ? 'Pendente' : 'Cancelado'}
+                        <Badge variant={investment.risk === 'low' ? 'success' : investment.risk === 'medium' ? 'warning' : 'destructive'}>
+                          Risco {investment.risk === 'low' ? 'Baixo' : investment.risk === 'medium' ? 'Médio' : 'Alto'}
                         </Badge>
                       </div>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                          setSelectedEntry(commission);
+                          setSelectedEntry(investment);
                           setShowModal(true);
                         }}
                       >
@@ -567,162 +785,197 @@ export const FinancialPage: React.FC = () => {
         </div>
       )}
 
-      {activeTab === 'cashflow' && (
+      {activeTab === 'reports' && (
         <div className="space-y-6">
-          {/* Resumo do Fluxo de Caixa */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Relatórios Financeiros */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Relatório de Receitas */}
             <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                  <div>
-                    <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
-                      Entradas do Mês
-                    </p>
-                    <p className={`text-2xl font-bold text-green-600 dark:text-green-400`}>
-                      {formatCurrency(mockFinancialMetrics.totalIncome)}
-                    </p>
+              <CardHeader>
+                <CardTitle className={colors.text.title}>
+                  Relatório de Receitas
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                    <span className="text-sm font-medium text-green-800 dark:text-green-200">Vendas de Imóveis</span>
+                    <span className="text-sm font-bold text-green-600 dark:text-green-400">
+                      {formatCurrency(mockFinancialMetrics.totalIncome * 0.7)}
+                    </span>
                   </div>
-                  <div className={`p-3 rounded-full ${colors.iconBg.money}`}>
-                    <TrendingUp className={`h-6 w-6 ${colors.icons.money}`} />
+                  <div className="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Comissões</span>
+                    <span className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                      {formatCurrency(mockFinancialMetrics.totalIncome * 0.2)}
+                    </span>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-                  
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
-                      Saídas do Mês
-                    </p>
-                    <p className={`text-2xl font-bold text-red-600 dark:text-red-400`}>
-                      {formatCurrency(mockFinancialMetrics.totalExpense)}
-                    </p>
-                  </div>
-                  <div className={`p-3 rounded-full ${colors.iconBg.error}`}>
-                    <TrendingDown className={`h-6 w-6 ${colors.icons.error}`} />
+                  <div className="flex justify-between items-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                    <span className="text-sm font-medium text-purple-800 dark:text-purple-200">Serviços</span>
+                    <span className="text-sm font-bold text-purple-600 dark:text-purple-400">
+                      {formatCurrency(mockFinancialMetrics.totalIncome * 0.1)}
+                    </span>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
+            {/* Relatório de Despesas */}
             <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
-                      Saldo Atual
-                    </p>
-                    <p className={`text-2xl font-bold ${mockFinancialMetrics.netBalance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                      {formatCurrency(mockFinancialMetrics.netBalance)}
-                    </p>
+              <CardHeader>
+                <CardTitle className={colors.text.title}>
+                  Relatório de Despesas
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                    <span className="text-sm font-medium text-red-800 dark:text-red-200">Salários</span>
+                    <span className="text-sm font-bold text-red-600 dark:text-red-400">
+                      {formatCurrency(mockFinancialMetrics.totalExpense * 0.4)}
+                    </span>
                   </div>
-                  <div className={`p-3 rounded-full ${colors.iconBg.success}`}>
-                    <DollarSign className={`h-6 w-6 ${colors.icons.success}`} />
+                  <div className="flex justify-between items-center p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                    <span className="text-sm font-medium text-orange-800 dark:text-orange-200">Marketing</span>
+                    <span className="text-sm font-bold text-orange-600 dark:text-orange-400">
+                      {formatCurrency(mockFinancialMetrics.totalExpense * 0.25)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                    <span className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Operacional</span>
+                    <span className="text-sm font-bold text-yellow-600 dark:text-yellow-400">
+                      {formatCurrency(mockFinancialMetrics.totalExpense * 0.35)}
+                    </span>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Gráfico Detalhado */}
+          {/* Relatório de Performance */}
           <Card>
             <CardHeader>
               <CardTitle className={colors.text.title}>
-                Fluxo de Caixa Detalhado
+                Relatório de Performance Mensal
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={cashFlowData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip 
-                    formatter={(value: number, name: string) => [
-                      formatCurrency(value),
-                      name === 'income' ? 'Receitas' : 
-                      name === 'expense' ? 'Despesas' : 'Saldo'
-                    ]}
-                    labelFormatter={(label) => `Data: ${label}`}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="income" 
-                    stroke="#10b981" 
-                    strokeWidth={3}
-                    name="Receitas"
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="expense" 
-                    stroke="#ef4444" 
-                    strokeWidth={3}
-                    name="Despesas"
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="balance" 
-                    stroke="#3b82f6" 
-                    strokeWidth={3}
-                    name="Saldo"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+                    {formatCurrency(mockFinancialMetrics.netBalance)}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Lucro Líquido</p>
+                  <p className="text-xs text-green-600 dark:text-green-400">+15.3% vs mês anterior</p>
+                </div>
+                <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                    {mockFinancialMetrics.topCategories.length}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Categorias Ativas</p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400">+2 novas categorias</p>
+                </div>
+                <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                    {mockAgentFinancialSummaries.length}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Corretores Ativos</p>
+                  <p className="text-xs text-purple-600 dark:text-purple-400">100% de participação</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
-          {/* Lista de Movimentações */}
+          {/* Ações de Relatório */}
           <Card>
             <CardHeader>
               <CardTitle className={colors.text.title}>
-                Movimentações Recentes
+                Exportar Relatórios
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Download className="h-4 w-4" />
+                  Relatório Mensal
+                </Button>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Download className="h-4 w-4" />
+                  Relatório Anual
+                </Button>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Download className="h-4 w-4" />
+                  DRE Completo
+                </Button>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Download className="h-4 w-4" />
+                  Fluxo de Caixa
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {activeTab === 'taxes' && (
+        <div className="space-y-6">
+          {/* Impostos */}
+          <Card>
+            <CardHeader>
+              <CardTitle className={colors.text.title}>
+                Impostos ({mockTaxes.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockCashFlowEntries.slice().reverse().map((entry) => (
+                {mockTaxes.map((tax) => (
                   <div
-                    key={entry.id}
-                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+                    key={tax.id}
+                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-full ${
-                        entry.income > 0 ? colors.iconBg.money : colors.iconBg.error
-                      }`}>
-                        {entry.income > 0 ? (
-                          <TrendingUp className={`h-5 w-5 ${colors.icons.money}`} />
-                        ) : (
-                          <TrendingDown className={`h-5 w-5 ${colors.icons.error}`} />
-                        )}
+                      <div className={`p-2 rounded-full ${colors.iconBg.warning}`}>
+                        <Scale className={`h-5 w-5 ${colors.icons.warning}`} />
                       </div>
                       <div>
                         <p className={`font-medium ${colors.text.title}`}>
-                          {entry.description}
+                          {tax.name}
                         </p>
                         <p className={`text-sm text-gray-600 dark:text-gray-300`}>
-                          {entry.category} • {formatDate(entry.date)}
+                          {tax.type} • {tax.description} • Período: {tax.referencePeriod}
+                        </p>
+                        <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                          Taxa: {tax.rate}% • Vencimento: {formatDate(tax.dueDate)}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className={`font-bold ${
-                        entry.balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-                      }`}>
-                        {formatCurrency(entry.balance)}
-                      </p>
-                      <p className={`text-sm text-gray-600 dark:text-gray-300`}>
-                        {entry.income > 0 && `+${formatCurrency(entry.income)}`}
-                        {entry.expense > 0 && `-${formatCurrency(entry.expense)}`}
-                      </p>
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <p className={`font-bold text-orange-600 dark:text-orange-400`}>
+                          {formatCurrency(tax.amount)}
+                        </p>
+                        <Badge variant={getStatusColor(tax.status) as any}>
+                          {tax.status === 'paid' ? 'Pago' : 
+                           tax.status === 'pending' ? 'Pendente' : 'Vencido'}
+                        </Badge>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedEntry(tax);
+                          setShowModal(true);
+                        }}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
-      </div>
+        </div>
       )}
 
       {/* Modal de Detalhes */}
@@ -739,7 +992,7 @@ export const FinancialPage: React.FC = () => {
                   Descrição
                 </p>
                 <p className={colors.text.title}>
-                  {'description' in selectedEntry ? selectedEntry.description : selectedEntry.propertyTitle}
+                  {selectedEntry.description || selectedEntry.name}
                 </p>
               </div>
               <div>
@@ -747,21 +1000,10 @@ export const FinancialPage: React.FC = () => {
                   Valor
                 </p>
                 <p className={`font-bold text-green-600 dark:text-green-400`}>
-                  {formatCurrency('amount' in selectedEntry ? selectedEntry.amount : selectedEntry.commissionAmount)}
+                  {formatCurrency(selectedEntry.amount || selectedEntry.currentValue)}
                 </p>
               </div>
             </div>
-            
-            {'agentName' in selectedEntry && (
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
-                  Corretor
-                </p>
-                <p className={colors.text.title}>
-                  {selectedEntry.agentName}
-                </p>
-              </div>
-            )}
             
             <div>
               <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
@@ -769,7 +1011,10 @@ export const FinancialPage: React.FC = () => {
               </p>
               <Badge variant={getStatusColor(selectedEntry.status) as any}>
                 {selectedEntry.status === 'paid' ? 'Pago' : 
-                 selectedEntry.status === 'pending' ? 'Pendente' : 'Vencido'}
+                 selectedEntry.status === 'pending' ? 'Pendente' : 
+                 selectedEntry.status === 'overdue' ? 'Vencido' : 
+                 selectedEntry.status === 'active' ? 'Ativo' : 
+                 selectedEntry.status === 'inactive' ? 'Inativo' : 'Outro'}
               </Badge>
             </div>
           </div>

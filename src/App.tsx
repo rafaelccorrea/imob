@@ -13,12 +13,27 @@ import { CommissionCalculatorPage } from './pages/CommissionCalculatorPage';
 import { GoalsGamificationPage } from './pages/GoalsGamificationPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { DocumentsPage } from './pages/DocumentsPage';
-import { KeysPage } from './pages/KeysPage'; // NEW
-import { ClientsPage } from './pages/ClientsPage'; // NEW
-import { ContactsPage } from './pages/ContactsPage'; // NEW
+import { KeysPage } from './pages/KeysPage';
+import { ClientsPage } from './pages/ClientsPage';
+import { ContactsPage } from './pages/ContactsPage';
 import { UsersPage } from './pages/UsersPage';
 import { UserPermissionsPage } from './pages/UserPermissionsPage';
 import { SettingsPage } from './pages/SettingsPage';
+// Novas páginas RH
+import { EmployeesPage } from './pages/EmployeesPage';
+import { RecruitmentPage } from './pages/RecruitmentPage';
+import { PerformancePage } from './pages/PerformancePage';
+import { TrainingPage } from './pages/TrainingPage';
+import { PayrollPage } from './pages/PayrollPage';
+import { TimeTrackingPage } from './pages/TimeTrackingPage';
+// Novas páginas Financeiro
+import { AccountsPayablePage } from './pages/AccountsPayablePage';
+import { AccountsReceivablePage } from './pages/AccountsReceivablePage';
+import { BudgetPage } from './pages/BudgetPage';
+import { FinancialReportsPage } from './pages/FinancialReportsPage';
+import { AssetsPage } from './pages/AssetsPage';
+import { InvestmentsPage } from './pages/InvestmentsPage';
+import { TaxesPage } from './pages/TaxesPage';
 import { Layout } from './components/layout';
 import { useAuthStore } from './stores';
 import { ThemeProvider } from './components/providers/ThemeProvider';
@@ -178,6 +193,112 @@ function App() {
               <AuthProtectedRoute>
                 <Layout>
                   <HRPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            {/* Novas rotas RH */}
+            <Route path="/employees" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <EmployeesPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/recruitment" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <RecruitmentPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/performance" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <PerformancePage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/training" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <TrainingPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/payroll" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <PayrollPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/time-tracking" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <TimeTrackingPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            {/* Novas rotas Financeiro */}
+            <Route path="/accounts-payable" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <AccountsPayablePage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/accounts-receivable" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <AccountsReceivablePage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/budget" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <BudgetPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/financial-reports" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <FinancialReportsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/assets" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <AssetsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/investments" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <InvestmentsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/taxes" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <TaxesPage />
                 </Layout>
               </AuthProtectedRoute>
             } />
