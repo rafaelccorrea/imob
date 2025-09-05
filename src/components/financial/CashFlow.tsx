@@ -169,7 +169,7 @@ export const CashFlow: React.FC<CashFlowProps> = ({
           <div className="flex justify-between items-center">
             <div className="flex gap-2">
               <Button
-                variant={viewMode === 'chart' ? 'default' : 'outline'}
+                variant={viewMode === 'chart' ? 'primary' : 'outline'}
                 size="sm"
                 onClick={() => setViewMode('chart')}
                 className="flex items-center gap-2 text-gray-900 dark:text-white"
@@ -178,7 +178,7 @@ export const CashFlow: React.FC<CashFlowProps> = ({
                 Gráficos
               </Button>
               <Button
-                variant={viewMode === 'list' ? 'default' : 'outline'}
+                variant={viewMode === 'list' ? 'primary' : 'outline'}
                 size="sm"
                 onClick={() => setViewMode('list')}
                 className="flex items-center gap-2 text-gray-900 dark:text-white"
@@ -262,7 +262,7 @@ export const CashFlow: React.FC<CashFlowProps> = ({
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={({ name, value }) => `${name}: ${formatCurrency(value)}`}
+                    label={({ name, value }) => `${name}: ${formatCurrency(value || 0)}`}
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="value"
