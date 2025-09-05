@@ -222,6 +222,12 @@ const sidebarSections: SidebarSection[] = [
             roles: ['owner', 'manager', 'agent'],
           },
           {
+            label: 'Calculadora de Financiamento',
+            icon: Calculator,
+            href: '/financing-calculator',
+            roles: ['agent'],
+          },
+          {
             label: 'Metas & Gamificação',
             icon: Target,
             href: '/goals-gamification',

@@ -17,7 +17,10 @@ import type {
   Team,
   TeamAgent,
   TeamGoal,
-  TeamAssignment
+  TeamAssignment,
+  Bank,
+  FinancingSimulation,
+  ClientProfile
 } from '../types';
 
 export const mockUsers: User[] = [
@@ -847,6 +850,133 @@ export const mockFinancialCommissions: FinancialCommission[] = [
     dueDate: '2024-02-20',
     notes: 'Negócio fechado, aguardando documentação'
   }
+];
+
+// Financing Calculator Mock Data
+export const mockBanks: Bank[] = [
+  {
+    id: 'bank-1',
+    name: 'Banco do Brasil',
+    logo: 'https://via.placeholder.com/40x40/003366/FFFFFF?text=BB',
+    interestRate: 8.5,
+    minDownPayment: 20,
+    maxLoanTerm: 360,
+    minLoanAmount: 50000,
+    maxLoanAmount: 2000000,
+    isActive: true,
+  },
+  {
+    id: 'bank-2',
+    name: 'Caixa Econômica Federal',
+    logo: 'https://via.placeholder.com/40x40/0066CC/FFFFFF?text=CEF',
+    interestRate: 7.9,
+    minDownPayment: 15,
+    maxLoanTerm: 420,
+    minLoanAmount: 30000,
+    maxLoanAmount: 1500000,
+    isActive: true,
+  },
+  {
+    id: 'bank-3',
+    name: 'Itaú',
+    logo: 'https://via.placeholder.com/40x40/FF6600/FFFFFF?text=IT',
+    interestRate: 9.2,
+    minDownPayment: 25,
+    maxLoanTerm: 300,
+    minLoanAmount: 100000,
+    maxLoanAmount: 3000000,
+    isActive: true,
+  },
+  {
+    id: 'bank-4',
+    name: 'Bradesco',
+    logo: 'https://via.placeholder.com/40x40/CC0000/FFFFFF?text=BR',
+    interestRate: 8.8,
+    minDownPayment: 20,
+    maxLoanTerm: 360,
+    minLoanAmount: 80000,
+    maxLoanAmount: 2500000,
+    isActive: true,
+  },
+  {
+    id: 'bank-5',
+    name: 'Santander',
+    logo: 'https://via.placeholder.com/40x40/FF0000/FFFFFF?text=ST',
+    interestRate: 9.5,
+    minDownPayment: 30,
+    maxLoanTerm: 240,
+    minLoanAmount: 150000,
+    maxLoanAmount: 2000000,
+    isActive: true,
+  },
+];
+
+export const mockFinancingSimulations: FinancingSimulation[] = [
+  {
+    id: 'sim-1',
+    propertyValue: 500000,
+    downPayment: 100000,
+    loanAmount: 400000,
+    bankId: 'bank-1',
+    bankName: 'Banco do Brasil',
+    interestRate: 8.5,
+    loanTerm: 360,
+    monthlyPayment: 3076.32,
+    totalInterest: 707475.20,
+    totalAmount: 1107475.20,
+    createdAt: '2024-01-15T10:30:00Z',
+    agentId: 'agent-1',
+    clientName: 'João Silva',
+    clientEmail: 'joao@email.com',
+  },
+  {
+    id: 'sim-2',
+    propertyValue: 750000,
+    downPayment: 150000,
+    loanAmount: 600000,
+    bankId: 'bank-2',
+    bankName: 'Caixa Econômica Federal',
+    interestRate: 7.9,
+    loanTerm: 420,
+    monthlyPayment: 3892.15,
+    totalInterest: 1034703.00,
+    totalAmount: 1634703.00,
+    createdAt: '2024-01-20T14:15:00Z',
+    agentId: 'agent-2',
+    clientName: 'Maria Santos',
+    clientEmail: 'maria@email.com',
+  },
+];
+
+export const mockClientProfiles: ClientProfile[] = [
+  {
+    id: 'client-1',
+    name: 'João Silva',
+    email: 'joao@email.com',
+    phone: '(11) 99999-9999',
+    monthlyIncome: 15000,
+    creditScore: 'good',
+    employmentStatus: 'employed',
+    downPaymentAvailable: 100000,
+    maxMonthlyPayment: 4000,
+    preferredLoanTerm: 360,
+    createdAt: '2024-01-10T00:00:00Z',
+    agentId: 'agent-1',
+  },
+  {
+    id: 'client-2',
+    name: 'Maria Santos',
+    email: 'maria@email.com',
+    phone: '(11) 88888-8888',
+    monthlyIncome: 12000,
+    creditScore: 'excellent',
+    employmentStatus: 'employed',
+    downPaymentAvailable: 150000,
+    maxMonthlyPayment: 3500,
+    preferredLoanTerm: 420,
+    createdAt: '2024-01-15T00:00:00Z',
+    agentId: 'agent-2',
+  },
 ];
 
 export const mockCashFlowEntries: CashFlowEntry[] = [

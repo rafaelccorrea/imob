@@ -258,6 +258,59 @@ export interface PaginatedResponse<T> {
   totalPages: number;
 }
 
+// Financing Calculator Types
+export interface Bank {
+  id: string;
+  name: string;
+  logo: string;
+  interestRate: number;
+  minDownPayment: number;
+  maxLoanTerm: number;
+  minLoanAmount: number;
+  maxLoanAmount: number;
+  isActive: boolean;
+}
+
+export interface FinancingSimulation {
+  id: string;
+  propertyValue: number;
+  downPayment: number;
+  loanAmount: number;
+  bankId: string;
+  bankName: string;
+  interestRate: number;
+  loanTerm: number;
+  monthlyPayment: number;
+  totalInterest: number;
+  totalAmount: number;
+  createdAt: string;
+  agentId: string;
+  clientName?: string;
+  clientEmail?: string;
+}
+
+export interface FinancingComparison {
+  simulations: FinancingSimulation[];
+  bestOption: FinancingSimulation;
+  savings: number;
+  createdAt: string;
+}
+
+export interface ClientProfile {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  monthlyIncome: number;
+  creditScore: 'excellent' | 'good' | 'fair' | 'poor';
+  employmentStatus: 'employed' | 'self_employed' | 'retired' | 'unemployed';
+  downPaymentAvailable: number;
+  maxMonthlyPayment: number;
+  preferredLoanTerm: number;
+  createdAt: string;
+  agentId: string;
+}
+
 
 // Tipos adicionais para entidades específicas
 export interface Contact {

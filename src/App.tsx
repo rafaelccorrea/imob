@@ -5,6 +5,7 @@ import { DashboardFactory } from './components/dashboard/DashboardFactory';
 import ManagerDashboardPage from './pages/ManagerDashboardPage';
 import PresentationsPage from './pages/PresentationsPage';
 import TeamsPage from './pages/TeamsPage';
+import FinancingCalculatorPage from './pages/FinancingCalculatorPage';
 import { PropertiesPage } from './pages/PropertiesPage';
 import { LeadsPage } from './pages/LeadsPage';
 import { DealsPage } from './pages/DealsPage';
@@ -108,6 +109,14 @@ function App() {
               <AuthProtectedRoute>
                 <Layout>
                   <TeamsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/financing-calculator" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <FinancingCalculatorPage />
                 </Layout>
               </AuthProtectedRoute>
             } />
