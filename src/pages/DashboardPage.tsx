@@ -304,34 +304,40 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* Recent Activity */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         {/* Recent Deals */}
         <Card>
           <CardHeader>
             <CardTitle className="dark:text-white">Negociações Recentes</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {recentDeals.map((deal) => (
-                <div key={deal.id} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700 min-w-0">
-                  <div className="flex items-center space-x-3">
+                <div key={deal.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg dark:border-gray-700 min-w-0 gap-3 sm:gap-2">
+                  <div className="flex items-center space-x-3 min-w-0 flex-1">
                     <div className={`h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                       deal.type === 'Venda' ? 'bg-success-100 dark:bg-success-900' : 'bg-primary-100 dark:bg-primary-900'
                     }`}>
-                                             <DollarSign className="h-4 w-4" style={{ color: deal.type === 'Venda' ? getIconColor('income') : getIconColor('income') }} />
+                      <DollarSign className="h-4 w-4" style={{ color: deal.type === 'Venda' ? getIconColor('income') : getIconColor('income') }} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="font-medium text-secondary-900 dark:text-secondary-100 truncate">{deal.property}</p>
-                      <p className="text-sm text-secondary-600 dark:text-secondary-400 truncate">{deal.client}</p>
+                      <p className="font-medium text-secondary-900 dark:text-secondary-100 truncate text-sm sm:text-base">{deal.property}</p>
+                      <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400 truncate">{deal.client}</p>
+                      <p className="text-xs text-secondary-500 dark:text-secondary-500 truncate sm:hidden">{deal.agent}</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-medium" style={{ color: getValueColor(deal.value, 'income') }}>
+                  <div className="flex flex-col sm:flex-col sm:text-right gap-2 sm:gap-1">
+                    <p className="font-medium text-sm sm:text-base" style={{ color: getValueColor(deal.value, 'income') }}>
                       {formatCurrency(deal.value)}
                     </p>
-                    <Badge variant={deal.status === 'Fechado' ? 'default' : 'destructive'}>
-                      {deal.status}
-                    </Badge>
+                    <div className="flex items-center justify-between sm:justify-end gap-2">
+                      <Badge variant={deal.status === 'Fechado' ? 'default' : 'destructive'} className="text-xs">
+                        {deal.status}
+                      </Badge>
+                      <span className="text-xs text-secondary-500 dark:text-secondary-500 sm:hidden">
+                        {formatDate(deal.date)}
+                      </span>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -345,24 +351,24 @@ export const DashboardPage: React.FC = () => {
             <CardTitle className="dark:text-white">Contratos Vencendo</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {expiringContracts.map((contract) => (
-                <div key={contract.id} className="flex items-center justify-between p-3 border rounded-lg dark:border-gray-700 min-w-0">
+                <div key={contract.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg dark:border-gray-700 min-w-0 gap-3 sm:gap-2">
                   <div className="flex items-center space-x-3 min-w-0 flex-1">
                     <div className="h-8 w-8 rounded-full bg-warning-100 dark:bg-warning-900 flex items-center justify-center flex-shrink-0">
                       <Calendar className="h-4 w-4 text-warning-600 dark:text-white" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="font-medium text-secondary-900 dark:text-secondary-100 truncate">{contract.property}</p>
-                      <p className="text-sm text-secondary-600 dark:text-secondary-400 truncate">{contract.tenant}</p>
+                      <p className="font-medium text-secondary-900 dark:text-secondary-100 truncate text-sm sm:text-base">{contract.property}</p>
+                      <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400 truncate">{contract.tenant}</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-medium" style={{ color: getValueColor(contract.value, 'income') }}>
+                  <div className="flex flex-col sm:flex-col sm:text-right gap-2 sm:gap-1">
+                    <p className="font-medium text-sm sm:text-base" style={{ color: getValueColor(contract.value, 'income') }}>
                       {formatCurrency(contract.value)}
                     </p>
-                    <p className="text-sm text-warning-600 dark:opacity-0">
-                      {!isDarkMode() && `Vence em ${formatDate(contract.endDate)}`}
+                    <p className="text-xs sm:text-sm text-warning-600 dark:text-white">
+                      Vence em {formatDate(contract.endDate)}
                     </p>
                   </div>
                 </div>
@@ -375,25 +381,25 @@ export const DashboardPage: React.FC = () => {
       {/* Quick Actions */}
       <Card>
         <CardHeader>
-                     <CardTitle className="dark:text-white">Ações Rápidas</CardTitle>
+          <CardTitle className="dark:text-white">Ações Rápidas</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-20 flex-col">
-              <Plus className="h-6 w-6 mb-2" />
-              Novo Imóvel
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <Button variant="outline" className="h-16 sm:h-20 flex-col p-3 sm:p-4">
+              <Plus className="h-5 w-5 sm:h-6 sm:w-6 mb-1 sm:mb-2" />
+              <span className="text-xs sm:text-sm font-medium">Novo Imóvel</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col">
-              <Users className="h-6 w-6 mb-2" />
-              Novo Lead
+            <Button variant="outline" className="h-16 sm:h-20 flex-col p-3 sm:p-4">
+              <Users className="h-5 w-5 sm:h-6 sm:w-6 mb-1 sm:mb-2" />
+              <span className="text-xs sm:text-sm font-medium">Novo Lead</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col">
-              <DollarSign className="h-6 w-6 mb-2" />
-              Nova Venda
+            <Button variant="outline" className="h-16 sm:h-20 flex-col p-3 sm:p-4">
+              <DollarSign className="h-5 w-5 sm:h-6 sm:w-6 mb-1 sm:mb-2" />
+              <span className="text-xs sm:text-sm font-medium">Nova Venda</span>
             </Button>
-            <Button variant="outline" className="h-20 flex-col">
-              <Calendar className="h-6 w-6 mb-2" />
-              Agendar Visita
+            <Button variant="outline" className="h-16 sm:h-20 flex-col p-3 sm:p-4">
+              <Calendar className="h-5 w-5 sm:h-6 sm:w-6 mb-1 sm:mb-2" />
+              <span className="text-xs sm:text-sm font-medium">Agendar Visita</span>
             </Button>
           </div>
         </CardContent>

@@ -1970,6 +1970,30 @@ export const mockTeams: Team[] = [
         reward: 'Dia de folga coletivo',
         createdAt: '2024-01-01',
         updatedAt: '2024-02-15'
+      },
+      {
+        id: 'goal3',
+        teamId: 'team1',
+        type: 'conversion_rate',
+        target: 18,
+        current: 16.8,
+        period: '2024-02',
+        status: 'active',
+        reward: 'Jantar executivo',
+        createdAt: '2024-01-01',
+        updatedAt: '2024-02-15'
+      },
+      {
+        id: 'goal4',
+        teamId: 'team1',
+        type: 'revenue',
+        target: 500000,
+        current: 420000,
+        period: '2024-02',
+        status: 'active',
+        reward: 'Viagem de incentivo',
+        createdAt: '2024-01-01',
+        updatedAt: '2024-02-15'
       }
     ],
     createdAt: '2023-03-01',
@@ -2026,7 +2050,7 @@ export const mockTeams: Team[] = [
     ],
     goals: [
       {
-        id: 'goal3',
+        id: 'goal5',
         teamId: 'team2',
         type: 'monthly_sales',
         target: 8,
@@ -2034,6 +2058,30 @@ export const mockTeams: Team[] = [
         period: '2024-02',
         status: 'completed',
         reward: 'Almoço da equipe',
+        createdAt: '2024-01-01',
+        updatedAt: '2024-02-15'
+      },
+      {
+        id: 'goal6',
+        teamId: 'team2',
+        type: 'monthly_leads',
+        target: 60,
+        current: 72,
+        period: '2024-02',
+        status: 'completed',
+        reward: 'Café da manhã especial',
+        createdAt: '2024-01-01',
+        updatedAt: '2024-02-15'
+      },
+      {
+        id: 'goal7',
+        teamId: 'team2',
+        type: 'conversion_rate',
+        target: 12,
+        current: 10.3,
+        period: '2024-02',
+        status: 'active',
+        reward: 'Treinamento especializado',
         createdAt: '2024-01-01',
         updatedAt: '2024-02-15'
       }
@@ -2066,7 +2114,7 @@ export const mockTeams: Team[] = [
     ],
     goals: [
       {
-        id: 'goal4',
+        id: 'goal8',
         teamId: 'team3',
         type: 'monthly_sales',
         target: 5,
@@ -2074,6 +2122,30 @@ export const mockTeams: Team[] = [
         period: '2024-02',
         status: 'active',
         reward: 'Curso de especialização',
+        createdAt: '2024-01-01',
+        updatedAt: '2024-02-15'
+      },
+      {
+        id: 'goal9',
+        teamId: 'team3',
+        type: 'monthly_leads',
+        target: 30,
+        current: 20,
+        period: '2024-02',
+        status: 'active',
+        reward: 'Mentoria individual',
+        createdAt: '2024-01-01',
+        updatedAt: '2024-02-15'
+      },
+      {
+        id: 'goal10',
+        teamId: 'team3',
+        type: 'conversion_rate',
+        target: 15,
+        current: 10,
+        period: '2024-02',
+        status: 'active',
+        reward: 'Certificação profissional',
         createdAt: '2024-01-01',
         updatedAt: '2024-02-15'
       }

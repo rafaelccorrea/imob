@@ -14,21 +14,10 @@ import {
   Star,
   Calendar,
   BarChart3,
-  PieChart,
   Download,
-  Search,
-  Filter,
   MoreVertical,
-  Trash2,
-  Copy,
-  Share,
-  CheckCircle,
-  XCircle,
-  AlertCircle,
   UserCheck,
-  UserX,
-  ArrowRight,
-  ArrowLeft
+  UserX
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, Badge, Button, Input, Modal } from '../ui';
 import { colors } from '../../utils/colors';
@@ -39,7 +28,7 @@ import {
   mockTeamPerformanceMetrics,
   mockUsers
 } from '../../utils/mockData';
-import type { Team, TeamAgent, TeamGoal, TeamPerformanceMetrics } from '../../types';
+import type { Team } from '../../types';
 
 interface TeamManagementProps {
   managerId: string;
@@ -63,8 +52,13 @@ export const TeamManagement: React.FC<TeamManagementProps> = ({ managerId }) => 
   }, [searchParams]);
 
   // Filtrar equipes do gestor
-  const managerTeams = mockTeams.filter(team => team.managerId === managerId);
+  const managerTeams = managerId ? mockTeams.filter(team => team.managerId === managerId) : mockTeams;
   const availableAgents = mockUsers.filter(user => user.role === 'agent' && user.isActive);
+
+  // Debug: verificar se as equipes estão sendo encontradas
+  console.log('Manager ID:', managerId);
+  console.log('Manager Teams:', managerTeams);
+  console.log('All Teams:', mockTeams);
 
   const tabs = [
     { id: 'overview', label: 'Visão Geral', icon: BarChart3 },
@@ -132,117 +126,119 @@ export const TeamManagement: React.FC<TeamManagementProps> = ({ managerId }) => 
   };
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className={`text-xl sm:text-2xl md:text-3xl font-bold ${colors.text.title} truncate`}>
             Gestão de Equipes
           </h1>
-          <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+          <p className={`text-xs sm:text-sm text-gray-600 dark:text-gray-300`}>
             Gerencie suas equipes e acompanhe a performance
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="flex items-center gap-2">
-            <Download className="h-4 w-4" />
-            Relatório
+        <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0">
+          <Button variant="outline" className="flex items-center gap-2 text-xs sm:text-sm">
+            <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Relatório</span>
+            <span className="sm:hidden">Rel.</span>
           </Button>
           <Button 
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 text-xs sm:text-sm"
             onClick={() => setShowCreateTeamModal(true)}
           >
-            <Plus className="h-4 w-4" />
-            Nova Equipe
+            <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Nova Equipe</span>
+            <span className="sm:hidden">Nova</span>
           </Button>
         </div>
       </div>
 
       {/* Métricas Gerais */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300`}>
                   Total de Equipes
                 </p>
-                <p className={`text-2xl font-bold text-blue-600 dark:text-blue-400`}>
+                <p className={`text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400`}>
                   {managerTeams.length}
                 </p>
                 <p className={`text-xs text-blue-600 dark:text-blue-400 flex items-center mt-1`}>
-                  <Users className="h-3 w-3 mr-1" />
-                  {managerTeams.reduce((sum, team) => sum + team.agents.length, 0)} corretores
+                  <Users className="h-3 w-3 mr-1 flex-shrink-0" />
+                  <span className="truncate">{managerTeams.reduce((sum, team) => sum + team.agents.length, 0)} corretores</span>
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.primary}`}>
-                <Users className={`h-6 w-6 ${colors.icons.primary}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.primary} flex-shrink-0`}>
+                <Users className={`h-4 w-4 sm:h-6 sm:w-6 ${colors.icons.primary}`} />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300`}>
                   Vendas Totais
                 </p>
-                <p className={`text-2xl font-bold text-green-600 dark:text-green-400`}>
+                <p className={`text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400`}>
                   {mockTeamPerformanceMetrics.reduce((sum, team) => sum + team.totalSales, 0)}
                 </p>
                 <p className={`text-xs text-green-600 dark:text-green-400 flex items-center mt-1`}>
-                  <TrendingUp className="h-3 w-3 mr-1" />
-                  +12% este mês
+                  <TrendingUp className="h-3 w-3 mr-1 flex-shrink-0" />
+                  <span className="truncate">+12% este mês</span>
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.success}`}>
-                <Target className={`h-6 w-6 ${colors.icons.success}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.success} flex-shrink-0`}>
+                <Target className={`h-4 w-4 sm:h-6 sm:w-6 ${colors.icons.success}`} />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300`}>
                   Conversão Média
                 </p>
-                <p className={`text-2xl font-bold text-purple-600 dark:text-purple-400`}>
+                <p className={`text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400`}>
                   {(mockTeamPerformanceMetrics.reduce((sum, team) => sum + team.averageConversion, 0) / mockTeamPerformanceMetrics.length).toFixed(1)}%
                 </p>
                 <p className={`text-xs text-purple-600 dark:text-purple-400 flex items-center mt-1`}>
-                  <BarChart3 className="h-3 w-3 mr-1" />
-                  Meta: 15%
+                  <BarChart3 className="h-3 w-3 mr-1 flex-shrink-0" />
+                  <span className="truncate">Meta: 15%</span>
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.warning}`}>
-                <BarChart3 className={`h-6 w-6 ${colors.icons.warning}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.warning} flex-shrink-0`}>
+                <BarChart3 className={`h-4 w-4 sm:h-6 sm:w-6 ${colors.icons.warning}`} />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300`}>
                   Comissões Totais
                 </p>
-                <p className={`text-2xl font-bold text-orange-600 dark:text-orange-400`}>
+                <p className={`text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400`}>
                   {formatCurrency(mockTeamPerformanceMetrics.reduce((sum, team) => sum + team.totalCommission, 0))}
                 </p>
                 <p className={`text-xs text-orange-600 dark:text-orange-400 flex items-center mt-1`}>
-                  <Award className="h-3 w-3 mr-1" />
-                  Este mês
+                  <Award className="h-3 w-3 mr-1 flex-shrink-0" />
+                  <span className="truncate">Este mês</span>
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.warning}`}>
-                <Award className={`h-6 w-6 ${colors.icons.warning}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.warning} flex-shrink-0`}>
+                <Award className={`h-4 w-4 sm:h-6 sm:w-6 ${colors.icons.warning}`} />
               </div>
             </div>
           </CardContent>
@@ -250,22 +246,23 @@ export const TeamManagement: React.FC<TeamManagementProps> = ({ managerId }) => 
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
-        <nav className="-mb-px flex space-x-8 overflow-x-auto custom-scroll px-4 py-2">
+      <div className="border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
+        <nav className="-mb-px flex space-x-2 sm:space-x-4 lg:space-x-8 px-2 sm:px-4 py-2 min-w-max">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+                className={`flex items-center gap-1 sm:gap-2 py-2 px-2 sm:px-1 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
                 }`}
               >
-                <Icon className="h-4 w-4" />
-                {tab.label}
+                <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
               </button>
             );
           })}
@@ -274,50 +271,50 @@ export const TeamManagement: React.FC<TeamManagementProps> = ({ managerId }) => 
 
       {/* Conteúdo das Tabs */}
       {activeTab === 'overview' && (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Ranking das Equipes */}
           <Card>
             <CardHeader>
               <CardTitle className={`flex items-center gap-2 ${colors.text.title}`}>
-                <Crown className="h-5 w-5 text-yellow-500" />
-                Ranking das Equipes
+                <Crown className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500" />
+                <span className="text-sm sm:text-base">Ranking das Equipes</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {mockTeamPerformanceMetrics.map((team, index) => (
-                  <div key={team.teamId} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700">
-                        {index === 0 && <Crown className="h-5 w-5 text-yellow-500" />}
-                        {index === 1 && <Star className="h-5 w-5 text-gray-400" />}
-                        {index === 2 && <Award className="h-5 w-5 text-orange-500" />}
-                        {index > 2 && <span className="text-sm font-bold text-gray-600 dark:text-gray-300">#{index + 1}</span>}
+                  <div key={team.teamId} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors gap-3 sm:gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                      <div className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex-shrink-0">
+                        {index === 0 && <Crown className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500" />}
+                        {index === 1 && <Star className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />}
+                        {index === 2 && <Award className="h-4 w-4 sm:h-5 sm:w-5 text-orange-500" />}
+                        {index > 2 && <span className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-300">#{index + 1}</span>}
                       </div>
-                      <div>
-                        <p className={`font-medium ${colors.text.title}`}>
+                      <div className="min-w-0 flex-1">
+                        <p className={`font-medium text-sm sm:text-base ${colors.text.title} truncate`}>
                           {team.teamName}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 truncate">
                           {team.agentsCount} corretores • {team.totalSales} vendas • {team.averageConversion.toFixed(1)}% conversão
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-green-600 dark:text-green-400">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                      <div className="text-left sm:text-right">
+                        <p className="text-base sm:text-lg font-bold text-green-600 dark:text-green-400">
                           {formatCurrency(team.totalCommission)}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                           Comissões
                         </p>
                       </div>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
-                          <Eye className="h-4 w-4" />
+                      <div className="flex gap-1 sm:gap-2">
+                        <Button variant="outline" size="sm" className="p-2 flex-shrink-0">
+                          <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
-                        <Button variant="outline" size="sm">
-                          <Settings className="h-4 w-4" />
+                        <Button variant="outline" size="sm" className="p-2 flex-shrink-0">
+                          <Settings className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                       </div>
                     </div>
@@ -331,41 +328,41 @@ export const TeamManagement: React.FC<TeamManagementProps> = ({ managerId }) => 
           <Card>
             <CardHeader>
               <CardTitle className={`flex items-center gap-2 ${colors.text.title}`}>
-                <Target className="h-5 w-5 text-green-500" />
-                Metas das Equipes
+                <Target className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
+                <span className="text-sm sm:text-base">Metas das Equipes</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {managerTeams.map((team) => (
-                  <div key={team.id} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                    <div className="flex items-center gap-3 mb-4">
+                  <div key={team.id} className="p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                       <div 
-                        className="w-4 h-4 rounded-full"
+                        className="w-3 h-3 sm:w-4 sm:h-4 rounded-full flex-shrink-0"
                         style={{ backgroundColor: team.color }}
                       />
-                      <h3 className={`font-semibold ${colors.text.title}`}>
+                      <h3 className={`font-semibold text-sm sm:text-base ${colors.text.title} truncate`}>
                         {team.name}
                       </h3>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                       {team.goals.map((goal) => (
                         <div key={goal.id}>
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                          <div className="flex justify-between items-center mb-1 sm:mb-2">
+                            <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 truncate">
                               {getGoalTypeText(goal.type)}
                             </span>
-                            <Badge variant={getGoalStatusColor(goal.status) as any}>
+                            <Badge variant={getGoalStatusColor(goal.status) as any} className="text-xs flex-shrink-0">
                               {getGoalStatusText(goal.status)}
                             </Badge>
                           </div>
-                          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-1">
+                          <div className="flex justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-1">
                             <span>{goal.current}</span>
                             <span>{goal.target}</span>
                           </div>
-                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
                             <div 
-                              className={`h-2 rounded-full ${
+                              className={`h-1.5 sm:h-2 rounded-full ${
                                 goal.status === 'completed' ? 'bg-green-500' :
                                 goal.status === 'active' ? 'bg-blue-500' : 'bg-gray-400'
                               }`}
@@ -373,7 +370,7 @@ export const TeamManagement: React.FC<TeamManagementProps> = ({ managerId }) => 
                             />
                           </div>
                           {goal.reward && (
-                            <p className="text-xs text-green-600 dark:text-green-400 mt-1">
+                            <p className="text-xs text-green-600 dark:text-green-400 mt-1 truncate">
                               Recompensa: {goal.reward}
                             </p>
                           )}
@@ -389,47 +386,48 @@ export const TeamManagement: React.FC<TeamManagementProps> = ({ managerId }) => 
       )}
 
       {activeTab === 'teams' && (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className={colors.text.title}>
+              <CardTitle className={`text-sm sm:text-base ${colors.text.title}`}>
                 Minhas Equipes ({managerTeams.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {managerTeams.map((team) => (
-                  <div key={team.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                    <div className="flex items-center gap-4">
+                  <div key={team.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors gap-3 sm:gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
                       <div 
-                        className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0"
                         style={{ backgroundColor: team.color }}
                       >
                         {team.name.charAt(0)}
                       </div>
-                      <div>
-                        <p className={`font-medium ${colors.text.title}`}>
+                      <div className="min-w-0 flex-1">
+                        <p className={`font-medium text-sm sm:text-base ${colors.text.title} truncate`}>
                           {team.name}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 truncate">
                           {team.description}
                         </p>
-                        <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs text-gray-500 dark:text-gray-400 mt-1">
                           <span className="flex items-center gap-1">
                             <Users className="h-3 w-3" />
                             {team.agents.length} corretores
                           </span>
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
-                            Criada em {formatDate(team.createdAt)}
+                            <span className="hidden sm:inline">Criada em {formatDate(team.createdAt)}</span>
+                            <span className="sm:hidden">{formatDate(team.createdAt)}</span>
                           </span>
-                          <Badge variant={team.isActive ? 'success' : 'secondary'}>
+                          <Badge variant={team.isActive ? 'success' : 'secondary'} className="text-xs w-fit">
                             {team.isActive ? 'Ativa' : 'Inativa'}
                           </Badge>
                         </div>
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-1 sm:gap-2 overflow-x-auto pb-1">
                       <Button 
                         variant="outline" 
                         size="sm"
@@ -438,17 +436,18 @@ export const TeamManagement: React.FC<TeamManagementProps> = ({ managerId }) => 
                           setSelectedTeamForAssignment(team.id);
                           setShowAssignAgentModal(true);
                         }}
+                        className="p-2 flex-shrink-0"
                       >
-                        <UserPlus className="h-4 w-4" />
+                        <UserPlus className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
-                      <Button variant="outline" size="sm">
-                        <Eye className="h-4 w-4" />
+                      <Button variant="outline" size="sm" className="p-2 flex-shrink-0">
+                        <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
-                      <Button variant="outline" size="sm">
-                        <Edit className="h-4 w-4" />
+                      <Button variant="outline" size="sm" className="p-2 flex-shrink-0">
+                        <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
-                      <Button variant="outline" size="sm">
-                        <MoreVertical className="h-4 w-4" />
+                      <Button variant="outline" size="sm" className="p-2 flex-shrink-0">
+                        <MoreVertical className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
                     </div>
                   </div>
@@ -460,49 +459,50 @@ export const TeamManagement: React.FC<TeamManagementProps> = ({ managerId }) => 
       )}
 
       {activeTab === 'assignments' && (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className={colors.text.title}>
+              <CardTitle className={`text-sm sm:text-base ${colors.text.title}`}>
                 Atribuições de Corretores
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {mockTeamAssignments.map((assignment) => (
-                  <div key={assignment.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/20">
-                        <UserCheck className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  <div key={assignment.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors gap-3 sm:gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                      <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/20 flex-shrink-0">
+                        <UserCheck className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 dark:text-blue-400" />
                       </div>
-                      <div>
-                        <p className={`font-medium ${colors.text.title}`}>
+                      <div className="min-w-0 flex-1">
+                        <p className={`font-medium text-sm sm:text-base ${colors.text.title} truncate`}>
                           {assignment.agentName}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 truncate">
                           {assignment.teamName}
                         </p>
-                        <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs text-gray-500 dark:text-gray-400 mt-1">
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
-                            Atribuído em {formatDate(assignment.assignedAt)}
+                            <span className="hidden sm:inline">Atribuído em {formatDate(assignment.assignedAt)}</span>
+                            <span className="sm:hidden">{formatDate(assignment.assignedAt)}</span>
                           </span>
                           {assignment.notes && (
-                            <span>{assignment.notes}</span>
+                            <span className="truncate">{assignment.notes}</span>
                           )}
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <Badge variant={assignment.status === 'active' ? 'success' : 'secondary'}>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                      <Badge variant={assignment.status === 'active' ? 'success' : 'secondary'} className="text-xs w-fit">
                         {assignment.status === 'active' ? 'Ativo' : 'Inativo'}
                       </Badge>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
-                          <Edit className="h-4 w-4" />
+                      <div className="flex gap-1 sm:gap-2">
+                        <Button variant="outline" size="sm" className="p-2 flex-shrink-0">
+                          <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
-                        <Button variant="outline" size="sm">
-                          <UserX className="h-4 w-4" />
+                        <Button variant="outline" size="sm" className="p-2 flex-shrink-0">
+                          <UserX className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                       </div>
                     </div>
@@ -515,63 +515,63 @@ export const TeamManagement: React.FC<TeamManagementProps> = ({ managerId }) => 
       )}
 
       {activeTab === 'performance' && (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className={`flex items-center gap-2 ${colors.text.title}`}>
-                <TrendingUp className="h-5 w-5 text-green-500" />
-                Performance por Equipe
+              <CardTitle className={`flex items-center gap-2 text-sm sm:text-base ${colors.text.title}`}>
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
+                <span>Performance por Equipe</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {mockTeamPerformanceMetrics.map((team) => (
-                  <div key={team.teamId} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                    <div className="flex items-center gap-3 mb-4">
+                  <div key={team.teamId} className="p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                       <div 
-                        className="w-4 h-4 rounded-full"
+                        className="w-3 h-3 sm:w-4 sm:h-4 rounded-full flex-shrink-0"
                         style={{ backgroundColor: mockTeams.find(t => t.id === team.teamId)?.color }}
                       />
-                      <h3 className={`font-semibold ${colors.text.title}`}>
+                      <h3 className={`font-semibold text-sm sm:text-base ${colors.text.title} truncate`}>
                         {team.teamName}
                       </h3>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
                       <div className="text-center">
-                        <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+                        <p className="text-lg sm:text-2xl font-bold text-green-600 dark:text-green-400">
                           {team.totalSales}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Vendas</p>
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Vendas</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                        <p className="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
                           {team.totalLeads}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Leads</p>
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Leads</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                        <p className="text-lg sm:text-2xl font-bold text-purple-600 dark:text-purple-400">
                           {team.averageConversion.toFixed(1)}%
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Conversão</p>
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Conversão</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                        <p className="text-lg sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
                           {formatCurrency(team.totalCommission)}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Comissões</p>
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Comissões</p>
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <h4 className={`font-medium ${colors.text.title}`}>
+                      <h4 className={`font-medium text-sm sm:text-base ${colors.text.title}`}>
                         Top Performers
                       </h4>
                       {team.topPerformers.slice(0, 2).map((agent, index) => (
-                        <div key={agent.agentId} className="flex items-center justify-between text-sm">
-                          <span className="text-gray-600 dark:text-gray-300">
+                        <div key={agent.agentId} className="flex items-center justify-between text-xs sm:text-sm">
+                          <span className="text-gray-600 dark:text-gray-300 truncate">
                             {index + 1}. {agent.agentName}
                           </span>
-                          <span className="font-medium text-green-600 dark:text-green-400">
+                          <span className="font-medium text-green-600 dark:text-green-400 flex-shrink-0">
                             {agent.performance.sales} vendas
                           </span>
                         </div>

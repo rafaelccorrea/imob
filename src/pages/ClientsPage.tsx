@@ -175,41 +175,43 @@ export const ClientsPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className={`text-2xl font-bold ${colors.text.title}`}>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className={`text-xl sm:text-2xl md:text-3xl font-bold ${colors.text.title} truncate`}>
             Perfis de Clientes
           </h1>
-          <p className={colors.text.body}>
+          <p className={`text-xs sm:text-sm ${colors.text.body}`}>
             Gerencie informações e preferências dos seus clientes
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Novo Cliente
-        </Button>
+        <div className="flex-shrink-0">
+          <Button className="w-full sm:w-auto">
+            <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="text-xs sm:text-sm">Novo Cliente</span>
+          </Button>
+        </div>
       </div>
 
       {/* Filtros */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="flex-1">
+      <div className="flex flex-col gap-3 sm:gap-4">
+        <div className="flex-1 min-w-0">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-3 w-3 sm:h-4 sm:w-4" />
             <Input
               placeholder="Buscar por nome, email ou telefone..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              className="pl-8 sm:pl-10 text-xs sm:text-sm"
             />
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-2">
           <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs sm:text-sm"
           >
             <option value="">Todos os tipos</option>
             <option value="buyer">Comprador</option>
@@ -219,7 +221,7 @@ export const ClientsPage: React.FC = () => {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs sm:text-sm"
           >
             <option value="">Todos os status</option>
             <option value="active">Ativo</option>
@@ -229,87 +231,88 @@ export const ClientsPage: React.FC = () => {
           <select
             value={selectedPriority}
             onChange={(e) => setSelectedPriority(e.target.value)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs sm:text-sm"
           >
             <option value="">Todas as prioridades</option>
             <option value="high">Alta</option>
             <option value="medium">Média</option>
             <option value="low">Baixa</option>
           </select>
-          <Button variant="outline">
-            <Filter className="h-4 w-4 mr-2" />
-            Filtros
+          <Button variant="outline" className="text-xs sm:text-sm">
+            <Filter className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Filtros</span>
+            <span className="sm:hidden">Filt.</span>
           </Button>
         </div>
       </div>
 
       {/* Estatísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium ${colors.text.body}`}>Total</p>
-                <p className={`text-2xl font-bold ${colors.text.title}`}>{stats.total || 0}</p>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.body}`}>Total</p>
+                <p className={`text-xl sm:text-2xl font-bold ${colors.text.title}`}>{stats.total || 0}</p>
               </div>
-              <div className={`h-12 w-12 rounded-lg ${colors.iconBg.info} flex items-center justify-center`}>
-                <User className={`h-6 w-6 ${colors.icons.info}`} />
+              <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-lg ${colors.iconBg.info} flex items-center justify-center flex-shrink-0`}>
+                <User className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.info}`} />
               </div>
             </div>
           </CardContent>
         </Card>
         
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium ${colors.text.body}`}>Compradores</p>
-                <p className={`text-2xl font-bold ${colors.icons.money}`}>{stats.buyer || 0}</p>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.body}`}>Compradores</p>
+                <p className={`text-xl sm:text-2xl font-bold ${colors.icons.money}`}>{stats.buyer || 0}</p>
               </div>
-              <div className={`h-12 w-12 rounded-lg ${colors.iconBg.money} flex items-center justify-center`}>
-                <Home className={`h-6 w-6 ${colors.icons.money}`} />
+              <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-lg ${colors.iconBg.money} flex items-center justify-center flex-shrink-0`}>
+                <Home className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.money}`} />
               </div>
             </div>
           </CardContent>
         </Card>
         
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium ${colors.text.body}`}>Locatários</p>
-                <p className={`text-2xl font-bold ${colors.icons.info}`}>{stats.renter || 0}</p>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.body}`}>Locatários</p>
+                <p className={`text-xl sm:text-2xl font-bold ${colors.icons.info}`}>{stats.renter || 0}</p>
               </div>
-              <div className={`h-12 w-12 rounded-lg ${colors.iconBg.info} flex items-center justify-center`}>
-                <Building className={`h-6 w-6 ${colors.icons.info}`} />
+              <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-lg ${colors.iconBg.info} flex items-center justify-center flex-shrink-0`}>
+                <Building className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.info}`} />
               </div>
             </div>
           </CardContent>
         </Card>
         
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium ${colors.text.body}`}>Investidores</p>
-                <p className={`text-2xl font-bold ${colors.icons.success}`}>{stats.investor || 0}</p>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.body}`}>Investidores</p>
+                <p className={`text-xl sm:text-2xl font-bold ${colors.icons.success}`}>{stats.investor || 0}</p>
               </div>
-              <div className={`h-12 w-12 rounded-lg ${colors.iconBg.success} flex items-center justify-center`}>
-                <TrendingUp className={`h-6 w-6 ${colors.icons.success}`} />
+              <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-lg ${colors.iconBg.success} flex items-center justify-center flex-shrink-0`}>
+                <TrendingUp className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.success}`} />
               </div>
             </div>
           </CardContent>
         </Card>
         
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium ${colors.text.body}`}>Convertidos</p>
-                <p className={`text-2xl font-bold ${colors.icons.success}`}>{stats.converted || 0}</p>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.body}`}>Convertidos</p>
+                <p className={`text-xl sm:text-2xl font-bold ${colors.icons.success}`}>{stats.converted || 0}</p>
               </div>
-              <div className={`h-12 w-12 rounded-lg ${colors.iconBg.success} flex items-center justify-center`}>
-                <Star className={`h-6 w-6 ${colors.icons.success}`} />
+              <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-lg ${colors.iconBg.success} flex items-center justify-center flex-shrink-0`}>
+                <Star className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.success}`} />
               </div>
             </div>
           </CardContent>
@@ -317,7 +320,7 @@ export const ClientsPage: React.FC = () => {
       </div>
 
       {/* Lista de Clientes */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {filteredClients.map((client) => {
           const typeConfig = getClientTypeConfig(client.clientType);
           const statusConfig = getStatusConfig(client.status);
@@ -328,97 +331,103 @@ export const ClientsPage: React.FC = () => {
 
           return (
             <Card key={client.id} className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="h-12 w-12 rounded-full bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center">
-                      <User className="h-6 w-6 text-primary-600 dark:text-primary-400" />
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex items-start justify-between mb-3 sm:mb-4">
+                  <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
+                    <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center flex-shrink-0">
+                      <User className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-primary-400" />
                     </div>
-                    <div>
-                      <h3 className={`font-semibold text-lg ${colors.text.title}`}>
+                    <div className="min-w-0 flex-1">
+                      <h3 className={`font-semibold text-sm sm:text-lg ${colors.text.title} truncate`}>
                         {client.name}
                       </h3>
-                      <p className={`text-sm ${colors.text.body}`}>
+                      <p className={`text-xs sm:text-sm ${colors.text.body} truncate`}>
                         {client.email}
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col space-y-1">
-                    <Badge variant={typeConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
+                  <div className="flex flex-col space-y-1 flex-shrink-0">
+                    <Badge variant={typeConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'} className="text-xs">
                       <TypeIcon className="h-3 w-3 mr-1" />
-                      {typeConfig.label}
+                      <span className="hidden sm:inline">{typeConfig.label}</span>
+                      <span className="sm:hidden">{typeConfig.label.charAt(0)}</span>
                     </Badge>
-                    <Badge variant={statusConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
+                    <Badge variant={statusConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'} className="text-xs">
                       <StatusIcon className="h-3 w-3 mr-1" />
-                      {statusConfig.label}
+                      <span className="hidden sm:inline">{statusConfig.label}</span>
+                      <span className="sm:hidden">{statusConfig.label.charAt(0)}</span>
                     </Badge>
-                    <Badge variant={priorityConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'}>
+                    <Badge variant={priorityConfig.color as 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'} className="text-xs">
                       <PriorityIcon className="h-3 w-3 mr-1" />
-                      {priorityConfig.label}
+                      <span className="hidden sm:inline">{priorityConfig.label}</span>
+                      <span className="sm:hidden">{priorityConfig.label.charAt(0)}</span>
                     </Badge>
                   </div>
                 </div>
                 
-                <div className="space-y-3">
-                  <div className={`flex items-center text-sm ${colors.text.body}`}>
-                    <Phone className="h-4 w-4 mr-2" />
-                    <span>{client.phone}</span>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className={`flex items-center text-xs sm:text-sm ${colors.text.body}`}>
+                    <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+                    <span className="truncate">{client.phone}</span>
                   </div>
 
-                  <div className={`flex items-center text-sm ${colors.text.body}`}>
-                    <MapPin className="h-4 w-4 mr-2" />
+                  <div className={`flex items-center text-xs sm:text-sm ${colors.text.body}`}>
+                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
                     <span className="truncate">{client.address}</span>
                   </div>
 
-                  <div className={`flex items-center text-sm ${colors.text.body}`}>
-                    <DollarSign className="h-4 w-4 mr-2" />
-                    <span className={colors.icons.money}>
+                  <div className={`flex items-center text-xs sm:text-sm ${colors.text.body}`}>
+                    <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+                    <span className={`truncate ${colors.icons.money}`}>
                       Orçamento: {formatCurrency(client.budget)}
                       {client.clientType === 'renter' ? '/mês' : ''}
                     </span>
                   </div>
 
-                  <div className={`flex items-center text-sm ${colors.text.body}`}>
-                    <Calendar className="h-4 w-4 mr-2" />
-                    <span>Último contato: {new Date(client.lastContact).toLocaleDateString('pt-BR')}</span>
+                  <div className={`flex items-center text-xs sm:text-sm ${colors.text.body}`}>
+                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+                    <span className="truncate">Último contato: {new Date(client.lastContact).toLocaleDateString('pt-BR')}</span>
                   </div>
 
-                  <div className={`flex items-center text-sm ${colors.text.body}`}>
-                    <Target className="h-4 w-4 mr-2" />
-                    <span>Total de contatos: {client.totalContacts}</span>
+                  <div className={`flex items-center text-xs sm:text-sm ${colors.text.body}`}>
+                    <Target className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+                    <span className="truncate">Total de contatos: {client.totalContacts}</span>
                   </div>
 
                   {client.notes && (
-                    <div className={`text-sm ${colors.text.body} bg-gray-50 dark:bg-gray-800 p-3 rounded-lg`}>
+                    <div className={`text-xs sm:text-sm ${colors.text.body} bg-gray-50 dark:bg-gray-800 p-2 sm:p-3 rounded-lg`}>
                       <strong>Observações:</strong> {client.notes}
                     </div>
                   )}
                 </div>
                 
-                <div className="flex space-x-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex flex-col sm:flex-row gap-2 mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700">
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1"
+                    className="flex-1 text-xs sm:text-sm"
                     onClick={() => openClientModal(client)}
                   >
-                    <Eye className="h-4 w-4 mr-2" />
-                    Ver Detalhes
+                    <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Ver Detalhes</span>
+                    <span className="sm:hidden">Ver</span>
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1"
+                    className="flex-1 text-xs sm:text-sm"
                   >
-                    <Edit className="h-4 w-4 mr-2" />
-                    Editar
+                    <Edit className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Editar</span>
+                    <span className="sm:hidden">Edit.</span>
                   </Button>
                   <Button
                     size="sm"
-                    className="flex-1"
+                    className="flex-1 text-xs sm:text-sm"
                   >
-                    <Phone className="h-4 w-4 mr-2" />
-                    Contatar
+                    <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Contatar</span>
+                    <span className="sm:hidden">Cont.</span>
                   </Button>
                 </div>
               </CardContent>
@@ -434,27 +443,27 @@ export const ClientsPage: React.FC = () => {
         size="lg"
       >
         {selectedClient && (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
-              <h2 className={`text-xl font-bold ${colors.text.title}`}>
+          <div className="space-y-4 sm:space-y-6">
+            <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className={`text-lg sm:text-xl font-bold ${colors.text.title}`}>
                 Perfil do Cliente
               </h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1"
               >
-                <AlertCircle className="w-6 h-6" />
+                <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <h4 className={`font-semibold mb-3 ${colors.text.title} flex items-center`}>
-                    <User className="h-4 w-4 mr-2" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <h4 className={`font-semibold mb-2 sm:mb-3 text-sm sm:text-base ${colors.text.title} flex items-center`}>
+                    <User className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Informações Pessoais
                   </h4>
-                  <div className={`space-y-2 text-sm ${colors.text.subtitle}`}>
+                  <div className={`space-y-1 sm:space-y-2 text-xs sm:text-sm ${colors.text.subtitle}`}>
                     <p><strong>Nome:</strong> {selectedClient.name}</p>
                     <p><strong>Email:</strong> {selectedClient.email}</p>
                     <p><strong>Telefone:</strong> {selectedClient.phone}</p>
@@ -462,12 +471,12 @@ export const ClientsPage: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <h4 className={`font-semibold mb-3 ${colors.text.title} flex items-center`}>
-                    <DollarSign className="h-4 w-4 mr-2" />
+                <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <h4 className={`font-semibold mb-2 sm:mb-3 text-sm sm:text-base ${colors.text.title} flex items-center`}>
+                    <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Informações Financeiras
                   </h4>
-                  <div className={`space-y-2 text-sm ${colors.text.subtitle}`}>
+                  <div className={`space-y-1 sm:space-y-2 text-xs sm:text-sm ${colors.text.subtitle}`}>
                     <p><strong>Tipo:</strong> {getClientTypeConfig(selectedClient.clientType).label}</p>
                     <p><strong>Orçamento:</strong> 
                       <span className={colors.icons.money}>
@@ -481,13 +490,13 @@ export const ClientsPage: React.FC = () => {
                 </div>
               </div>
               
-              <div className="space-y-4">
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <h4 className={`font-semibold mb-3 ${colors.text.title} flex items-center`}>
-                    <Home className="h-4 w-4 mr-2" />
+              <div className="space-y-3 sm:space-y-4">
+                <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <h4 className={`font-semibold mb-2 sm:mb-3 text-sm sm:text-base ${colors.text.title} flex items-center`}>
+                    <Home className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Preferências
                   </h4>
-                  <div className={`space-y-2 text-sm ${colors.text.subtitle}`}>
+                  <div className={`space-y-1 sm:space-y-2 text-xs sm:text-sm ${colors.text.subtitle}`}>
                     <p><strong>Tipo:</strong> {selectedClient.preferences.propertyType === 'apartment' ? 'Apartamento' : 'Casa'}</p>
                     <p><strong>Quartos:</strong> {selectedClient.preferences.bedrooms}</p>
                     <p><strong>Banheiros:</strong> {selectedClient.preferences.bathrooms}</p>
@@ -498,12 +507,12 @@ export const ClientsPage: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <h4 className={`font-semibold mb-3 ${colors.text.title} flex items-center`}>
-                    <Calendar className="h-4 w-4 mr-2" />
+                <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <h4 className={`font-semibold mb-2 sm:mb-3 text-sm sm:text-base ${colors.text.title} flex items-center`}>
+                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Histórico
                   </h4>
-                  <div className={`space-y-2 text-sm ${colors.text.subtitle}`}>
+                  <div className={`space-y-1 sm:space-y-2 text-xs sm:text-sm ${colors.text.subtitle}`}>
                     <p><strong>Último contato:</strong> {new Date(selectedClient.lastContact).toLocaleDateString('pt-BR')}</p>
                     <p><strong>Total de contatos:</strong> {selectedClient.totalContacts}</p>
                     <p><strong>Criado em:</strong> {new Date(selectedClient.createdAt).toLocaleDateString('pt-BR')}</p>
@@ -514,22 +523,22 @@ export const ClientsPage: React.FC = () => {
             </div>
             
             {selectedClient.notes && (
-              <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <h4 className={`font-semibold mb-3 ${colors.text.title}`}>
+              <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <h4 className={`font-semibold mb-2 sm:mb-3 text-sm sm:text-base ${colors.text.title}`}>
                   Observações
                 </h4>
-                <p className={`text-sm ${colors.text.subtitle}`}>
+                <p className={`text-xs sm:text-sm ${colors.text.subtitle}`}>
                   {selectedClient.notes}
                 </p>
               </div>
             )}
             
-            <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-              <Button variant="outline" onClick={() => setShowModal(false)}>
+            <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700">
+              <Button variant="outline" onClick={() => setShowModal(false)} className="text-xs sm:text-sm">
                 Fechar
               </Button>
-              <Button>
-                <Edit className="h-4 w-4 mr-2" />
+              <Button className="text-xs sm:text-sm">
+                <Edit className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 Editar Cliente
               </Button>
             </div>

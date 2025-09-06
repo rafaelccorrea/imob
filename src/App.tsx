@@ -4,6 +4,7 @@ import { LoginPage } from './pages/LoginPage';
 import { DashboardFactory } from './components/dashboard/DashboardFactory';
 import ManagerDashboardPage from './pages/ManagerDashboardPage';
 import PresentationsPage from './pages/PresentationsPage';
+import { PresentationViewerPage } from './pages/PresentationViewerPage';
 import TeamsPage from './pages/TeamsPage';
 import FinancingCalculatorPage from './pages/FinancingCalculatorPage';
 import { PropertiesPage } from './pages/PropertiesPage';
@@ -102,6 +103,12 @@ function App() {
                 <Layout>
                   <PresentationsPage />
                 </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/presentation/:presentationId" element={
+              <AuthProtectedRoute>
+                <PresentationViewerPage />
               </AuthProtectedRoute>
             } />
             
