@@ -20,6 +20,7 @@ export const DashboardFactory: React.FC = () => {
       console.log('👔 Renderizando ManagerDashboardPage');
       return <ManagerDashboardPage />;
     case 'owner':
+    case 'admin':
       console.log('👑 Renderizando OwnerDashboardPage');
       return <OwnerDashboardPage />;
     case 'financial':

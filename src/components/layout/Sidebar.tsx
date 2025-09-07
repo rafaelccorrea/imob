@@ -31,7 +31,12 @@ import {
   FileSpreadsheet,
   Presentation,
   Plus,
-  Layout
+  Layout,
+  Plug,
+  Crown,
+  Database,
+  Shield,
+  Bell
 } from 'lucide-react';
 import { useAuthStore, useUIStore } from '../../stores';
 import { usePermissions } from '../../hooks/usePermissions';
@@ -49,6 +54,7 @@ interface SidebarItem {
   href?: string;
   roles: string[];
   subItems?: SidebarSubItem[];
+  children?: SidebarSubItem[];
 }
 
 interface SidebarSubItem {
@@ -60,25 +66,88 @@ interface SidebarSubItem {
 
 const sidebarSections: SidebarSection[] = [
   {
+    title: 'Administração',
+    items: [
+      {
+        label: 'Administração',
+        icon: Crown,
+        href: '/owner-dashboard',
+        roles: ['admin', 'owner'],
+        subItems: [
+          {
+            label: 'Dashboard Executivo',
+            icon: Crown,
+            href: '/owner-dashboard',
+            roles: ['admin', 'owner'],
+          },
+          {
+            label: 'Relatórios Executivos',
+            icon: BarChart3,
+            href: '/executive-reports',
+            roles: ['admin', 'owner'],
+          },
+          {
+            label: 'Gestão de Franquias',
+            icon: Building2,
+            href: '/franchise-management',
+            roles: ['admin', 'owner'],
+          },
+          {
+            label: 'Alertas e Notificações',
+            icon: Bell,
+            href: '/alerts-notifications',
+            roles: ['admin', 'owner'],
+          },
+        ],
+      },
+      {
+        label: 'Sistema',
+        icon: Settings,
+        href: '/data-management',
+        roles: ['admin', 'owner'],
+        subItems: [
+          {
+            label: 'Gerenciamento de Dados',
+            icon: Database,
+            href: '/data-management',
+            roles: ['admin', 'owner'],
+          },
+          {
+            label: 'Logs de Auditoria',
+            icon: Shield,
+            href: '/audit-logs',
+            roles: ['admin', 'owner'],
+          },
+          {
+            label: 'Configurações',
+            icon: Settings,
+            href: '/settings',
+            roles: ['admin', 'owner'],
+          },
+        ],
+      },
+    ],
+  },
+  {
     title: 'Principal',
     items: [
       {
         label: 'Dashboard',
         icon: Home,
         href: '/dashboard',
-        roles: ['admin', 'owner', 'manager', 'agent', 'financial', 'hr'],
+        roles: ['owner', 'manager', 'agent', 'financial', 'hr'],
         subItems: [
           {
             label: 'Visão Geral',
             icon: Home,
             href: '/dashboard',
-            roles: ['admin', 'owner', 'agent', 'financial', 'hr'],
+            roles: ['owner', 'agent', 'financial', 'hr'],
           },
           {
-            label: 'Dashboard Executivo',
+            label: 'Dashboard Gerencial',
             icon: BarChart3,
             href: '/manager-dashboard',
-            roles: ['admin', 'manager', 'owner'],
+            roles: ['manager'],
           },
         ],
       },
@@ -358,10 +427,10 @@ const sidebarSections: SidebarSection[] = [
         roles: ['admin', 'owner', 'manager', 'hr'],
       },
       {
-        label: 'Configurações',
-        icon: Settings,
-        href: '/settings',
-        roles: ['admin', 'owner'],
+        label: 'Integrações',
+        icon: Plug,
+        href: '/integrations',
+        roles: ['admin', 'owner', 'manager'],
       },
     ],
   },
@@ -470,9 +539,10 @@ export const Sidebar: React.FC = () => {
                     </h3>
                     <div className="space-y-1">
                       {filteredItems.map((item) => {
-                        const hasSubItems = item.subItems && item.subItems.length > 0;
+                        const subItems = item.subItems || item.children || [];
+                        const hasSubItems = subItems.length > 0;
                         const isExpanded = isItemExpanded(item.label);
-                        const hasActiveChild = hasSubItems && hasActiveSubItem(item.subItems!);
+                        const hasActiveChild = hasSubItems && hasActiveSubItem(subItems);
 
                         return (
                           <div key={item.label}>
@@ -518,7 +588,7 @@ export const Sidebar: React.FC = () => {
                             
                             {hasSubItems && isExpanded && (
                               <div className="ml-6 mt-1 space-y-1">
-                                {item.subItems!
+                                {subItems
                                   .filter(subItem => subItem.roles.includes(user?.role || ''))
                                   .map((subItem) => (
                                     <Link

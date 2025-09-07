@@ -39,6 +39,13 @@ import { FinancialReportsPage } from './pages/FinancialReportsPage';
 import { AssetsPage } from './pages/AssetsPage';
 import { InvestmentsPage } from './pages/InvestmentsPage';
 import { TaxesPage } from './pages/TaxesPage';
+import IntegrationsPage from './pages/IntegrationsPage';
+import OwnerDashboardPage from './pages/OwnerDashboardPage';
+import DataManagementPage from './pages/DataManagementPage';
+import ExecutiveReportsPage from './pages/ExecutiveReportsPage';
+import AuditLogsPage from './pages/AuditLogsPage';
+import FranchiseManagementPage from './pages/FranchiseManagementPage';
+import AlertsNotificationsPage from './pages/AlertsNotificationsPage';
 import { Layout } from './components/layout';
 import { useAuthStore } from './stores';
 import { ThemeProvider } from './components/providers/ThemeProvider';
@@ -366,6 +373,62 @@ function App() {
               <AuthProtectedRoute>
                 <Layout>
                   <SettingsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/integrations" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <IntegrationsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/owner-dashboard" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <OwnerDashboardPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/data-management" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <DataManagementPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/executive-reports" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <ExecutiveReportsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/audit-logs" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <AuditLogsPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/franchise-management" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <FranchiseManagementPage />
+                </Layout>
+              </AuthProtectedRoute>
+            } />
+            
+            <Route path="/alerts-notifications" element={
+              <AuthProtectedRoute>
+                <Layout>
+                  <AlertsNotificationsPage />
                 </Layout>
               </AuthProtectedRoute>
             } />
