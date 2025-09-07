@@ -46,6 +46,7 @@ import ExecutiveReportsPage from './pages/ExecutiveReportsPage';
 import AuditLogsPage from './pages/AuditLogsPage';
 import FranchiseManagementPage from './pages/FranchiseManagementPage';
 import AlertsNotificationsPage from './pages/AlertsNotificationsPage';
+import SalesAnalysisPage from './pages/SalesAnalysisPage';
 import { Layout } from './components/layout';
 import { useAuthStore } from './stores';
 import { ThemeProvider } from './components/providers/ThemeProvider';
@@ -425,14 +426,22 @@ function App() {
               </AuthProtectedRoute>
             } />
             
-            <Route path="/alerts-notifications" element={
-              <AuthProtectedRoute>
-                <Layout>
-                  <AlertsNotificationsPage />
-                </Layout>
-              </AuthProtectedRoute>
-            } />
-          </Routes>
+               <Route path="/alerts-notifications" element={
+                 <AuthProtectedRoute>
+                   <Layout>
+                     <AlertsNotificationsPage />
+                   </Layout>
+                 </AuthProtectedRoute>
+               } />
+               
+               <Route path="/sales-analysis" element={
+                 <AuthProtectedRoute>
+                   <Layout>
+                     <SalesAnalysisPage />
+                   </Layout>
+                 </AuthProtectedRoute>
+               } />
+             </Routes>
         </Router>
       </ThemeProvider>
   );

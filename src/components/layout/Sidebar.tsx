@@ -36,7 +36,8 @@ import {
   Crown,
   Database,
   Shield,
-  Bell
+  Bell,
+  TrendingUp as SalesAnalysis
 } from 'lucide-react';
 import { useAuthStore, useUIStore } from '../../stores';
 import { usePermissions } from '../../hooks/usePermissions';
@@ -96,6 +97,12 @@ const sidebarSections: SidebarSection[] = [
             label: 'Alertas e Notificações',
             icon: Bell,
             href: '/alerts-notifications',
+            roles: ['admin', 'owner'],
+          },
+          {
+            label: 'Análise de Vendas',
+            icon: SalesAnalysis,
+            href: '/sales-analysis',
             roles: ['admin', 'owner'],
           },
         ],
@@ -318,7 +325,7 @@ const sidebarSections: SidebarSection[] = [
     ],
   },
   {
-    title: 'Administração',
+    title: 'Financeiro',
     items: [
       {
         label: 'Financeiro',

@@ -24,6 +24,7 @@ export interface ModulePermissions {
   auditLogs: boolean; // NEW: Logs de auditoria e monitoramento
   franchiseManagement: boolean; // NEW: Gestão de franquias e múltiplas unidades
   alertsNotifications: boolean; // NEW: Sistema de alertas e notificações
+  salesAnalysis: boolean; // NEW: Análise de vendas e concorrência
 }
 
 // Configuração de permissões por perfil
@@ -50,6 +51,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     auditLogs: true,
     franchiseManagement: true,
     alertsNotifications: true,
+    salesAnalysis: true,
   },
   owner: {
     dashboard: true,
@@ -73,6 +75,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     auditLogs: true,
     franchiseManagement: true,
     alertsNotifications: true, // NEW
+    salesAnalysis: true,
   },
   manager: {
     dashboard: true,
@@ -96,6 +99,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     auditLogs: true,
     franchiseManagement: true,
     alertsNotifications: true, // NEW
+    salesAnalysis: true,
   },
   agent: {
     dashboard: true,
@@ -119,6 +123,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     auditLogs: true,
     franchiseManagement: true,
     alertsNotifications: true, // NEW
+    salesAnalysis: true,
   },
   financial: {
     dashboard: true,
@@ -142,6 +147,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     auditLogs: false, // NEW: Financial não tem acesso aos logs de auditoria
     franchiseManagement: false, // NEW: Financial não tem acesso à gestão de franquias
     alertsNotifications: false, // NEW: Financial não tem acesso aos alertas
+    salesAnalysis: false, // NEW: Financial não tem acesso à análise de vendas
   },
   hr: {
     dashboard: true,
@@ -165,5 +171,6 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     auditLogs: false, // NEW: HR não tem acesso aos logs de auditoria
     franchiseManagement: false, // NEW: HR não tem acesso à gestão de franquias
     alertsNotifications: false, // NEW: HR não tem acesso aos alertas
+    salesAnalysis: false, // NEW: HR não tem acesso à análise de vendas
   },
 };
