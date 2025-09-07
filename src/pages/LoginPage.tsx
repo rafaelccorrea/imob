@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuthStore } from '../stores';
 import { mockUsers } from '../utils/mockData';
-import { Button, Alert } from '../components/ui';
+import { Button, Alert, LoginLoading } from '../components/ui';
 import { BetaInfoModal } from '../components/BetaInfoModal';
 import { useBetaModal } from '../hooks/useBetaModal';
 import logo from '../assets/uniao-imobiliaria-logo.png';
@@ -23,6 +23,7 @@ export const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showCredentials, setShowCredentials] = useState(false);
+  const [loginUserType, setLoginUserType] = useState<string>('');
   const navigate = useNavigate();
   const { login } = useAuthStore();
   const { showModal, closeModal, closeModalPermanently } = useBetaModal();
@@ -47,6 +48,20 @@ export const LoginPage: React.FC = () => {
       // Simulação de login com dados mock
       const mockUser = mockUsers.find(u => u.email === data.email);
       if (mockUser && data.password === '123456') {
+        // Definir tipo de usuário para o loading
+        const userTypeMap = {
+          admin: 'Administrador',
+          owner: 'Proprietário',
+          manager: 'Gestor',
+          agent: 'Corretor',
+          financial: 'Financeiro',
+          hr: 'RH'
+        };
+        setLoginUserType(userTypeMap[mockUser.role as keyof typeof userTypeMap] || 'Usuário');
+        
+        // Simular delay de autenticação
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
         // Converter o mockUser para o tipo User esperado
         const user = {
           id: mockUser.id,
@@ -63,6 +78,7 @@ export const LoginPage: React.FC = () => {
       setError(err instanceof Error ? err.message : 'Erro ao fazer login');
     } finally {
       setLoading(false);
+      setLoginUserType('');
     }
   };
 
@@ -75,6 +91,20 @@ export const LoginPage: React.FC = () => {
       // Simulação de login com dados mock
       const mockUser = mockUsers.find(u => u.email === email);
       if (mockUser && password === '123456') {
+        // Definir tipo de usuário para o loading
+        const userTypeMap = {
+          admin: 'Administrador',
+          owner: 'Proprietário',
+          manager: 'Gestor',
+          agent: 'Corretor',
+          financial: 'Financeiro',
+          hr: 'RH'
+        };
+        setLoginUserType(userTypeMap[mockUser.role as keyof typeof userTypeMap] || 'Usuário');
+        
+        // Simular delay de autenticação
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
         // Converter o mockUser para o tipo User esperado
         const user = {
           id: mockUser.id,
@@ -91,6 +121,7 @@ export const LoginPage: React.FC = () => {
       setError(err instanceof Error ? err.message : 'Erro ao fazer login');
     } finally {
       setLoading(false);
+      setLoginUserType('');
     }
   };
 
@@ -380,6 +411,12 @@ export const LoginPage: React.FC = () => {
         isOpen={showModal}
         onClose={closeModal}
         onClosePermanently={closeModalPermanently}
+      />
+
+      {/* Login Loading Modal */}
+      <LoginLoading
+        isVisible={loading}
+        userType={loginUserType}
       />
     </div>
   );

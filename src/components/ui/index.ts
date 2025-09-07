@@ -10,3 +10,4 @@ export { Checkbox } from './Checkbox';
 export { GlobalSearch } from './GlobalSearch';
 export { ConditionalMenu } from './ConditionalMenu';
 export { Progress } from './Progress';
+export { LoadingSpinner, LoadingOverlay, LoginLoading } from '../LoadingSpinner';

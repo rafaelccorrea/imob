@@ -441,16 +441,17 @@ export const EmployeesPage: React.FC = () => {
                 </div>
               </div>
             
-            {/* Ações */}
-            <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
-              <Button variant="outline" onClick={() => setShowModal(false)} className="text-xs sm:text-sm">
-                Fechar
-              </Button>
-              <Button className="text-xs sm:text-sm">
-                <Edit className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">Editar Colaborador</span>
-                <span className="sm:hidden">Editar</span>
-              </Button>
+              {/* Ações */}
+              <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+                <Button variant="outline" onClick={() => setShowModal(false)} className="text-xs sm:text-sm">
+                  Fechar
+                </Button>
+                <Button className="text-xs sm:text-sm">
+                  <Edit className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Editar Colaborador</span>
+                  <span className="sm:hidden">Editar</span>
+                </Button>
+              </div>
             </div>
           </div>
         )}
