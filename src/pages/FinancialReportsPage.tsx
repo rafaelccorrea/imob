@@ -115,114 +115,116 @@ export const FinancialReportsPage: React.FC = () => {
   const cashFlowReports = mockFinancialEntries.filter(r => r.type === 'commission').length;
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-secondary-900 dark:text-white truncate">
             Relatórios Financeiros
           </h1>
-          <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+          <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400">
             DRE, Balanço Patrimonial e relatórios financeiros avançados
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <ConditionalMenu requiredPermission="financial">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              Exportar Todos
+            <Button variant="outline" className="w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Exportar Todos</span>
+              <span className="sm:hidden">Exportar</span>
             </Button>
           </ConditionalMenu>
           <ConditionalMenu requiredPermission="financial">
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Novo Relatório
+            <Button className="w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Novo Relatório</span>
+              <span className="sm:hidden">Novo</span>
             </Button>
           </ConditionalMenu>
         </div>
       </div>
 
       {/* Métricas Principais */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <Card>
-          <CardContent className="p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Total de Relatórios
                 </p>
-                <p className={`text-2xl font-bold text-blue-600 dark:text-blue-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-primary-600 dark:text-white">
                   {totalReports}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   Relatórios gerados
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.money}`}>
-                <FileSpreadsheet className={`h-6 w-6 ${colors.icons.money}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <FileSpreadsheet className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   DREs
                 </p>
-                <p className={`text-2xl font-bold text-green-600 dark:text-green-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-success-600 dark:text-white">
                   {dreReports}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   Demonstrações de resultado
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.success}`}>
-                <BarChart3 className={`h-6 w-6 ${colors.icons.success}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 text-success-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Balanços
                 </p>
-                <p className={`text-2xl font-bold text-purple-600 dark:text-purple-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-secondary-600 dark:text-white">
                   {balanceReports}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   Balanços patrimoniais
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.money}`}>
-                <PieChart className={`h-6 w-6 ${colors.icons.money}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <PieChart className="h-5 w-5 sm:h-6 sm:w-6 text-secondary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Fluxo de Caixa
                 </p>
-                <p className={`text-2xl font-bold text-orange-600 dark:text-orange-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-warning-600 dark:text-white">
                   {cashFlowReports}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   Relatórios de fluxo
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.warning}`}>
-                <TrendingUp className={`h-6 w-6 ${colors.icons.warning}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-warning-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -230,23 +232,23 @@ export const FinancialReportsPage: React.FC = () => {
       </div>
 
       {/* Filtros */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+      <Card className="hover:shadow-md transition-shadow">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div className="relative flex-1 min-w-0">
+              <Search className="absolute left-3 top-1/2 h-3 w-3 sm:h-4 sm:w-4 -translate-y-1/2 text-secondary-400" />
               <Input
                 placeholder="Buscar relatórios..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-8 sm:pl-10 text-xs sm:text-sm"
               />
             </div>
             
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="w-full sm:w-auto p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-xs sm:text-sm"
             >
               <option value="">Todos os tipos</option>
               <option value="income_statement">DRE</option>
@@ -258,7 +260,7 @@ export const FinancialReportsPage: React.FC = () => {
             <select
               value={selectedPeriod}
               onChange={(e) => setSelectedPeriod(e.target.value)}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="w-full sm:w-auto p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-xs sm:text-sm"
             >
               <option value="">Todos os períodos</option>
               <option value="Q1 2024">Q1 2024</option>
@@ -267,66 +269,69 @@ export const FinancialReportsPage: React.FC = () => {
               <option value="Q4 2024">Q4 2024</option>
             </select>
             
-            <Button variant="outline" className="flex items-center">
-              <Filter className="h-4 w-4 mr-2" />
-              Mais Filtros
+            <Button variant="outline" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm w-full sm:w-auto">
+              <Filter className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Mais Filtros</span>
+              <span className="sm:hidden">Filtros</span>
             </Button>
           </div>
         </CardContent>
       </Card>
 
       {/* Lista de Relatórios */}
-      <Card>
-        <CardHeader>
-          <CardTitle className={colors.text.title}>
+      <Card className="hover:shadow-md transition-shadow">
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-sm sm:text-base text-secondary-900 dark:text-white">
             Relatórios Financeiros ({filteredReports.length})
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+        <CardContent className="p-4 sm:p-6 pt-0">
+          <div className="space-y-3 sm:space-y-4">
             {filteredReports.map((report) => (
               <div
                 key={report.id}
-                className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors gap-3 sm:gap-4"
               >
-                <div className="flex items-center gap-4">
-                  <div className={`p-2 rounded-full ${colors.iconBg.money}`}>
-                    <FileSpreadsheet className={`h-5 w-5 ${colors.icons.money}`} />
+                <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                  <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <FileSpreadsheet className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-white" />
                   </div>
-                  <div>
-                    <p className={`font-medium ${colors.text.title}`}>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-sm sm:text-base text-secondary-900 dark:text-white truncate">
                       {report.name}
                     </p>
-                    <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                    <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400 truncate">
                       {report.description} • {report.period}
                     </p>
-                    <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                    <p className="text-xs text-secondary-500 dark:text-secondary-500">
                       Gerado em {formatDate(report.generatedAt)}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-right">
-                    <Badge variant={getTypeColor(report.type) as any}>
+                <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+                  <div className="text-left sm:text-right">
+                    <Badge variant={getTypeColor(report.type) as any} className="text-xs">
                       {getTypeText(report.type)}
                     </Badge>
-                    <p className={`text-sm text-gray-600 dark:text-gray-300 mt-1`}>
+                    <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400 mt-1">
                       {report.fileSize}
                     </p>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-1 sm:space-x-2 flex-shrink-0">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => openReportModal(report)}
+                      className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                     >
-                      <Eye className="h-4 w-4" />
+                      <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
+                      className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                     >
-                      <Download className="h-4 w-4" />
+                      <Download className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                   </div>
                 </div>
@@ -340,56 +345,74 @@ export const FinancialReportsPage: React.FC = () => {
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title={`Relatório: ${selectedReport?.name}`}
+        size="lg"
       >
         {selectedReport && (
-          <div className="space-y-6">
-            {/* Informações Básicas */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Informações do Relatório</h4>
-                <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                  <p><strong>Nome:</strong> {selectedReport.name}</p>
-                  <p><strong>Tipo:</strong> {getTypeText(selectedReport.type)}</p>
-                  <p><strong>Período:</strong> {selectedReport.period}</p>
-                  <p><strong>Descrição:</strong> {selectedReport.description}</p>
+          <div className="flex flex-col h-full">
+            <div className="flex-1 max-h-[70vh] overflow-y-auto custom-scroll space-y-3 sm:space-y-4 pr-2">
+              {/* Header Personalizado do Modal */}
+              <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">
+                  Relatório: {selectedReport.name}
+                </h2>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                >
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Informações Básicas */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+                <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base text-gray-900 dark:text-gray-100">Informações do Relatório</h4>
+                  <div className="space-y-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+                    <p><strong>Nome:</strong> {selectedReport.name}</p>
+                    <p><strong>Tipo:</strong> {getTypeText(selectedReport.type)}</p>
+                    <p><strong>Período:</strong> {selectedReport.period}</p>
+                    <p><strong>Descrição:</strong> {selectedReport.description}</p>
+                  </div>
+                </div>
+                
+                <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base text-gray-900 dark:text-gray-100">Detalhes Técnicos</h4>
+                  <div className="space-y-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+                    <p><strong>Gerado em:</strong> {formatDate(selectedReport.generatedAt)}</p>
+                    <p><strong>Tamanho do arquivo:</strong> {selectedReport.fileSize}</p>
+                    <p><strong>Formato:</strong> {selectedReport.format}</p>
+                    <p><strong>Status:</strong> {selectedReport.status}</p>
+                  </div>
                 </div>
               </div>
               
-              <div>
-                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Detalhes Técnicos</h4>
-                <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                  <p><strong>Gerado em:</strong> {formatDate(selectedReport.generatedAt)}</p>
-                  <p><strong>Tamanho do arquivo:</strong> {selectedReport.fileSize}</p>
-                  <p><strong>Formato:</strong> {selectedReport.format}</p>
-                  <p><strong>Status:</strong> {selectedReport.status}</p>
+              {/* Resumo dos Dados */}
+              <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base text-gray-900 dark:text-gray-100">Resumo dos Dados</h4>
+                <div className="space-y-2">
+                  {selectedReport.summary.map((item, index) => (
+                    <div key={index} className="flex justify-between items-center p-2 sm:p-3 bg-white dark:bg-gray-700 rounded-lg">
+                      <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 truncate">{item.label}</span>
+                      <span className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white flex-shrink-0">
+                        {item.value}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            </div>
-            
-            {/* Resumo dos Dados */}
-            <div>
-              <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Resumo dos Dados</h4>
-              <div className="space-y-2">
-                {selectedReport.summary.map((item, index) => (
-                  <div key={index} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{item.label}</span>
-                    <span className="text-sm font-medium text-gray-900 dark:text-white">
-                      {item.value}
-                    </span>
-                  </div>
-                ))}
               </div>
             </div>
             
             {/* Ações */}
-            <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-              <Button variant="outline" onClick={() => setShowModal(false)}>
+            <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+              <Button variant="outline" onClick={() => setShowModal(false)} className="text-xs sm:text-sm">
                 Fechar
               </Button>
-              <Button>
-                <Download className="h-4 w-4 mr-2" />
-                Baixar Relatório
+              <Button className="text-xs sm:text-sm">
+                <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Baixar Relatório</span>
+                <span className="sm:hidden">Baixar</span>
               </Button>
             </div>
           </div>

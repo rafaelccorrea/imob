@@ -236,110 +236,112 @@ export const GoalsGamificationPage: React.FC = () => {
   ];
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className={`text-xl sm:text-2xl md:text-3xl font-bold ${colors.text.title} truncate`}>
             Metas & Gamificação
           </h1>
-          <p className={`text-sm md:text-base ${colors.text.subtitle}`}>
+          <p className={`text-xs sm:text-sm ${colors.text.subtitle}`}>
             Alcance suas metas e desbloqueie conquistas incríveis!
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
-            <Calendar className="h-4 w-4" />
-            <span className="text-gray-900 dark:text-gray-100">Calendário</span>
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Button variant="outline" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm w-full sm:w-auto">
+            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline text-gray-900 dark:text-gray-100">Calendário</span>
+            <span className="sm:hidden text-gray-900 dark:text-gray-100">Cal.</span>
           </Button>
-          <Button className="flex items-center gap-2 w-full sm:w-auto">
-            <Plus className="h-4 w-4" />
-            <span className="text-gray-900 dark:text-gray-100">Nova Meta</span>
+          <Button className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm w-full sm:w-auto">
+            <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline text-gray-900 dark:text-gray-100">Nova Meta</span>
+            <span className="sm:hidden text-gray-900 dark:text-gray-100">Nova</span>
           </Button>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
-          <CardContent className="p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium ${colors.text.subtitle}`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.subtitle} truncate`}>
                   Nível Atual
                 </p>
-                <p className={`text-2xl font-bold ${colors.text.title}`}>
+                <p className={`text-lg sm:text-xl md:text-2xl font-bold ${colors.text.title}`}>
                   {mockStats.level}
                 </p>
                 <p className={`text-xs ${colors.text.subtitle}`}>
                   {mockStats.experience}/{mockStats.experience + mockStats.experienceToNext} XP
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.primary}`}>
-                <Star className={`h-6 w-6 ${colors.icons.primary}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.primary} flex-shrink-0`}>
+                <Star className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.primary}`} />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium ${colors.text.subtitle}`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.subtitle} truncate`}>
                   Pontos Totais
                 </p>
-                <p className={`text-2xl font-bold text-green-600 dark:text-green-400`}>
+                <p className={`text-lg sm:text-xl md:text-2xl font-bold text-green-600 dark:text-green-400`}>
                   {mockStats.totalPoints.toLocaleString()}
                 </p>
                 <p className={`text-xs text-green-600 dark:text-green-400`}>
                   +250 esta semana
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.money}`}>
-                <Zap className={`h-6 w-6 ${colors.icons.money}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.money} flex-shrink-0`}>
+                <Zap className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.money}`} />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium ${colors.text.subtitle}`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.subtitle} truncate`}>
                   Ranking
                 </p>
-                <p className={`text-2xl font-bold ${colors.text.title}`}>
+                <p className={`text-lg sm:text-xl md:text-2xl font-bold ${colors.text.title}`}>
                   #{mockStats.rank}
                 </p>
                 <p className={`text-xs text-green-600 dark:text-green-400`}>
                   Top 10 da equipe
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.success}`}>
-                <Trophy className={`h-6 w-6 ${colors.icons.success}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.success} flex-shrink-0`}>
+                <Trophy className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.success}`} />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium ${colors.text.subtitle}`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.subtitle} truncate`}>
                   Sequência
                 </p>
-                <p className={`text-2xl font-bold text-yellow-600 dark:text-yellow-400`}>
+                <p className={`text-lg sm:text-xl md:text-2xl font-bold text-yellow-600 dark:text-yellow-400`}>
                   {mockStats.streak} dias
                 </p>
                 <p className={`text-xs text-yellow-600 dark:text-yellow-400`}>
                   Mantenha o fogo!
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.warning}`}>
-                <Flame className={`h-6 w-6 ${colors.icons.warning}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.warning} flex-shrink-0`}>
+                <Flame className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.warning}`} />
               </div>
             </div>
           </CardContent>
@@ -347,48 +349,54 @@ export const GoalsGamificationPage: React.FC = () => {
       </div>
 
       {/* Progress Bar */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className={`font-medium ${colors.text.title}`}>
+      <Card className="hover:shadow-md transition-shadow">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-3 sm:mb-4">
+            <div className="min-w-0 flex-1">
+              <p className={`font-medium ${colors.text.title} text-sm sm:text-base`}>
                 Progresso para o Próximo Nível
               </p>
-              <p className={`text-sm ${colors.text.subtitle}`}>
+              <p className={`text-xs sm:text-sm ${colors.text.subtitle}`}>
                 Nível {mockStats.level} → Nível {mockStats.level + 1}
               </p>
             </div>
-            <div className="text-right">
-              <p className={`font-bold text-green-600 dark:text-green-400`}>
+            <div className="text-right sm:text-right">
+              <p className={`font-bold text-green-600 dark:text-green-400 text-sm sm:text-base`}>
                 {mockStats.experience}/{mockStats.experience + mockStats.experienceToNext}
               </p>
-              <p className={`text-sm ${colors.text.subtitle}`}>XP</p>
+              <p className={`text-xs sm:text-sm ${colors.text.subtitle}`}>XP</p>
             </div>
           </div>
           <Progress 
             value={(mockStats.experience / (mockStats.experience + mockStats.experienceToNext)) * 100} 
-            className="h-3"
+            className="h-2 sm:h-3"
           />
         </CardContent>
       </Card>
 
       {/* Tabs */}
       <div className="border-b border-gray-200 dark:border-gray-700">
-        <nav className="-mb-px flex space-x-8">
+        <nav className="-mb-px flex flex-wrap gap-2 sm:gap-4 md:gap-8">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm ${
+                className={`flex items-center gap-1 sm:gap-2 py-2 px-1 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
                 }`}
               >
-                <Icon className="h-4 w-4" />
-                {tab.label}
+                <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="sm:hidden">
+                  {tab.id === 'goals' ? 'Metas' :
+                   tab.id === 'achievements' ? 'Conq.' :
+                   tab.id === 'ranking' ? 'Rank' :
+                   'Recomp.'}
+                </span>
               </button>
             );
           })}
@@ -397,16 +405,16 @@ export const GoalsGamificationPage: React.FC = () => {
 
       {/* Conteúdo das Tabs */}
       {activeTab === 'goals' && (
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6">
           {/* Metas Ativas */}
-          <Card>
+          <Card className="hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className={colors.text.title}>
+              <CardTitle className={`${colors.text.title} text-sm sm:text-base`}>
                 Metas Ativas ({mockGoals.filter(g => g.status === 'active').length})
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {mockGoals.filter(g => g.status === 'active').map((goal) => {
                   const TypeIcon = getGoalTypeIcon(goal.type);
                   const progress = getGoalProgress(goal);
@@ -415,37 +423,38 @@ export const GoalsGamificationPage: React.FC = () => {
                   return (
                     <div
                       key={goal.id}
-                      className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      className="p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     >
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-full ${getGoalTypeColor(goal.type)}`}>
-                            <TypeIcon className={`h-5 w-5 ${colors.icons[goal.type === 'sales' ? 'success' : goal.type === 'visits' ? 'warning' : goal.type === 'leads' ? 'primary' : goal.type === 'commission' ? 'money' : 'info']}`} />
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-3">
+                        <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                          <div className={`p-2 rounded-full ${getGoalTypeColor(goal.type)} flex-shrink-0`}>
+                            <TypeIcon className={`h-4 w-4 sm:h-5 sm:w-5 ${colors.icons[goal.type === 'sales' ? 'success' : goal.type === 'visits' ? 'warning' : goal.type === 'leads' ? 'primary' : goal.type === 'commission' ? 'money' : 'info']}`} />
                           </div>
-                          <div>
-                            <p className={`font-medium ${colors.text.title}`}>
+                          <div className="min-w-0 flex-1">
+                            <p className={`font-medium ${colors.text.title} text-sm sm:text-base truncate`}>
                               {goal.title}
                             </p>
-                            <p className={`text-sm ${colors.text.subtitle}`}>
+                            <p className={`text-xs sm:text-sm ${colors.text.subtitle} truncate`}>
                               {goal.description}
                             </p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Badge variant={goal.category === 'daily' ? 'destructive' : goal.category === 'weekly' ? 'warning' : 'default'}>
+                        <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                          <Badge variant={goal.category === 'daily' ? 'destructive' : goal.category === 'weekly' ? 'warning' : 'default'} className="text-xs">
                             {goal.category === 'daily' ? 'Diária' : goal.category === 'weekly' ? 'Semanal' : goal.category === 'monthly' ? 'Mensal' : 'Trimestral'}
                           </Badge>
                           {isNearDeadline && (
-                            <Badge variant="destructive">
+                            <Badge variant="destructive" className="text-xs">
                               <Clock className="h-3 w-3 mr-1" />
-                              Urgente
+                              <span className="hidden sm:inline">Urgente</span>
+                              <span className="sm:hidden">Urg.</span>
                             </Badge>
                           )}
                         </div>
                       </div>
                       
                       <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
+                        <div className="flex justify-between text-xs sm:text-sm">
                           <span className={colors.text.subtitle}>
                             Progresso: {goal.current}/{goal.target}
                           </span>
@@ -454,7 +463,7 @@ export const GoalsGamificationPage: React.FC = () => {
                           </span>
                         </div>
                         <Progress value={progress} className="h-2" />
-                        <div className="flex justify-between text-xs">
+                        <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0 text-xs">
                           <span className={colors.text.subtitle}>
                             Prazo: {formatDate(goal.deadline)}
                           </span>
@@ -473,29 +482,29 @@ export const GoalsGamificationPage: React.FC = () => {
       )}
 
       {activeTab === 'achievements' && (
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6">
           {/* Conquistas Desbloqueadas */}
-          <Card>
+          <Card className="hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className={colors.text.title}>
+              <CardTitle className={`${colors.text.title} text-sm sm:text-base`}>
                 Conquistas Desbloqueadas ({mockAchievements.filter(a => a.unlocked).length})
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 {mockAchievements.filter(a => a.unlocked).map((achievement) => {
                   const Icon = achievement.icon;
                   return (
                     <div
                       key={achievement.id}
-                      className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20"
+                      className="p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20"
                     >
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className={`p-2 rounded-full ${colors.iconBg.success}`}>
-                          <Icon className={`h-5 w-5 ${colors.icons.success}`} />
+                      <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                        <div className={`p-2 rounded-full ${colors.iconBg.success} flex-shrink-0`}>
+                          <Icon className={`h-4 w-4 sm:h-5 sm:w-5 ${colors.icons.success}`} />
                         </div>
-                        <div>
-                          <p className={`font-medium ${colors.text.title}`}>
+                        <div className="min-w-0 flex-1">
+                          <p className={`font-medium ${colors.text.title} text-sm sm:text-base truncate`}>
                             {achievement.title}
                           </p>
                           <Badge variant="success" className="text-xs">
@@ -503,11 +512,11 @@ export const GoalsGamificationPage: React.FC = () => {
                           </Badge>
                         </div>
                       </div>
-                      <p className={`text-sm ${colors.text.subtitle} mb-2`}>
+                      <p className={`text-xs sm:text-sm ${colors.text.subtitle} mb-2`}>
                         {achievement.description}
                       </p>
-                      <div className="flex justify-between items-center">
-                        <span className={`text-sm text-green-600 dark:text-green-400`}>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
+                        <span className={`text-xs sm:text-sm text-green-600 dark:text-green-400`}>
                           +{achievement.points} pontos
                         </span>
                         <span className={`text-xs ${colors.text.subtitle}`}>
@@ -522,27 +531,27 @@ export const GoalsGamificationPage: React.FC = () => {
           </Card>
 
           {/* Conquistas Bloqueadas */}
-          <Card>
+          <Card className="hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className={colors.text.title}>
+              <CardTitle className={`${colors.text.title} text-sm sm:text-base`}>
                 Conquistas Bloqueadas ({mockAchievements.filter(a => !a.unlocked).length})
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 {mockAchievements.filter(a => !a.unlocked).map((achievement) => {
                   const Icon = achievement.icon;
                   return (
                     <div
                       key={achievement.id}
-                      className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg opacity-60"
+                      className="p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg opacity-60"
                     >
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
-                          <Icon className="h-5 w-5 text-gray-400" />
+                      <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                        <div className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 flex-shrink-0">
+                          <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                         </div>
-                        <div>
-                          <p className={`font-medium ${colors.text.title}`}>
+                        <div className="min-w-0 flex-1">
+                          <p className={`font-medium ${colors.text.title} text-sm sm:text-base truncate`}>
                             {achievement.title}
                           </p>
                           <Badge variant="secondary" className="text-xs">
@@ -550,11 +559,11 @@ export const GoalsGamificationPage: React.FC = () => {
                           </Badge>
                         </div>
                       </div>
-                      <p className={`text-sm ${colors.text.subtitle} mb-2`}>
+                      <p className={`text-xs sm:text-sm ${colors.text.subtitle} mb-2`}>
                         {achievement.description}
                       </p>
-                      <div className="flex justify-between items-center">
-                        <span className={`text-sm text-green-600 dark:text-green-400`}>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
+                        <span className={`text-xs sm:text-sm text-green-600 dark:text-green-400`}>
                           +{achievement.points} pontos
                         </span>
                         <span className={`text-xs ${colors.text.subtitle}`}>
@@ -571,16 +580,16 @@ export const GoalsGamificationPage: React.FC = () => {
       )}
 
       {activeTab === 'ranking' && (
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6">
           {/* Ranking da Equipe */}
-          <Card>
+          <Card className="hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className={colors.text.title}>
+              <CardTitle className={`${colors.text.title} text-sm sm:text-base`}>
                 Ranking da Equipe
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {[
                   { name: 'Carlos Oliveira', points: 12500, deals: 8, level: 15 },
                   { name: 'Maria Santos', points: 11200, deals: 7, level: 14 },
@@ -590,12 +599,12 @@ export const GoalsGamificationPage: React.FC = () => {
                 ].map((agent, index) => (
                   <div
                     key={index}
-                    className={`flex items-center justify-between p-4 rounded-lg ${
+                    className={`flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 rounded-lg gap-3 sm:gap-4 ${
                       index === 2 ? 'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800' : 'border border-gray-200 dark:border-gray-700'
                     }`}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`flex items-center justify-center w-8 h-8 rounded-full ${
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                      <div className={`flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0 ${
                         index === 0 ? 'bg-yellow-100 text-yellow-600' :
                         index === 1 ? 'bg-gray-100 text-gray-600' :
                         index === 2 ? 'bg-blue-100 text-blue-600' :
@@ -606,17 +615,17 @@ export const GoalsGamificationPage: React.FC = () => {
                          index === 2 ? <Award className="h-4 w-4" /> :
                          <span className="text-sm font-bold">{index + 1}</span>}
                       </div>
-                      <div>
-                        <p className={`font-medium ${colors.text.title}`}>
+                      <div className="min-w-0 flex-1">
+                        <p className={`font-medium ${colors.text.title} text-sm sm:text-base truncate`}>
                           {agent.name} {index === 2 && '(Você)'}
                         </p>
-                        <p className={`text-sm ${colors.text.subtitle}`}>
+                        <p className={`text-xs sm:text-sm ${colors.text.subtitle}`}>
                           Nível {agent.level} • {agent.deals} negócios
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className={`font-bold text-green-600 dark:text-green-400`}>
+                    <div className="text-left sm:text-right">
+                      <p className={`font-bold text-green-600 dark:text-green-400 text-sm sm:text-base`}>
                         {agent.points.toLocaleString()} pts
                       </p>
                       <p className={`text-xs ${colors.text.subtitle}`}>
@@ -632,16 +641,16 @@ export const GoalsGamificationPage: React.FC = () => {
       )}
 
       {activeTab === 'rewards' && (
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6">
           {/* Recompensas Disponíveis */}
-          <Card>
+          <Card className="hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className={colors.text.title}>
+              <CardTitle className={`${colors.text.title} text-sm sm:text-base`}>
                 Recompensas Disponíveis
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 {[
                   { title: 'Bônus de Comissão', description: '5% extra na próxima comissão', cost: 1000, icon: DollarSign },
                   { title: 'Dia de Folga', description: 'Um dia de folga remunerado', cost: 2500, icon: Calendar },
@@ -652,29 +661,29 @@ export const GoalsGamificationPage: React.FC = () => {
                 ].map((reward, index) => (
                   <div
                     key={index}
-                    className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-lg transition-shadow"
+                    className="p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-lg transition-shadow"
                   >
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className={`p-2 rounded-full ${colors.iconBg.primary}`}>
-                        <reward.icon className={`h-5 w-5 ${colors.icons.primary}`} />
+                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                      <div className={`p-2 rounded-full ${colors.iconBg.primary} flex-shrink-0`}>
+                        <reward.icon className={`h-4 w-4 sm:h-5 sm:w-5 ${colors.icons.primary}`} />
                       </div>
-                      <div>
-                        <p className={`font-medium ${colors.text.title}`}>
+                      <div className="min-w-0 flex-1">
+                        <p className={`font-medium ${colors.text.title} text-sm sm:text-base truncate`}>
                           {reward.title}
                         </p>
-                        <p className={`text-sm ${colors.text.subtitle}`}>
+                        <p className={`text-xs sm:text-sm ${colors.text.subtitle} truncate`}>
                           {reward.description}
                         </p>
                       </div>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className={`font-bold text-green-600 dark:text-green-400`}>
+                    <div className="flex flex-col sm:flex-row sm:justify-between gap-2 sm:gap-0">
+                      <span className={`font-bold text-green-600 dark:text-green-400 text-sm sm:text-base`}>
                         {reward.cost.toLocaleString()} pts
                       </span>
                       <Button 
                         size="sm" 
                         disabled={mockStats.totalPoints < reward.cost}
-                        className="flex items-center gap-1"
+                        className="flex items-center justify-center gap-1 text-xs sm:text-sm w-full sm:w-auto"
                       >
                         <Gift className="h-3 w-3" />
                         <span className="text-gray-900 dark:text-gray-100">Resgatar</span>
@@ -695,57 +704,59 @@ export const GoalsGamificationPage: React.FC = () => {
         title="Detalhes da Meta"
       >
         {selectedGoal && (
-          <div className="space-y-4">
-            <div>
-              <p className={`text-sm font-medium ${colors.text.subtitle}`}>
-                Título
-              </p>
-              <p className={colors.text.title}>
-                {selectedGoal.title}
-              </p>
-            </div>
-            
-            <div>
-              <p className={`text-sm font-medium ${colors.text.subtitle}`}>
-                Descrição
-              </p>
-              <p className={colors.text.title}>
-                {selectedGoal.description}
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col h-full">
+            <div className="flex-1 space-y-3 sm:space-y-4">
               <div>
-                <p className={`text-sm font-medium ${colors.text.subtitle}`}>
-                  Progresso
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.subtitle}`}>
+                  Título
                 </p>
-                <p className={colors.text.title}>
-                  {selectedGoal.current}/{selectedGoal.target}
+                <p className={`${colors.text.title} text-sm sm:text-base`}>
+                  {selectedGoal.title}
                 </p>
               </div>
+              
               <div>
-                <p className={`text-sm font-medium ${colors.text.subtitle}`}>
-                  Prazo
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.subtitle}`}>
+                  Descrição
                 </p>
-                <p className={colors.text.title}>
-                  {formatDate(selectedGoal.deadline)}
+                <p className={`${colors.text.title} text-sm sm:text-base`}>
+                  {selectedGoal.description}
                 </p>
               </div>
-            </div>
-            
-            <div>
-              <p className={`text-sm font-medium ${colors.text.subtitle}`}>
-                Recompensa
-              </p>
-              <div className="flex items-center gap-2">
-                <Badge variant="success">
-                  +{selectedGoal.reward.points} pontos
-                </Badge>
-                {selectedGoal.reward.badge && (
-                  <Badge variant="primary">
-                    {selectedGoal.reward.badge}
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div>
+                  <p className={`text-xs sm:text-sm font-medium ${colors.text.subtitle}`}>
+                    Progresso
+                  </p>
+                  <p className={`${colors.text.title} text-sm sm:text-base`}>
+                    {selectedGoal.current}/{selectedGoal.target}
+                  </p>
+                </div>
+                <div>
+                  <p className={`text-xs sm:text-sm font-medium ${colors.text.subtitle}`}>
+                    Prazo
+                  </p>
+                  <p className={`${colors.text.title} text-sm sm:text-base`}>
+                    {formatDate(selectedGoal.deadline)}
+                  </p>
+                </div>
+              </div>
+              
+              <div>
+                <p className={`text-xs sm:text-sm font-medium ${colors.text.subtitle}`}>
+                  Recompensa
+                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge variant="success" className="text-xs">
+                    +{selectedGoal.reward.points} pontos
                   </Badge>
-                )}
+                  {selectedGoal.reward.badge && (
+                    <Badge variant="primary" className="text-xs">
+                      {selectedGoal.reward.badge}
+                    </Badge>
+                  )}
+                </div>
               </div>
             </div>
           </div>

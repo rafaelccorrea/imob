@@ -16,7 +16,7 @@ export default function FinancingCalculatorPage() {
   };
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       <FinancingCalculator
         agentId={user?.id || ''}
         onSaveSimulation={handleSaveSimulation}

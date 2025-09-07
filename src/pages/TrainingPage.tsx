@@ -140,51 +140,53 @@ export const TrainingPage: React.FC = () => {
   const totalParticipants = mockEmployeeTrainings.length;
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-secondary-900 dark:text-white truncate">
             Treinamentos e Certificações
           </h1>
-          <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+          <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400">
             Gestão de cursos, treinamentos e desenvolvimento profissional
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <ConditionalMenu requiredPermission="hr">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              Exportar
+            <Button variant="outline" className="w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Exportar</span>
+              <span className="sm:hidden">Exportar</span>
             </Button>
           </ConditionalMenu>
           <ConditionalMenu requiredPermission="hr">
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Novo Treinamento
+            <Button className="w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Novo Treinamento</span>
+              <span className="sm:hidden">Novo</span>
             </Button>
           </ConditionalMenu>
         </div>
       </div>
 
       {/* Métricas Principais */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <Card>
-          <CardContent className="p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Treinamentos Disponíveis
                 </p>
-                <p className={`text-2xl font-bold text-blue-600 dark:text-blue-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-primary-600 dark:text-white">
                   {totalTrainings}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   Cursos ativos
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.money}`}>
-                <BookOpen className={`h-6 w-6 ${colors.icons.money}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -327,57 +329,59 @@ export const TrainingPage: React.FC = () => {
       {activeTab === 'trainings' && (
         <div className="space-y-6">
           {/* Treinamentos Disponíveis */}
-          <Card>
-            <CardHeader>
-              <CardTitle className={colors.text.title}>
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-sm sm:text-base text-secondary-900 dark:text-white">
                 Treinamentos Disponíveis ({filteredTrainings.length})
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+            <CardContent className="p-4 sm:p-6 pt-0">
+              <div className="space-y-3 sm:space-y-4">
                 {filteredTrainings.map((training) => (
                   <div
                     key={training.id}
-                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors gap-3 sm:gap-4"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-full ${colors.iconBg.money}`}>
-                        <GraduationCap className={`h-5 w-5 ${colors.icons.money}`} />
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-white" />
                       </div>
-                      <div>
-                        <p className={`font-medium ${colors.text.title}`}>
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-sm sm:text-base text-secondary-900 dark:text-white truncate">
                           {training.title}
                         </p>
-                        <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                        <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400 truncate">
                           {training.category} • {training.duration} horas
                         </p>
-                        <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                        <p className="text-xs text-secondary-500 dark:text-secondary-500 truncate">
                           {training.description}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <Badge variant="default">
+                    <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+                      <div className="text-left sm:text-right">
+                        <Badge variant="default" className="text-xs mb-1">
                           {training.category}
                         </Badge>
-                        <p className={`text-sm text-gray-600 dark:text-gray-300 mt-1`}>
+                        <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400">
                           {training.duration}h
                         </p>
                       </div>
-                      <div className="flex space-x-2">
+                      <div className="flex space-x-1 sm:space-x-2 flex-shrink-0">
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => openModal(training)}
+                          className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                         >
-                          <Eye className="h-4 w-4" />
+                          <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
+                          className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                         >
-                          <Edit className="h-4 w-4" />
+                          <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                       </div>
                     </div>

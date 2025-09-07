@@ -145,47 +145,49 @@ export const CommissionCalculatorPage: React.FC = () => {
   const nextGoal = getNextGoal();
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className={`text-xl sm:text-2xl md:text-3xl font-bold ${colors.text.title} truncate`}>
             Calculadora de Comissões
           </h1>
-          <p className={`text-sm md:text-base ${colors.text.subtitle}`}>
+          <p className={`text-xs sm:text-sm ${colors.text.subtitle}`}>
             Simule suas comissões e veja seu potencial de ganhos
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
-            <Target className="h-4 w-4" />
-            Minhas Metas
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Button variant="outline" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm w-full sm:w-auto">
+            <Target className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Minhas Metas</span>
+            <span className="sm:hidden">Metas</span>
           </Button>
-          <Button className="flex items-center gap-2 w-full sm:w-auto" onClick={saveCalculation}>
-            <Star className="h-4 w-4" />
-            Salvar Cálculo
+          <Button className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm w-full sm:w-auto" onClick={saveCalculation}>
+            <Star className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Salvar Cálculo</span>
+            <span className="sm:hidden">Salvar</span>
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {/* Calculadora */}
-        <div className="lg:col-span-2 space-y-6">
-          <Card>
+        <div className="lg:col-span-2 space-y-3 sm:space-y-4 md:space-y-6">
+          <Card className="hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className={`${colors.text.title} flex items-center gap-2`}>
-                <Calculator className="h-5 w-5" />
+              <CardTitle className={`${colors.text.title} flex items-center gap-2 text-sm sm:text-base`}>
+                <Calculator className="h-4 w-4 sm:h-5 sm:w-5" />
                 Simulador de Comissão
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-3 sm:space-y-4 md:space-y-6">
               {/* Valor do Imóvel */}
               <div>
-                <label className={`block text-sm font-medium ${colors.text.subtitle} mb-2`}>
+                <label className={`block text-xs sm:text-sm font-medium ${colors.text.subtitle} mb-1 sm:mb-2`}>
                   Valor do Imóvel
                 </label>
                 <div className="relative">
-                  <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
+                  <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 sm:h-4 sm:w-4 text-gray-400 dark:text-gray-500" />
                   <Input
                     type="text"
                     value={propertyValueFormatted}
@@ -194,7 +196,7 @@ export const CommissionCalculatorPage: React.FC = () => {
                       setPropertyValueFormatted(formatted);
                       setPropertyValue(parseCurrencyValue(formatted));
                     }}
-                    className="pl-10 text-lg"
+                    className="pl-8 sm:pl-10 text-sm sm:text-base md:text-lg"
                     placeholder="R$ 0,00"
                   />
                 </div>
@@ -202,20 +204,20 @@ export const CommissionCalculatorPage: React.FC = () => {
 
               {/* Tipo de Negócio */}
               <div>
-                <label className={`block text-sm font-medium ${colors.text.subtitle} mb-2`}>
+                <label className={`block text-xs sm:text-sm font-medium ${colors.text.subtitle} mb-1 sm:mb-2`}>
                   Tipo de Negócio
                 </label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                   <Button
                     variant={dealType === 'sale' ? 'default' : 'outline'}
                     onClick={() => setDealType('sale')}
-                    className={`flex items-center gap-2 ${
+                    className={`flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm ${
                       dealType === 'sale' 
                         ? 'bg-blue-600 hover:bg-blue-700 text-white' 
                         : 'border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                     }`}
                   >
-                    <TrendingUp className={`h-4 w-4 ${
+                    <TrendingUp className={`h-3 w-3 sm:h-4 sm:w-4 ${
                       dealType === 'sale' ? 'text-white' : 'text-blue-600'
                     }`} />
                     <span className={dealType === 'sale' ? 'text-white' : 'text-blue-600 dark:text-blue-400'}>Venda</span>
@@ -223,13 +225,13 @@ export const CommissionCalculatorPage: React.FC = () => {
                   <Button
                     variant={dealType === 'rent' ? 'default' : 'outline'}
                     onClick={() => setDealType('rent')}
-                    className={`flex items-center gap-2 ${
+                    className={`flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm ${
                       dealType === 'rent' 
                         ? 'bg-green-600 hover:bg-green-700 text-white' 
                         : 'border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20'
                     }`}
                   >
-                    <DollarSign className={`h-4 w-4 ${
+                    <DollarSign className={`h-3 w-3 sm:h-4 sm:w-4 ${
                       dealType === 'rent' ? 'text-white' : 'text-green-600'
                     }`} />
                     <span className={dealType === 'rent' ? 'text-white' : 'text-green-600 dark:text-green-400'}>Locação</span>
@@ -239,7 +241,7 @@ export const CommissionCalculatorPage: React.FC = () => {
 
               {/* Nível do Corretor */}
               <div>
-                <label className={`block text-sm font-medium ${colors.text.subtitle} mb-2`}>
+                <label className={`block text-xs sm:text-sm font-medium ${colors.text.subtitle} mb-1 sm:mb-2`}>
                   Seu Nível Atual
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -250,7 +252,7 @@ export const CommissionCalculatorPage: React.FC = () => {
                         key={tier.level}
                         variant={agentLevel === tier.level.toLowerCase() ? 'default' : 'outline'}
                         onClick={() => setAgentLevel(tier.level.toLowerCase() as any)}
-                        className={`flex items-center gap-2 ${
+                        className={`flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm ${
                           agentLevel === tier.level.toLowerCase()
                             ? tier.level === 'Junior' ? 'bg-blue-600 hover:bg-blue-700 text-white' :
                               tier.level === 'Senior' ? 'bg-green-600 hover:bg-green-700 text-white' :
@@ -262,7 +264,7 @@ export const CommissionCalculatorPage: React.FC = () => {
                               'border-yellow-600 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
                         }`}
                       >
-                        <Icon className={`h-4 w-4 ${
+                        <Icon className={`h-3 w-3 sm:h-4 sm:w-4 ${
                           agentLevel === tier.level.toLowerCase() ? 'text-white' :
                           tier.level === 'Junior' ? 'text-blue-600' :
                           tier.level === 'Senior' ? 'text-green-600' :
@@ -316,24 +318,24 @@ export const CommissionCalculatorPage: React.FC = () => {
           </Card>
 
           {/* Resultado */}
-          <Card>
+          <Card className="hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className={colors.text.title}>
+              <CardTitle className={`${colors.text.title} text-sm sm:text-base`}>
                 Resultado da Simulação
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                    <p className={`text-sm ${colors.text.subtitle}`}>Taxa Base</p>
-                    <p className={`text-2xl font-bold text-green-600 dark:text-green-400`}>
+              <div className="space-y-3 sm:space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <p className={`text-xs sm:text-sm ${colors.text.subtitle}`}>Taxa Base</p>
+                    <p className={`text-lg sm:text-xl md:text-2xl font-bold text-green-600 dark:text-green-400`}>
                       {(calculation.commissionRate * 100).toFixed(1)}%
                     </p>
                   </div>
-                  <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                    <p className={`text-sm ${colors.text.subtitle}`}>Comissão Base</p>
-                    <p className={`text-2xl font-bold text-green-600 dark:text-green-400`}>
+                  <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <p className={`text-xs sm:text-sm ${colors.text.subtitle}`}>Comissão Base</p>
+                    <p className={`text-lg sm:text-xl md:text-2xl font-bold text-green-600 dark:text-green-400`}>
                       {formatCurrency(calculation.commissionAmount)}
                     </p>
                   </div>
@@ -356,12 +358,12 @@ export const CommissionCalculatorPage: React.FC = () => {
         </div>
 
         {/* Sidebar */}
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6">
           {/* Nível Atual */}
-          <Card>
+          <Card className="hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className={`${colors.text.title} flex items-center gap-2`}>
-                <currentTier.icon className="h-5 w-5" />
+              <CardTitle className={`${colors.text.title} flex items-center gap-2 text-sm sm:text-base`}>
+                <currentTier.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                 Seu Nível: {currentTier.level}
               </CardTitle>
             </CardHeader>

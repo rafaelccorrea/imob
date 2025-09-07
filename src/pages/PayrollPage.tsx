@@ -125,28 +125,30 @@ export const PayrollPage: React.FC = () => {
   const pendingPayrolls = mockPayrolls.filter(p => p.status === 'draft').length;
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-secondary-900 dark:text-white truncate">
             Folha de Pagamento
           </h1>
-          <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+          <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400">
             Gestão de salários, benefícios e descontos
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <ConditionalMenu requiredPermission="hr">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              Exportar
+            <Button variant="outline" className="w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Exportar</span>
+              <span className="sm:hidden">Exportar</span>
             </Button>
           </ConditionalMenu>
           <ConditionalMenu requiredPermission="hr">
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Processar Folha
+            <Button className="w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Processar Folha</span>
+              <span className="sm:hidden">Processar</span>
             </Button>
           </ConditionalMenu>
         </div>
@@ -286,62 +288,64 @@ export const PayrollPage: React.FC = () => {
       </Card>
 
       {/* Lista de Folha de Pagamento */}
-      <Card>
-        <CardHeader>
-          <CardTitle className={colors.text.title}>
+      <Card className="hover:shadow-md transition-shadow">
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-sm sm:text-base text-secondary-900 dark:text-white">
             Folha de Pagamento ({filteredPayrolls.length})
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+        <CardContent className="p-4 sm:p-6 pt-0">
+          <div className="space-y-3 sm:space-y-4">
             {filteredPayrolls.map((payroll) => {
               const employee = mockEmployees.find(e => e.id === payroll.employeeId);
               return (
                 <div
                   key={payroll.id}
-                  className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors gap-3 sm:gap-4"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className={`p-2 rounded-full ${colors.iconBg.money}`}>
-                      <CreditCard className={`h-5 w-5 ${colors.icons.money}`} />
+                  <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                    <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <CreditCard className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-white" />
                     </div>
-                    <div>
-                      <p className={`font-medium ${colors.text.title}`}>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-sm sm:text-base text-secondary-900 dark:text-white truncate">
                         {employee?.name}
                       </p>
-                      <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                      <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400 truncate">
                         {payroll.period} • {employee?.position}
                       </p>
-                      <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                      <p className="text-xs text-secondary-500 dark:text-secondary-500 truncate">
                         Bruto: {formatCurrency(payroll.grossSalary)} • Líquido: {formatCurrency(payroll.netSalary)}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <p className={`font-bold text-green-600 dark:text-green-400`}>
+                  <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+                    <div className="text-left sm:text-right">
+                      <p className="font-bold text-sm sm:text-base text-success-600 dark:text-success-400">
                         {formatCurrency(payroll.netSalary)}
                       </p>
-                      <Badge variant={getStatusColor(payroll.status) as any}>
+                      <Badge variant={getStatusColor(payroll.status) as any} className="text-xs mt-1">
                         {getStatusText(payroll.status)}
                       </Badge>
-                      <p className={`text-xs text-gray-500 dark:text-gray-400 mt-1`}>
+                      <p className="text-xs text-secondary-500 dark:text-secondary-500">
                         {formatDate(payroll.payDate)}
                       </p>
                     </div>
-                    <div className="flex space-x-2">
+                    <div className="flex space-x-1 sm:space-x-2 flex-shrink-0">
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => openPayrollModal(payroll)}
+                        className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                       >
-                        <Eye className="h-4 w-4" />
+                        <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
+                        className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                       >
-                        <Edit className="h-4 w-4" />
+                        <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
                     </div>
                   </div>

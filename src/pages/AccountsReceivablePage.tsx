@@ -143,67 +143,69 @@ export const AccountsReceivablePage: React.FC = () => {
     .reduce((sum, r) => sum + (r.paidAmount || r.amount), 0);
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-secondary-900 dark:text-white truncate">
             Contas a Receber
           </h1>
-          <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+          <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400">
             Gestão de clientes e contas a receber
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <ConditionalMenu requiredPermission="financial">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              Exportar
+            <Button variant="outline" className="w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Exportar</span>
+              <span className="sm:hidden">Exportar</span>
             </Button>
           </ConditionalMenu>
           <ConditionalMenu requiredPermission="financial">
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Nova Conta
+            <Button className="w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Nova Conta</span>
+              <span className="sm:hidden">Nova</span>
             </Button>
           </ConditionalMenu>
         </div>
       </div>
 
       {/* Métricas Principais */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <Card>
-          <CardContent className="p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Total Pendente
                 </p>
-                <p className={`text-2xl font-bold text-yellow-600 dark:text-yellow-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-warning-600 dark:text-white">
                   {formatCurrency(totalPending)}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   {mockAccountsReceivable.filter(r => r.status === 'pending').length} contas
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.warning}`}>
-                <Clock className={`h-6 w-6 ${colors.icons.warning}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-warning-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Total Vencido
                 </p>
                 <p className={`text-2xl font-bold text-red-600 dark:text-red-400`}>
                   {formatCurrency(totalOverdue)}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   {mockAccountsReceivable.filter(r => r.status === 'overdue').length} contas
                 </p>
               </div>
@@ -214,17 +216,17 @@ export const AccountsReceivablePage: React.FC = () => {
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Total Recebido
                 </p>
                 <p className={`text-2xl font-bold text-green-600 dark:text-green-400`}>
                   {formatCurrency(totalPaid)}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   {mockAccountsReceivable.filter(r => r.status === 'paid').length} contas
                 </p>
               </div>
@@ -235,17 +237,17 @@ export const AccountsReceivablePage: React.FC = () => {
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Total Geral
                 </p>
                 <p className={`text-2xl font-bold text-blue-600 dark:text-blue-400`}>
                   {formatCurrency(mockAccountsReceivable.reduce((sum, r) => sum + r.amount, 0))}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   {mockAccountsReceivable.length} contas
                 </p>
               </div>
@@ -304,69 +306,71 @@ export const AccountsReceivablePage: React.FC = () => {
       </Card>
 
       {/* Lista de Contas a Receber */}
-      <Card>
-        <CardHeader>
-          <CardTitle className={colors.text.title}>
+      <Card className="hover:shadow-md transition-shadow">
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-sm sm:text-base text-secondary-900 dark:text-white">
             Contas a Receber ({filteredReceivables.length})
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+        <CardContent className="p-4 sm:p-6 pt-0">
+          <div className="space-y-3 sm:space-y-4">
             {filteredReceivables.map((receivable) => (
               <div
                 key={receivable.id}
-                className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors gap-3 sm:gap-4"
               >
-                <div className="flex items-center gap-4">
-                  <div className={`p-2 rounded-full ${colors.iconBg.money}`}>
-                    <Receipt className={`h-5 w-5 ${colors.icons.money}`} />
+                <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                  <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Receipt className="h-5 w-5 sm:h-6 sm:w-6 text-success-600 dark:text-white" />
                   </div>
-                  <div>
-                    <p className={`font-medium ${colors.text.title}`}>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-sm sm:text-base text-secondary-900 dark:text-white truncate">
                       {receivable.description}
                     </p>
-                    <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                    <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400 truncate">
                       {receivable.clientName} • {getCategoryText(receivable.category)} • Vencimento: {formatDate(receivable.dueDate)}
                     </p>
                     {receivable.propertyTitle && (
-                      <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                      <p className="text-xs text-secondary-500 dark:text-secondary-500 truncate">
                         Propriedade: {receivable.propertyTitle}
                       </p>
                     )}
                     {receivable.notes && (
-                      <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                      <p className="text-xs text-secondary-500 dark:text-secondary-500 truncate">
                         {receivable.notes}
                       </p>
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-right">
-                    <p className={`font-bold text-green-600 dark:text-green-400`}>
+                <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+                  <div className="text-left sm:text-right">
+                    <p className="font-bold text-sm sm:text-base text-success-600 dark:text-success-400">
                       {formatCurrency(receivable.amount)}
                     </p>
                     {receivable.paidAmount && (
-                      <p className={`text-sm text-blue-600 dark:text-blue-400`}>
+                      <p className="text-xs sm:text-sm text-primary-600 dark:text-primary-400">
                         Recebido: {formatCurrency(receivable.paidAmount)}
                       </p>
                     )}
-                    <Badge variant={getStatusColor(receivable.status) as any}>
+                    <Badge variant={getStatusColor(receivable.status) as any} className="text-xs mt-1">
                       {getStatusText(receivable.status)}
                     </Badge>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-1 sm:space-x-2 flex-shrink-0">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => openReceivableModal(receivable)}
+                      className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                     >
-                      <Eye className="h-4 w-4" />
+                      <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
+                      className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                     >
-                      <Edit className="h-4 w-4" />
+                      <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                   </div>
                 </div>
@@ -380,75 +384,90 @@ export const AccountsReceivablePage: React.FC = () => {
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title={`Conta a Receber: ${selectedReceivable?.description}`}
+        size="lg"
       >
         {selectedReceivable && (
-          <div className="space-y-6">
-            {/* Informações Básicas */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Informações da Conta</h4>
-                <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                  <p><strong>Descrição:</strong> {selectedReceivable.description}</p>
-                  <p><strong>Cliente:</strong> {selectedReceivable.clientName}</p>
-                  <p><strong>Categoria:</strong> {getCategoryText(selectedReceivable.category)}</p>
-                  <p><strong>Valor:</strong> {formatCurrency(selectedReceivable.amount)}</p>
+          <div className="flex flex-col h-full">
+            <div className="flex-1 max-h-[70vh] overflow-y-auto custom-scroll space-y-3 sm:space-y-4 pr-2">
+              {/* Header Personalizado do Modal */}
+              <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100">
+                  Conta a Receber: {selectedReceivable.description}
+                </h2>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                >
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Informações Básicas */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+                <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base text-gray-900 dark:text-gray-100">Informações da Conta</h4>
+                  <div className="space-y-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+                    <p><strong>Descrição:</strong> {selectedReceivable.description}</p>
+                    <p><strong>Cliente:</strong> {selectedReceivable.clientName}</p>
+                    <p><strong>Categoria:</strong> {getCategoryText(selectedReceivable.category)}</p>
+                    <p><strong>Valor:</strong> {formatCurrency(selectedReceivable.amount)}</p>
+                  </div>
+                </div>
+                
+                <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base text-gray-900 dark:text-gray-100">Informações de Recebimento</h4>
+                  <div className="space-y-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+                    <p><strong>Data de Vencimento:</strong> {formatDate(selectedReceivable.dueDate)}</p>
+                    <p><strong>Status:</strong> {getStatusText(selectedReceivable.status)}</p>
+                    {selectedReceivable.paidAt && (
+                      <p><strong>Data de Recebimento:</strong> {formatDate(selectedReceivable.paidAt)}</p>
+                    )}
+                    {selectedReceivable.paidAmount && (
+                      <p><strong>Valor Recebido:</strong> {formatCurrency(selectedReceivable.paidAmount)}</p>
+                    )}
+                  </div>
                 </div>
               </div>
               
-              <div>
-                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Informações de Recebimento</h4>
-                <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                  <p><strong>Data de Vencimento:</strong> {formatDate(selectedReceivable.dueDate)}</p>
-                  <p><strong>Status:</strong> {getStatusText(selectedReceivable.status)}</p>
-                  {selectedReceivable.paidAt && (
-                    <p><strong>Data de Recebimento:</strong> {formatDate(selectedReceivable.paidAt)}</p>
-                  )}
-                  {selectedReceivable.paidAmount && (
-                    <p><strong>Valor Recebido:</strong> {formatCurrency(selectedReceivable.paidAmount)}</p>
-                  )}
-                </div>
-              </div>
-            </div>
-            
-            {/* Propriedade */}
-            {selectedReceivable.propertyTitle && (
-              <div>
-                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Propriedade</h4>
-                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                  <p className="text-sm text-gray-700 dark:text-gray-300">
+              {/* Propriedade */}
+              {selectedReceivable.propertyTitle && (
+                <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base text-gray-900 dark:text-gray-100">Propriedade</h4>
+                  <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">
                     {selectedReceivable.propertyTitle}
                   </p>
                 </div>
-              </div>
-            )}
-            
-            {/* Observações */}
-            {selectedReceivable.notes && (
-              <div>
-                <h4 className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Observações</h4>
-                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                  <p className="text-sm text-gray-700 dark:text-gray-300">
+              )}
+              
+              {/* Observações */}
+              {selectedReceivable.notes && (
+                <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base text-gray-900 dark:text-gray-100">Observações</h4>
+                  <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">
                     {selectedReceivable.notes}
                   </p>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
             
             {/* Ações */}
-            <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-              <Button variant="outline" onClick={() => setShowModal(false)}>
+            <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+              <Button variant="outline" onClick={() => setShowModal(false)} className="text-xs sm:text-sm">
                 Fechar
               </Button>
               {selectedReceivable.status === 'pending' && (
-                <Button className="bg-green-600 hover:bg-green-700">
-                  <CheckCircle className="h-4 w-4 mr-2" />
-                  Marcar como Recebido
+                <Button className="bg-green-600 hover:bg-green-700 text-xs sm:text-sm">
+                  <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Marcar como Recebido</span>
+                  <span className="sm:hidden">Recebido</span>
                 </Button>
               )}
-              <Button>
-                <Edit className="h-4 w-4 mr-2" />
-                Editar
+              <Button className="text-xs sm:text-sm">
+                <Edit className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Editar</span>
+                <span className="sm:hidden">Editar</span>
               </Button>
             </div>
           </div>

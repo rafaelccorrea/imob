@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { useAuthStore } from '../stores';
 import { mockUsers } from '../utils/mockData';
 import { Button, Alert } from '../components/ui';
+import { BetaInfoModal } from '../components/BetaInfoModal';
+import { useBetaModal } from '../hooks/useBetaModal';
 import logo from '../assets/uniao-imobiliaria-logo.png';
 
 const loginSchema = z.object({
@@ -23,6 +25,7 @@ export const LoginPage: React.FC = () => {
   const [showCredentials, setShowCredentials] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuthStore();
+  const { showModal, closeModal, closeModalPermanently } = useBetaModal();
 
   const {
     register,
@@ -30,6 +33,10 @@ export const LoginPage: React.FC = () => {
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: 'admin@imob.com',
+      password: '123456'
+    }
   });
 
   const onSubmit = async (data: LoginFormData) => {
@@ -367,6 +374,13 @@ export const LoginPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Beta Info Modal */}
+      <BetaInfoModal
+        isOpen={showModal}
+        onClose={closeModal}
+        onClosePermanently={closeModalPermanently}
+      />
     </div>
   );
 };

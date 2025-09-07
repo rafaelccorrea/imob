@@ -16,7 +16,7 @@ import {
   FileSpreadsheet,
   Scale
 } from 'lucide-react';
-import { usePermissions } from '../hooks/usePermissions';
+// usePermissions import removed as it's not used in this component
 import { 
   LineChart as RechartsLineChart, 
   Line, 
@@ -32,8 +32,6 @@ import {
   Bar
 } from 'recharts';
 import { 
-  mockFinancialEntries, 
-  mockFinancialCommissions, 
   mockCashFlowEntries, 
   mockFinancialMetrics,
   mockAgentFinancialSummaries,
@@ -48,20 +46,7 @@ import { formatCurrency, formatDate } from '../utils';
 import { colors } from '../utils/colors';
 import { Button, Card, CardContent, CardHeader, CardTitle, Badge, Input, Modal, ConditionalMenu } from '../components/ui';
 import { FinancialEntries, FinancialCommissions, CashFlow } from '../components/financial';
-import type { 
-  FinancialEntry, 
-  Commission as FinancialCommission, 
-  Supplier,
-  AccountsPayable,
-  AccountsReceivable,
-  Budget,
-  BudgetPlan,
-  FinancialReport,
-  Asset,
-  Investment,
-  Tax,
-  TaxPlanning
-} from '../types/financial';
+// Types are used implicitly in the component
 
 export const FinancialPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'entries' | 'commissions' | 'cashflow' | 'payables' | 'receivables' | 'budget' | 'reports' | 'assets' | 'investments' | 'taxes'>('overview');
@@ -69,19 +54,19 @@ export const FinancialPage: React.FC = () => {
   const [selectedType, setSelectedType] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedEntry, setSelectedEntry] = useState<any>(null);
-  const { hasPermission } = usePermissions();
 
-  // Função para obter a cor baseada no valor e tipo
-  const getValueColor = (value: number, type: string = 'income') => {
-    if (value < 0) {
-      return 'text-red-600 dark:text-red-400';
-    } else if (type === 'expense' || type === 'despesa') {
-      return 'text-red-600 dark:text-red-400';
-    } else {
-      return 'text-green-600 dark:text-green-400';
-    }
-  };
+  // Função para obter a cor baseada no valor e tipo (mantida para uso futuro)
+  // const getValueColor = (value: number, type: string = 'income') => {
+  //   if (value < 0) {
+  //     return 'text-red-600 dark:text-red-400';
+  //   } else if (type === 'expense' || type === 'despesa') {
+  //     return 'text-red-600 dark:text-red-400';
+  //   } else {
+  //     return 'text-green-600 dark:text-green-400';
+  //   }
+  // };
 
   // Função para obter a cor do status
   const getStatusColor = (status: string) => {
@@ -161,114 +146,116 @@ export const FinancialPage: React.FC = () => {
   ];
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className={`text-xl sm:text-2xl md:text-3xl font-bold ${colors.text.title} truncate`}>
             Financeiro
           </h1>
-          <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+          <p className={`text-xs sm:text-sm text-gray-600 dark:text-gray-300`}>
             Controle financeiro completo da imobiliária
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <ConditionalMenu requiredPermission="financial">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              Exportar
+            <Button variant="outline" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm w-full sm:w-auto">
+              <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Exportar</span>
+              <span className="sm:hidden">Export</span>
             </Button>
           </ConditionalMenu>
           <ConditionalMenu requiredPermission="financial">
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Nova Entrada
+            <Button className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm w-full sm:w-auto">
+              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Nova Entrada</span>
+              <span className="sm:hidden">Nova</span>
             </Button>
           </ConditionalMenu>
         </div>
       </div>
 
       {/* Métricas Principais */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <Card>
-          <CardContent className="p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 truncate`}>
                   Receita Total
                 </p>
-                <p className={`text-2xl font-bold text-green-600 dark:text-green-400`}>
+                <p className={`text-lg sm:text-xl md:text-2xl font-bold text-green-600 dark:text-green-400`}>
                   {formatCurrency(mockFinancialMetrics.totalIncome)}
                 </p>
                 <p className={`text-xs text-green-600 dark:text-green-400`}>
                   +12.5% vs mês anterior
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.money}`}>
-                <TrendingUp className={`h-6 w-6 ${colors.icons.money}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.money} flex-shrink-0`}>
+                <TrendingUp className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.money}`} />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 truncate`}>
                   Despesas Totais
                 </p>
-                <p className={`text-2xl font-bold text-red-600 dark:text-red-400`}>
+                <p className={`text-lg sm:text-xl md:text-2xl font-bold text-red-600 dark:text-red-400`}>
                   {formatCurrency(mockFinancialMetrics.totalExpense)}
                 </p>
                 <p className={`text-xs text-red-600 dark:text-red-400`}>
                   +8.2% vs mês anterior
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.error}`}>
-                <TrendingDown className={`h-6 w-6 ${colors.icons.error}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.error} flex-shrink-0`}>
+                <TrendingDown className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.error}`} />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 truncate`}>
                   Saldo Líquido
                 </p>
-                <p className={`text-2xl font-bold ${mockFinancialMetrics.netBalance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                <p className={`text-lg sm:text-xl md:text-2xl font-bold ${mockFinancialMetrics.netBalance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                   {formatCurrency(mockFinancialMetrics.netBalance)}
                 </p>
                 <p className={`text-xs text-green-600 dark:text-green-400`}>
                   +15.3% vs mês anterior
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.success}`}>
-                <DollarSign className={`h-6 w-6 ${colors.icons.success}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.success} flex-shrink-0`}>
+                <DollarSign className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.success}`} />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 truncate`}>
                   Comissões Pendentes
                 </p>
-                <p className={`text-2xl font-bold text-yellow-600 dark:text-yellow-400`}>
+                <p className={`text-lg sm:text-xl md:text-2xl font-bold text-yellow-600 dark:text-yellow-400`}>
                   {formatCurrency(mockFinancialMetrics.pendingCommissions)}
                 </p>
                 <p className={`text-xs text-gray-600 dark:text-gray-400`}>
                   3 corretores
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.warning}`}>
-                <Clock className={`h-6 w-6 ${colors.icons.warning}`} />
+              <div className={`p-2 sm:p-3 rounded-full ${colors.iconBg.warning} flex-shrink-0`}>
+                <Clock className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.icons.warning}`} />
               </div>
             </div>
           </CardContent>
@@ -277,21 +264,34 @@ export const FinancialPage: React.FC = () => {
 
       {/* Tabs */}
       <div className="border-b border-gray-200 dark:border-gray-700">
-        <nav className="-mb-px flex space-x-8 overflow-x-auto custom-scroll px-4 py-2">
+        <nav className="-mb-px flex flex-wrap gap-2 sm:gap-4 md:gap-8 overflow-x-auto custom-scroll px-2 sm:px-4 py-2">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+                onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                className={`flex items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap transition-colors ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
                 }`}
               >
-                <Icon className="h-4 w-4" />
-                {tab.label}
+                <Icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="sm:hidden">
+                  {tab.label === 'Visão Geral' ? 'Geral' :
+                   tab.label === 'Entradas/Saídas' ? 'Entradas' :
+                   tab.label === 'Fluxo de Caixa' ? 'Caixa' :
+                   tab.label === 'Contas a Pagar' ? 'Pagar' :
+                   tab.label === 'Contas a Receber' ? 'Receber' :
+                   tab.label === 'Relatórios' ? 'Relatórios' :
+                   tab.label === 'Investimentos' ? 'Invest.' :
+                   tab.label === 'Comissões' ? 'Comissões' :
+                   tab.label === 'Orçamento' ? 'Orçamento' :
+                   tab.label === 'Patrimônio' ? 'Patrimônio' :
+                   tab.label === 'Impostos' ? 'Impostos' : tab.label}
+                </span>
               </button>
             );
           })}
@@ -299,21 +299,21 @@ export const FinancialPage: React.FC = () => {
       </div>
 
       {/* Filtros */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex flex-wrap gap-4">
-            <div className="flex-1 min-w-64">
+      <Card className="hover:shadow-md transition-shadow">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div className="flex-1 min-w-0">
               <Input
                 placeholder="Buscar por descrição ou categoria..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full"
+                className="w-full text-xs sm:text-sm"
               />
             </div>
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-xs sm:text-sm w-full sm:w-auto"
             >
               <option value="">Todos os tipos</option>
               <option value="income">Receitas</option>
@@ -322,7 +322,7 @@ export const FinancialPage: React.FC = () => {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-xs sm:text-sm w-full sm:w-auto"
             >
               <option value="">Todos os status</option>
               <option value="paid">Pago</option>
@@ -335,22 +335,22 @@ export const FinancialPage: React.FC = () => {
 
       {/* Conteúdo das Tabs */}
       {activeTab === 'overview' && (
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6">
           {/* Gráficos */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
             {/* Fluxo de Caixa */}
-            <Card>
-              <CardHeader>
-                <CardTitle className={colors.text.title}>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className={`text-sm sm:text-base md:text-lg ${colors.text.title}`}>
                   Fluxo de Caixa (Últimos 30 dias)
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
+              <CardContent className="p-4 sm:p-6">
+                <ResponsiveContainer width="100%" height={250}>
                   <RechartsLineChart data={cashFlowData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
+                    <XAxis dataKey="date" fontSize={12} />
+                    <YAxis fontSize={12} />
                     <Tooltip 
                       formatter={(value: number) => [formatCurrency(value), '']}
                       labelFormatter={(label) => `Data: ${label}`}
@@ -382,14 +382,14 @@ export const FinancialPage: React.FC = () => {
             </Card>
 
             {/* Categorias */}
-            <Card>
-              <CardHeader>
-                <CardTitle className={colors.text.title}>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className={`text-sm sm:text-base md:text-lg ${colors.text.title}`}>
                   Despesas por Categoria
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
+              <CardContent className="p-4 sm:p-6">
+                <ResponsiveContainer width="100%" height={250}>
                   <RechartsPieChart>
                     <Pie
                       data={categoryData}
@@ -397,7 +397,7 @@ export const FinancialPage: React.FC = () => {
                       cy="50%"
                       labelLine={false}
                       label={({ name, percentage }) => `${name}: ${percentage}%`}
-                      outerRadius={80}
+                      outerRadius={70}
                       fill="#8884d8"
                       dataKey="value"
                     >
@@ -413,18 +413,18 @@ export const FinancialPage: React.FC = () => {
           </div>
 
           {/* Performance dos Corretores */}
-          <Card>
-            <CardHeader>
-              <CardTitle className={colors.text.title}>
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className={`text-sm sm:text-base md:text-lg ${colors.text.title}`}>
                 Performance dos Corretores
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
+            <CardContent className="p-4 sm:p-6">
+              <ResponsiveContainer width="100%" height={250}>
                 <RechartsBarChart data={agentPerformanceData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
+                  <XAxis dataKey="name" fontSize={12} />
+                  <YAxis fontSize={12} />
                   <Tooltip 
                     formatter={(value: number, name: string) => [
                       name === 'conversion' ? `${value}%` : formatCurrency(value),
@@ -469,30 +469,30 @@ export const FinancialPage: React.FC = () => {
       )}
 
       {activeTab === 'payables' && (
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6">
           {/* Contas a Pagar */}
-          <Card>
-            <CardHeader>
-              <CardTitle className={colors.text.title}>
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className={`text-sm sm:text-base md:text-lg ${colors.text.title}`}>
                 Contas a Pagar ({filteredPayables.length})
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+            <CardContent className="p-4 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
                 {filteredPayables.map((payable) => (
                   <div
                     key={payable.id}
-                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-full ${colors.iconBg.error}`}>
-                        <CreditCard className={`h-5 w-5 ${colors.icons.error}`} />
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                      <div className={`p-2 rounded-full ${colors.iconBg.error} flex-shrink-0`}>
+                        <CreditCard className={`h-4 w-4 sm:h-5 sm:w-5 ${colors.icons.error}`} />
                       </div>
-                      <div>
-                        <p className={`font-medium ${colors.text.title}`}>
+                      <div className="min-w-0 flex-1">
+                        <p className={`font-medium text-sm sm:text-base ${colors.text.title} truncate`}>
                           {payable.description}
                         </p>
-                        <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                        <p className={`text-xs sm:text-sm text-gray-600 dark:text-gray-300`}>
                           {payable.supplierName} • {payable.category} • Vencimento: {formatDate(payable.dueDate)}
                         </p>
                         {payable.installments && (
@@ -502,12 +502,12 @@ export const FinancialPage: React.FC = () => {
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4">
                       <div className="text-right">
-                        <p className={`font-bold text-red-600 dark:text-red-400`}>
+                        <p className={`font-bold text-red-600 dark:text-red-400 text-sm sm:text-base`}>
                           {formatCurrency(payable.amount)}
                         </p>
-                        <Badge variant={getStatusColor(payable.status) as any}>
+                        <Badge variant={getStatusColor(payable.status) as 'primary' | 'secondary' | 'success' | 'warning' | 'destructive' | 'default'} className="text-xs">
                           {payable.status === 'paid' ? 'Pago' : 
                            payable.status === 'pending' ? 'Pendente' : 
                            payable.status === 'overdue' ? 'Vencido' : 'Cancelado'}
@@ -516,12 +516,13 @@ export const FinancialPage: React.FC = () => {
                       <Button
                         variant="outline"
                         size="sm"
+                        className="flex-shrink-0"
                         onClick={() => {
                           setSelectedEntry(payable);
                           setShowModal(true);
                         }}
                       >
-                        <Eye className="h-4 w-4" />
+                        <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
                     </div>
                   </div>
@@ -533,30 +534,30 @@ export const FinancialPage: React.FC = () => {
       )}
 
       {activeTab === 'receivables' && (
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6">
           {/* Contas a Receber */}
-          <Card>
-            <CardHeader>
-              <CardTitle className={colors.text.title}>
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className={`text-sm sm:text-base md:text-lg ${colors.text.title}`}>
                 Contas a Receber ({filteredReceivables.length})
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+            <CardContent className="p-4 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
                 {filteredReceivables.map((receivable) => (
                   <div
                     key={receivable.id}
-                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-full ${colors.iconBg.money}`}>
-                        <Receipt className={`h-5 w-5 ${colors.icons.money}`} />
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                      <div className={`p-2 rounded-full ${colors.iconBg.money} flex-shrink-0`}>
+                        <Receipt className={`h-4 w-4 sm:h-5 sm:w-5 ${colors.icons.money}`} />
                       </div>
-                      <div>
-                        <p className={`font-medium ${colors.text.title}`}>
+                      <div className="min-w-0 flex-1">
+                        <p className={`font-medium text-sm sm:text-base ${colors.text.title} truncate`}>
                           {receivable.description}
                         </p>
-                        <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                        <p className={`text-xs sm:text-sm text-gray-600 dark:text-gray-300`}>
                           {receivable.clientName} • {receivable.category} • Vencimento: {formatDate(receivable.dueDate)}
                         </p>
                         {receivable.propertyTitle && (
@@ -566,12 +567,12 @@ export const FinancialPage: React.FC = () => {
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4">
                       <div className="text-right">
-                        <p className={`font-bold text-green-600 dark:text-green-400`}>
+                        <p className={`font-bold text-green-600 dark:text-green-400 text-sm sm:text-base`}>
                           {formatCurrency(receivable.amount)}
                         </p>
-                        <Badge variant={getStatusColor(receivable.status) as any}>
+                        <Badge variant={getStatusColor(receivable.status) as 'primary' | 'secondary' | 'success' | 'warning' | 'destructive' | 'default'} className="text-xs">
                           {receivable.status === 'paid' ? 'Pago' : 
                            receivable.status === 'pending' ? 'Pendente' : 
                            receivable.status === 'overdue' ? 'Vencido' : 'Cancelado'}
@@ -580,12 +581,13 @@ export const FinancialPage: React.FC = () => {
                       <Button
                         variant="outline"
                         size="sm"
+                        className="flex-shrink-0"
                         onClick={() => {
                           setSelectedEntry(receivable);
                           setShowModal(true);
                         }}
                       >
-                        <Eye className="h-4 w-4" />
+                        <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
                     </div>
                   </div>
@@ -636,7 +638,7 @@ export const FinancialPage: React.FC = () => {
                         <p className={`text-sm ${budget.variance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                           {budget.variancePercentage >= 0 ? '+' : ''}{budget.variancePercentage.toFixed(1)}%
                         </p>
-                        <Badge variant={getStatusColor(budget.status) as any}>
+                        <Badge variant={getStatusColor(budget.status) as 'primary' | 'secondary' | 'success' | 'warning' | 'destructive' | 'default'}>
                           {budget.status === 'on_track' ? 'No Prazo' : 
                            budget.status === 'over_budget' ? 'Acima do Orçamento' : 'Abaixo do Orçamento'}
                         </Badge>
@@ -697,7 +699,7 @@ export const FinancialPage: React.FC = () => {
                         <p className={`font-bold text-blue-600 dark:text-blue-400`}>
                           {formatCurrency(asset.currentValue)}
                         </p>
-                        <Badge variant={getStatusColor(asset.status) as any}>
+                        <Badge variant={getStatusColor(asset.status) as 'primary' | 'secondary' | 'success' | 'warning' | 'destructive' | 'default'}>
                           {asset.status === 'active' ? 'Ativo' : 
                            asset.status === 'inactive' ? 'Inativo' : 
                            asset.status === 'sold' ? 'Vendido' : 'Descartado'}
@@ -786,33 +788,33 @@ export const FinancialPage: React.FC = () => {
       )}
 
       {activeTab === 'reports' && (
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6">
           {/* Relatórios Financeiros */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
             {/* Relatório de Receitas */}
-            <Card>
-              <CardHeader>
-                <CardTitle className={colors.text.title}>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className={`text-sm sm:text-base md:text-lg ${colors.text.title}`}>
                   Relatório de Receitas
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="p-4 sm:p-6">
+                <div className="space-y-3 sm:space-y-4">
                   <div className="flex justify-between items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                    <span className="text-sm font-medium text-green-800 dark:text-green-200">Vendas de Imóveis</span>
-                    <span className="text-sm font-bold text-green-600 dark:text-green-400">
+                    <span className="text-xs sm:text-sm font-medium text-green-800 dark:text-green-200">Vendas de Imóveis</span>
+                    <span className="text-xs sm:text-sm font-bold text-green-600 dark:text-green-400">
                       {formatCurrency(mockFinancialMetrics.totalIncome * 0.7)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                    <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Comissões</span>
-                    <span className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                    <span className="text-xs sm:text-sm font-medium text-blue-800 dark:text-blue-200">Comissões</span>
+                    <span className="text-xs sm:text-sm font-bold text-blue-600 dark:text-blue-400">
                       {formatCurrency(mockFinancialMetrics.totalIncome * 0.2)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                    <span className="text-sm font-medium text-purple-800 dark:text-purple-200">Serviços</span>
-                    <span className="text-sm font-bold text-purple-600 dark:text-purple-400">
+                    <span className="text-xs sm:text-sm font-medium text-purple-800 dark:text-purple-200">Serviços</span>
+                    <span className="text-xs sm:text-sm font-bold text-purple-600 dark:text-purple-400">
                       {formatCurrency(mockFinancialMetrics.totalIncome * 0.1)}
                     </span>
                   </div>
@@ -821,29 +823,29 @@ export const FinancialPage: React.FC = () => {
             </Card>
 
             {/* Relatório de Despesas */}
-            <Card>
-              <CardHeader>
-                <CardTitle className={colors.text.title}>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className={`text-sm sm:text-base md:text-lg ${colors.text.title}`}>
                   Relatório de Despesas
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="p-4 sm:p-6">
+                <div className="space-y-3 sm:space-y-4">
                   <div className="flex justify-between items-center p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                    <span className="text-sm font-medium text-red-800 dark:text-red-200">Salários</span>
-                    <span className="text-sm font-bold text-red-600 dark:text-red-400">
+                    <span className="text-xs sm:text-sm font-medium text-red-800 dark:text-red-200">Salários</span>
+                    <span className="text-xs sm:text-sm font-bold text-red-600 dark:text-red-400">
                       {formatCurrency(mockFinancialMetrics.totalExpense * 0.4)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                    <span className="text-sm font-medium text-orange-800 dark:text-orange-200">Marketing</span>
-                    <span className="text-sm font-bold text-orange-600 dark:text-orange-400">
+                    <span className="text-xs sm:text-sm font-medium text-orange-800 dark:text-orange-200">Marketing</span>
+                    <span className="text-xs sm:text-sm font-bold text-orange-600 dark:text-orange-400">
                       {formatCurrency(mockFinancialMetrics.totalExpense * 0.25)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                    <span className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Operacional</span>
-                    <span className="text-sm font-bold text-yellow-600 dark:text-yellow-400">
+                    <span className="text-xs sm:text-sm font-medium text-yellow-800 dark:text-yellow-200">Operacional</span>
+                    <span className="text-xs sm:text-sm font-bold text-yellow-600 dark:text-yellow-400">
                       {formatCurrency(mockFinancialMetrics.totalExpense * 0.35)}
                     </span>
                   </div>
@@ -853,33 +855,33 @@ export const FinancialPage: React.FC = () => {
           </div>
 
           {/* Relatório de Performance */}
-          <Card>
-            <CardHeader>
-              <CardTitle className={colors.text.title}>
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className={`text-sm sm:text-base md:text-lg ${colors.text.title}`}>
                 Relatório de Performance Mensal
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+            <CardContent className="p-4 sm:p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+                <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <p className="text-lg sm:text-xl md:text-2xl font-bold text-green-600 dark:text-green-400">
                     {formatCurrency(mockFinancialMetrics.netBalance)}
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Lucro Líquido</p>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Lucro Líquido</p>
                   <p className="text-xs text-green-600 dark:text-green-400">+15.3% vs mês anterior</p>
                 </div>
-                <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <p className="text-lg sm:text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400">
                     {mockFinancialMetrics.topCategories.length}
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Categorias Ativas</p>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Categorias Ativas</p>
                   <p className="text-xs text-blue-600 dark:text-blue-400">+2 novas categorias</p>
                 </div>
-                <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <p className="text-lg sm:text-xl md:text-2xl font-bold text-purple-600 dark:text-purple-400">
                     {mockAgentFinancialSummaries.length}
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Corretores Ativos</p>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Corretores Ativos</p>
                   <p className="text-xs text-purple-600 dark:text-purple-400">100% de participação</p>
                 </div>
               </div>
@@ -887,29 +889,33 @@ export const FinancialPage: React.FC = () => {
           </Card>
 
           {/* Ações de Relatório */}
-          <Card>
-            <CardHeader>
-              <CardTitle className={colors.text.title}>
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className={`text-sm sm:text-base md:text-lg ${colors.text.title}`}>
                 Exportar Relatórios
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Download className="h-4 w-4" />
-                  Relatório Mensal
+            <CardContent className="p-4 sm:p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <Button variant="outline" className="flex items-center gap-2 text-xs sm:text-sm">
+                  <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Relatório Mensal</span>
+                  <span className="sm:hidden">Mensal</span>
                 </Button>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Download className="h-4 w-4" />
-                  Relatório Anual
+                <Button variant="outline" className="flex items-center gap-2 text-xs sm:text-sm">
+                  <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Relatório Anual</span>
+                  <span className="sm:hidden">Anual</span>
                 </Button>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Download className="h-4 w-4" />
-                  DRE Completo
+                <Button variant="outline" className="flex items-center gap-2 text-xs sm:text-sm">
+                  <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">DRE Completo</span>
+                  <span className="sm:hidden">DRE</span>
                 </Button>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Download className="h-4 w-4" />
-                  Fluxo de Caixa
+                <Button variant="outline" className="flex items-center gap-2 text-xs sm:text-sm">
+                  <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Fluxo de Caixa</span>
+                  <span className="sm:hidden">Caixa</span>
                 </Button>
               </div>
             </CardContent>
@@ -954,7 +960,7 @@ export const FinancialPage: React.FC = () => {
                         <p className={`font-bold text-orange-600 dark:text-orange-400`}>
                           {formatCurrency(tax.amount)}
                         </p>
-                        <Badge variant={getStatusColor(tax.status) as any}>
+                        <Badge variant={getStatusColor(tax.status) as 'primary' | 'secondary' | 'success' | 'warning' | 'destructive' | 'default'}>
                           {tax.status === 'paid' ? 'Pago' : 
                            tax.status === 'pending' ? 'Pendente' : 'Vencido'}
                         </Badge>
@@ -985,37 +991,39 @@ export const FinancialPage: React.FC = () => {
         title="Detalhes"
       >
         {selectedEntry && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
-                  Descrição
-                </p>
-                <p className={colors.text.title}>
-                  {selectedEntry.description || selectedEntry.name}
-                </p>
+          <div className="flex flex-col h-full">
+            <div className="flex-1 max-h-[70vh] overflow-y-auto custom-scroll space-y-3 sm:space-y-4 pr-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div>
+                  <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300`}>
+                    Descrição
+                  </p>
+                  <p className={`text-sm sm:text-base ${colors.text.title} truncate`}>
+                    {selectedEntry.description || selectedEntry.name}
+                  </p>
+                </div>
+                <div>
+                  <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300`}>
+                    Valor
+                  </p>
+                  <p className={`font-bold text-green-600 dark:text-green-400 text-sm sm:text-base`}>
+                    {formatCurrency(selectedEntry.amount || selectedEntry.currentValue)}
+                  </p>
+                </div>
               </div>
+              
               <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
-                  Valor
+                <p className={`text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300`}>
+                  Status
                 </p>
-                <p className={`font-bold text-green-600 dark:text-green-400`}>
-                  {formatCurrency(selectedEntry.amount || selectedEntry.currentValue)}
-                </p>
+                <Badge variant={getStatusColor(selectedEntry.status) as 'primary' | 'secondary' | 'success' | 'warning' | 'destructive' | 'default'} className="text-xs">
+                  {selectedEntry.status === 'paid' ? 'Pago' : 
+                   selectedEntry.status === 'pending' ? 'Pendente' : 
+                   selectedEntry.status === 'overdue' ? 'Vencido' : 
+                   selectedEntry.status === 'active' ? 'Ativo' : 
+                   selectedEntry.status === 'inactive' ? 'Inativo' : 'Outro'}
+                </Badge>
               </div>
-            </div>
-            
-            <div>
-              <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
-                Status
-              </p>
-              <Badge variant={getStatusColor(selectedEntry.status) as any}>
-                {selectedEntry.status === 'paid' ? 'Pago' : 
-                 selectedEntry.status === 'pending' ? 'Pendente' : 
-                 selectedEntry.status === 'overdue' ? 'Vencido' : 
-                 selectedEntry.status === 'active' ? 'Ativo' : 
-                 selectedEntry.status === 'inactive' ? 'Inativo' : 'Outro'}
-              </Badge>
             </div>
           </div>
         )}

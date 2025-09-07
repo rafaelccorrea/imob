@@ -137,114 +137,116 @@ export const TaxesPage: React.FC = () => {
   const overdueTaxes = mockTaxes.filter(t => t.status === 'overdue').reduce((sum, t) => sum + t.amount, 0);
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-secondary-900 dark:text-white">
             Impostos e Tributação
           </h1>
-          <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+          <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400">
             Gestão de impostos e planejamento tributário
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <ConditionalMenu requiredPermission="financial">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              Exportar
+            <Button variant="outline" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Exportar</span>
+              <span className="sm:hidden">Exportar</span>
             </Button>
           </ConditionalMenu>
           <ConditionalMenu requiredPermission="financial">
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Novo Imposto
+            <Button className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Novo Imposto</span>
+              <span className="sm:hidden">Novo</span>
             </Button>
           </ConditionalMenu>
         </div>
       </div>
 
       {/* Métricas Principais */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <Card>
-          <CardContent className="p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Total de Impostos
                 </p>
-                <p className={`text-2xl font-bold text-blue-600 dark:text-blue-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-primary-600 dark:text-white">
                   {formatCurrency(totalTaxes)}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   {mockTaxes.length} impostos
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.money}`}>
-                <Scale className={`h-6 w-6 ${colors.icons.money}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Scale className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Impostos Pagos
                 </p>
-                <p className={`text-2xl font-bold text-green-600 dark:text-green-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-success-600 dark:text-white">
                   {formatCurrency(paidTaxes)}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   {((paidTaxes / totalTaxes) * 100).toFixed(1)}% do total
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.success}`}>
-                <CheckCircle className={`h-6 w-6 ${colors.icons.success}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="h-5 w-5 sm:h-6 sm:w-6 text-success-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Impostos Pendentes
                 </p>
-                <p className={`text-2xl font-bold text-yellow-600 dark:text-yellow-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-warning-600 dark:text-white">
                   {formatCurrency(pendingTaxes)}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   Aguardando pagamento
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.warning}`}>
-                <Clock className={`h-6 w-6 ${colors.icons.warning}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-warning-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Impostos Vencidos
                 </p>
-                <p className={`text-2xl font-bold text-red-600 dark:text-red-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-destructive-600 dark:text-white">
                   {formatCurrency(overdueTaxes)}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   Atenção necessária
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.error}`}>
-                <AlertTriangle className={`h-6 w-6 ${colors.icons.error}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <AlertTriangle className="h-5 w-5 sm:h-6 sm:w-6 text-destructive-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -275,23 +277,23 @@ export const TaxesPage: React.FC = () => {
       </div>
 
       {/* Filtros */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+      <Card className="hover:shadow-md transition-shadow">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div className="relative flex-1 min-w-0">
+              <Search className="absolute left-3 top-1/2 h-3 w-3 sm:h-4 sm:w-4 -translate-y-1/2 text-secondary-400" />
               <Input
                 placeholder="Buscar..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-8 sm:pl-10 text-xs sm:text-sm"
               />
             </div>
             
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="w-full sm:w-auto p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-xs sm:text-sm"
             >
               <option value="">Todos os tipos</option>
               <option value="income_tax">Imposto de Renda</option>
@@ -304,7 +306,7 @@ export const TaxesPage: React.FC = () => {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="w-full sm:w-auto p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-xs sm:text-sm"
             >
               <option value="">Todos os status</option>
               <option value="paid">Pago</option>
@@ -313,9 +315,10 @@ export const TaxesPage: React.FC = () => {
               <option value="cancelled">Cancelado</option>
             </select>
             
-            <Button variant="outline" className="flex items-center">
-              <Filter className="h-4 w-4 mr-2" />
-              Mais Filtros
+            <Button variant="outline" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm w-full sm:w-auto">
+              <Filter className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Mais Filtros</span>
+              <span className="sm:hidden">Filtros</span>
             </Button>
           </div>
         </CardContent>
@@ -325,62 +328,64 @@ export const TaxesPage: React.FC = () => {
       {activeTab === 'taxes' && (
         <div className="space-y-6">
           {/* Impostos */}
-          <Card>
-            <CardHeader>
-              <CardTitle className={colors.text.title}>
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-sm sm:text-base text-secondary-900 dark:text-white">
                 Impostos ({filteredTaxes.length})
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+            <CardContent className="p-4 sm:p-6 pt-0">
+              <div className="space-y-3 sm:space-y-4">
                 {filteredTaxes.map((tax) => (
                   <div
                     key={tax.id}
-                    className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors gap-3 sm:gap-4"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-full ${colors.iconBg.money}`}>
-                        <Scale className={`h-5 w-5 ${colors.icons.money}`} />
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Scale className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-white" />
                       </div>
-                      <div>
-                        <p className={`font-medium ${colors.text.title}`}>
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-sm sm:text-base text-secondary-900 dark:text-white truncate">
                           {tax.name}
                         </p>
-                        <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                        <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400 truncate">
                           {getTypeText(tax.type)} • {tax.description}
                         </p>
-                        <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                        <p className="text-xs text-secondary-500 dark:text-secondary-500 truncate">
                           Vencimento: {formatDate(tax.dueDate)} • Referência: {tax.referencePeriod}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <p className={`font-bold text-red-600 dark:text-red-400`}>
+                    <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+                      <div className="text-left sm:text-right">
+                        <p className="font-bold text-sm sm:text-base text-destructive-600 dark:text-destructive-400">
                           {formatCurrency(tax.amount)}
                         </p>
-                        <Badge variant={getStatusColor(tax.status) as any}>
+                        <Badge variant={getStatusColor(tax.status) as any} className="text-xs mt-1">
                           {getStatusText(tax.status)}
                         </Badge>
                         {tax.paidDate && (
-                          <p className={`text-xs text-gray-500 dark:text-gray-400 mt-1`}>
+                          <p className="text-xs text-secondary-500 dark:text-secondary-500 mt-1">
                             Pago em {formatDate(tax.paidDate)}
                           </p>
                         )}
                       </div>
-                      <div className="flex space-x-2">
+                      <div className="flex space-x-1 sm:space-x-2 flex-shrink-0">
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => openModal(tax)}
+                          className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                         >
-                          <Eye className="h-4 w-4" />
+                          <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
+                          className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                         >
-                          <Edit className="h-4 w-4" />
+                          <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                       </div>
                     </div>

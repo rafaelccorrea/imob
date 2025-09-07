@@ -128,118 +128,120 @@ export const BudgetPage: React.FC = () => {
   const activePlans = mockBudgets.filter(p => p.status === 'on_track').length;
 
   return (
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6 custom-scroll">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className={`text-2xl md:text-3xl font-bold ${colors.text.title}`}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-secondary-900 dark:text-white truncate">
             Orçamento e Planejamento
           </h1>
-          <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+          <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400">
             Gestão de orçamentos e planejamento financeiro
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <ConditionalMenu requiredPermission="financial">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              Exportar
+            <Button variant="outline" className="w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Exportar</span>
+              <span className="sm:hidden">Exportar</span>
             </Button>
           </ConditionalMenu>
           <ConditionalMenu requiredPermission="financial">
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Novo Orçamento
+            <Button className="w-full sm:w-auto flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Novo Orçamento</span>
+              <span className="sm:hidden">Novo</span>
             </Button>
           </ConditionalMenu>
         </div>
       </div>
 
       {/* Métricas Principais */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <Card>
-          <CardContent className="p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Total Orçado
                 </p>
-                <p className={`text-2xl font-bold text-blue-600 dark:text-blue-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-primary-600 dark:text-white">
                   {formatCurrency(totalBudgeted)}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   {mockBudgets.length} categorias
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.money}`}>
-                <DollarSign className={`h-6 w-6 ${colors.icons.money}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <DollarSign className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Total Gasto
                 </p>
-                <p className={`text-2xl font-bold text-red-600 dark:text-red-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-destructive-600 dark:text-white">
                   {formatCurrency(totalSpent)}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   {((totalSpent / totalBudgeted) * 100).toFixed(1)}% do orçado
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.error}`}>
-                <TrendingDown className={`h-6 w-6 ${colors.icons.error}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <TrendingDown className="h-5 w-5 sm:h-6 sm:w-6 text-destructive-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Variação Total
                 </p>
-                <p className={`text-2xl font-bold ${totalVariance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                <p className={`text-lg sm:text-xl md:text-2xl font-bold ${totalVariance >= 0 ? 'text-success-600 dark:text-white' : 'text-destructive-600 dark:text-white'}`}>
                   {totalVariance >= 0 ? '+' : ''}{formatCurrency(totalVariance)}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   {totalVariance >= 0 ? 'Economia' : 'Excesso'}
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${totalVariance >= 0 ? colors.iconBg.success : colors.iconBg.error}`}>
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
                 {totalVariance >= 0 ? (
-                  <TrendingUp className={`h-6 w-6 ${colors.icons.success}`} />
+                  <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-success-600 dark:text-white" />
                 ) : (
-                  <TrendingDown className={`h-6 w-6 ${colors.icons.error}`} />
+                  <TrendingDown className="h-5 w-5 sm:h-6 sm:w-6 text-destructive-600 dark:text-white" />
                 )}
               </div>
             </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-6">
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-medium text-gray-600 dark:text-gray-300`}>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-secondary-600 dark:text-white truncate">
                   Orçamentos Ativos
                 </p>
-                <p className={`text-2xl font-bold text-purple-600 dark:text-purple-400`}>
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-primary-600 dark:text-white">
                   {activeBudgets}
                 </p>
-                <p className={`text-xs text-gray-600 dark:text-gray-400`}>
+                <p className="text-xs text-secondary-600 dark:text-secondary-400">
                   {activePlans} planos ativos
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${colors.iconBg.money}`}>
-                <Target className={`h-6 w-6 ${colors.icons.money}`} />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Target className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-white" />
               </div>
             </div>
           </CardContent>
@@ -270,23 +272,23 @@ export const BudgetPage: React.FC = () => {
       </div>
 
       {/* Filtros */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+      <Card className="hover:shadow-md transition-shadow">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div className="relative flex-1 min-w-0">
+              <Search className="absolute left-3 top-1/2 h-3 w-3 sm:h-4 sm:w-4 -translate-y-1/2 text-secondary-400" />
               <Input
                 placeholder="Buscar..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-8 sm:pl-10 text-xs sm:text-sm"
               />
             </div>
             
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="w-full sm:w-auto p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-xs sm:text-sm"
             >
               <option value="">Todas as categorias</option>
               <option value="Marketing">Marketing</option>
@@ -298,7 +300,7 @@ export const BudgetPage: React.FC = () => {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="w-full sm:w-auto p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-xs sm:text-sm"
             >
               <option value="">Todos os status</option>
               <option value="active">Ativo</option>
@@ -307,9 +309,10 @@ export const BudgetPage: React.FC = () => {
               <option value="approved">Aprovado</option>
             </select>
             
-            <Button variant="outline" className="flex items-center">
-              <Filter className="h-4 w-4 mr-2" />
-              Mais Filtros
+            <Button variant="outline" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm w-full sm:w-auto">
+              <Filter className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Mais Filtros</span>
+              <span className="sm:hidden">Filtros</span>
             </Button>
           </div>
         </CardContent>
@@ -319,14 +322,14 @@ export const BudgetPage: React.FC = () => {
       {activeTab === 'budgets' && (
         <div className="space-y-6">
           {/* Orçamentos */}
-          <Card>
-            <CardHeader>
-              <CardTitle className={colors.text.title}>
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-sm sm:text-base text-secondary-900 dark:text-white">
                 Orçamentos ({filteredBudgets.length})
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+            <CardContent className="p-4 sm:p-6 pt-0">
+              <div className="space-y-3 sm:space-y-4">
                 {filteredBudgets.map((budget) => {
                   const variance = budget.plannedAmount - budget.actualAmount;
                   const variancePercentage = budget.plannedAmount > 0 ? (variance / budget.plannedAmount) * 100 : 0;
@@ -334,49 +337,51 @@ export const BudgetPage: React.FC = () => {
                   return (
                     <div
                       key={budget.id}
-                      className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors gap-3 sm:gap-4"
                     >
-                      <div className="flex items-center gap-4">
-                        <div className={`p-2 rounded-full ${colors.iconBg.money}`}>
-                          <Calculator className={`h-5 w-5 ${colors.icons.money}`} />
+                      <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                        <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Calculator className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 dark:text-white" />
                         </div>
-                        <div>
-                          <p className={`font-medium ${colors.text.title}`}>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium text-sm sm:text-base text-secondary-900 dark:text-white truncate">
                             {budget.category}
                           </p>
-                          <p className={`text-sm text-gray-600 dark:text-gray-300`}>
+                          <p className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400 truncate">
                             {budget.category} • {budget.year}/{budget.month}
                           </p>
-                          <p className={`text-xs text-gray-500 dark:text-gray-400`}>
+                          <p className="text-xs text-secondary-500 dark:text-secondary-500 truncate">
                             Orçado: {formatCurrency(budget.plannedAmount)} • Gasto: {formatCurrency(budget.actualAmount)}
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4">
-                        <div className="text-right">
-                          <p className={`font-bold ${variance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                      <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+                        <div className="text-left sm:text-right">
+                          <p className={`font-bold text-sm sm:text-base ${variance >= 0 ? 'text-success-600 dark:text-success-400' : 'text-destructive-600 dark:text-destructive-400'}`}>
                             {variance >= 0 ? '+' : ''}{formatCurrency(variance)}
                           </p>
-                          <p className={`text-sm ${variance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                          <p className={`text-xs sm:text-sm ${variance >= 0 ? 'text-success-600 dark:text-success-400' : 'text-destructive-600 dark:text-destructive-400'}`}>
                             {variancePercentage >= 0 ? '+' : ''}{variancePercentage.toFixed(1)}%
                           </p>
-                          <Badge variant={getStatusColor(budget.status) as any}>
+                          <Badge variant={getStatusColor(budget.status) as any} className="text-xs mt-1">
                             {getStatusText(budget.status)}
                           </Badge>
                         </div>
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-1 sm:space-x-2 flex-shrink-0">
                           <Button
                             variant="outline"
                             size="sm"
                             onClick={() => openModal(budget)}
+                            className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                           >
-                            <Eye className="h-4 w-4" />
+                            <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
                           <Button
                             variant="outline"
                             size="sm"
+                            className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                           >
-                            <Edit className="h-4 w-4" />
+                            <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
                         </div>
                       </div>
