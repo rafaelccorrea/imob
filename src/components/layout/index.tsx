@@ -29,28 +29,28 @@ export const Header: React.FC = () => {
   }, [setIsSearchOpen]);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 shadow-sm lg:px-6">
-      <div className="flex items-center space-x-4">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 shadow-sm lg:px-6 min-w-0">
+      <div className="flex items-center space-x-4 min-w-0">
         <Button
           variant="ghost"
           size="sm"
           onClick={toggleSidebar}
-          className="lg:hidden"
+          className="lg:hidden flex-shrink-0"
         >
           <Menu className="h-5 w-5" />
         </Button>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-2 sm:space-x-4 min-w-0">
         {/* Search */}
-        <div className="hidden md:flex items-center space-x-2">
+        <div className="hidden md:flex items-center space-x-2 min-w-0">
           <GlobalSearch />
         </div>
 
         <ThemeToggle />
 
         {/* Notifications */}
-        <Button variant="ghost" size="sm" className="relative">
+        <Button variant="ghost" size="sm" className="relative flex-shrink-0">
           <Bell className="h-5 w-5" />
           <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500 text-xs text-white flex items-center justify-center">
             3
@@ -58,16 +58,16 @@ export const Header: React.FC = () => {
         </Button>
 
         {/* User menu */}
-        <div className="flex items-center space-x-2">
-          <div className="hidden md:block text-right">
-            <p className="text-sm font-medium text-gray-900 dark:text-white">
+        <div className="flex items-center space-x-2 min-w-0">
+          <div className="hidden md:block text-right min-w-0">
+            <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
               {user?.name}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
               {user?.role && getRoleName(user.role)}
             </p>
           </div>
-          <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center">
+          <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
             <User className="h-4 w-4 text-primary-600" />
           </div>
         </div>
@@ -82,11 +82,11 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
       <Sidebar />
-      <div className="lg:pl-64">
+      <div className="lg:pl-64 min-w-0">
         <Header />
-        <main className="p-4 lg:p-6 bg-gray-50 dark:bg-gray-900">
+        <main className="p-4 lg:p-6 bg-gray-50 dark:bg-gray-900 min-w-0">
           {children}
         </main>
       </div>

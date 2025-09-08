@@ -436,22 +436,22 @@ const SalesAnalysisPage: React.FC = () => {
                         {sale.isOwnAgency ? 'Própria' : 'Concorrente'}
                       </Badge>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 text-sm">
                       <div>
-                        <p className="text-gray-500">Valor</p>
-                        <p className="font-medium">{formatCurrency(sale.value)}</p>
+                        <p className="text-gray-500 text-xs sm:text-sm">Valor</p>
+                        <p className="font-medium text-xs sm:text-sm truncate">{formatCurrency(sale.value)}</p>
                       </div>
                       <div>
-                        <p className="text-gray-500">Agência</p>
-                        <p className="font-medium">{sale.realEstateAgency}</p>
+                        <p className="text-gray-500 text-xs sm:text-sm">Agência</p>
+                        <p className="font-medium text-xs sm:text-sm truncate">{sale.realEstateAgency}</p>
                       </div>
                       <div>
-                        <p className="text-gray-500">Agente</p>
-                        <p className="font-medium">{sale.agent}</p>
+                        <p className="text-gray-500 text-xs sm:text-sm">Agente</p>
+                        <p className="font-medium text-xs sm:text-sm truncate">{sale.agent}</p>
                       </div>
                       <div>
-                        <p className="text-gray-500">Comissão</p>
-                        <p className="font-medium">
+                        <p className="text-gray-500 text-xs sm:text-sm">Comissão</p>
+                        <p className="font-medium text-xs sm:text-sm truncate">
                           {sale.commission > 0 ? formatCurrency(sale.commission) : '-'}
                         </p>
                       </div>

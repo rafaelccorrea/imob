@@ -37,7 +37,10 @@ import {
   Database,
   Shield,
   Bell,
-  TrendingUp as SalesAnalysis
+  TrendingUp as SalesAnalysis,
+  Trophy,
+  Camera,
+  Map
 } from 'lucide-react';
 import { useAuthStore, useUIStore } from '../../stores';
 import { usePermissions } from '../../hooks/usePermissions';
@@ -103,6 +106,12 @@ const sidebarSections: SidebarSection[] = [
             label: 'Análise de Vendas',
             icon: SalesAnalysis,
             href: '/sales-analysis',
+            roles: ['admin', 'owner'],
+          },
+          {
+            label: 'Ranking de Agentes',
+            icon: Trophy,
+            href: '/agents-ranking',
             roles: ['admin', 'owner'],
           },
         ],
@@ -231,6 +240,18 @@ const sidebarSections: SidebarSection[] = [
             label: 'Controle de Chaves',
             icon: Key,
             href: '/keys',
+            roles: ['admin', 'owner', 'manager', 'agent'],
+          },
+          {
+            label: 'Galeria de Fotos',
+            icon: Camera,
+            href: '/property-gallery',
+            roles: ['admin', 'owner', 'manager', 'agent'],
+          },
+          {
+            label: 'Mapa de Imóveis',
+            icon: Map,
+            href: '/property-map',
             roles: ['admin', 'owner', 'manager', 'agent'],
           },
         ],

@@ -8,8 +8,13 @@
     @apply border-secondary-200;
   }
   
-  body {
+  html, body {
     @apply bg-secondary-50 text-secondary-900 font-sans;
+    overflow-x: hidden;
+  }
+  
+  body {
+    max-width: 100vw;
   }
 }
 

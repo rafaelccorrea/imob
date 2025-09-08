@@ -25,6 +25,9 @@ export interface ModulePermissions {
   franchiseManagement: boolean; // NEW: Gestão de franquias e múltiplas unidades
   alertsNotifications: boolean; // NEW: Sistema de alertas e notificações
   salesAnalysis: boolean; // NEW: Análise de vendas e concorrência
+  agentsRanking: boolean; // NEW: Ranking de agentes
+  propertyGallery: boolean; // NEW: Galeria de fotos dos imóveis
+  propertyMap: boolean; // NEW: Mapa de imóveis
 }
 
 // Configuração de permissões por perfil
@@ -52,6 +55,9 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     franchiseManagement: true,
     alertsNotifications: true,
     salesAnalysis: true,
+    agentsRanking: true,
+    propertyGallery: true,
+    propertyMap: true,
   },
   owner: {
     dashboard: true,
@@ -76,6 +82,9 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     franchiseManagement: true,
     alertsNotifications: true, // NEW
     salesAnalysis: true,
+    agentsRanking: true,
+    propertyGallery: true,
+    propertyMap: true,
   },
   manager: {
     dashboard: true,
@@ -100,6 +109,9 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     franchiseManagement: true,
     alertsNotifications: true, // NEW
     salesAnalysis: true,
+    agentsRanking: true,
+    propertyGallery: true,
+    propertyMap: true,
   },
   agent: {
     dashboard: true,
@@ -124,6 +136,9 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     franchiseManagement: true,
     alertsNotifications: true, // NEW
     salesAnalysis: true,
+    agentsRanking: true,
+    propertyGallery: true,
+    propertyMap: true,
   },
   financial: {
     dashboard: true,
@@ -148,6 +163,9 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     franchiseManagement: false, // NEW: Financial não tem acesso à gestão de franquias
     alertsNotifications: false, // NEW: Financial não tem acesso aos alertas
     salesAnalysis: false, // NEW: Financial não tem acesso à análise de vendas
+    agentsRanking: false, // NEW: Financial não tem acesso ao ranking de agentes
+    propertyGallery: false, // NEW: Financial não tem acesso à galeria de fotos
+    propertyMap: false, // NEW: Financial não tem acesso ao mapa de imóveis
   },
   hr: {
     dashboard: true,
@@ -172,5 +190,8 @@ export const ROLE_PERMISSIONS: Record<UserRole, ModulePermissions> = {
     franchiseManagement: false, // NEW: HR não tem acesso à gestão de franquias
     alertsNotifications: false, // NEW: HR não tem acesso aos alertas
     salesAnalysis: false, // NEW: HR não tem acesso à análise de vendas
+    agentsRanking: false, // NEW: HR não tem acesso ao ranking de agentes
+    propertyGallery: false, // NEW: HR não tem acesso à galeria de fotos
+    propertyMap: false, // NEW: HR não tem acesso ao mapa de imóveis
   },
 };

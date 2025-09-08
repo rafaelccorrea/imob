@@ -47,6 +47,9 @@ import AuditLogsPage from './pages/AuditLogsPage';
 import FranchiseManagementPage from './pages/FranchiseManagementPage';
 import AlertsNotificationsPage from './pages/AlertsNotificationsPage';
 import SalesAnalysisPage from './pages/SalesAnalysisPage';
+import AgentsRankingPage from './pages/AgentsRankingPage';
+import PropertyGalleryPage from './pages/PropertyGalleryPage';
+import PropertyMapPage from './pages/PropertyMapPage';
 import { Layout } from './components/layout';
 import { useAuthStore } from './stores';
 import { ThemeProvider } from './components/providers/ThemeProvider';
@@ -438,6 +441,30 @@ function App() {
                  <AuthProtectedRoute>
                    <Layout>
                      <SalesAnalysisPage />
+                   </Layout>
+                 </AuthProtectedRoute>
+               } />
+               
+               <Route path="/agents-ranking" element={
+                 <AuthProtectedRoute>
+                   <Layout>
+                     <AgentsRankingPage />
+                   </Layout>
+                 </AuthProtectedRoute>
+               } />
+               
+               <Route path="/property-gallery" element={
+                 <AuthProtectedRoute>
+                   <Layout>
+                     <PropertyGalleryPage />
+                   </Layout>
+                 </AuthProtectedRoute>
+               } />
+               
+               <Route path="/property-map" element={
+                 <AuthProtectedRoute>
+                   <Layout>
+                     <PropertyMapPage />
                    </Layout>
                  </AuthProtectedRoute>
                } />
